@@ -5,19 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package Team3467.robot.Control;
+package frc.robot.Control;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
- * One of the four arms of a {@link DPad} that gets its state from an {@link XboxController}.
+ * One of the four arms of a {@link XboxControllerEE.DPad} that gets its state from an {@link XboxControllerEE}.
  */
-public class XBoxControllerTrigger extends Trigger
+public class XBoxControllerDPad extends Trigger
 {
 
     private final XboxControllerEE m_controller;
-    private final int m_axis;
+    private final int m_DPadValue;
 
     /**
      * Create a DPad object for triggering commands.
@@ -25,20 +24,20 @@ public class XBoxControllerTrigger extends Trigger
      * @param ctrlr   The XboxController object that has that DPad
      * @param dpadArm The DPad arm
      */
-    public XBoxControllerTrigger(XboxControllerEE ctrlr, XboxController.Axis trigger)
+    public XBoxControllerDPad(XboxControllerEE ctrlr, XboxControllerEE.DPad dpadArm)
     {
         m_controller = ctrlr;
-        m_axis = trigger.value;
+        m_DPadValue = dpadArm.value;
     }
 
     /**
-     * Gets the state of the specified Trigger axis.
+     * Gets the state of the DPad arm.
      *
-     * @return The state of the Trigger (true = Pressed (past 0.2); false = Unpressed (less than 0.2))
+     * @return The state of the DPad arm (true = Pressed; false = Unpressed)
      */
     public boolean get()
     {
-        return (m_controller.getRawAxis(m_axis) > 0.2);
+        return (m_controller.getPOV(0) == m_DPadValue);
     }
 
 	

@@ -1,4 +1,4 @@
-package Team3467.robot.subsystems.Drive;
+package frc.robot.subsystems.Drive;
 // Copyright (c) FIRST and other WPILib contributors.
 // // Open Source Software; you can modify and/or share it under the terms of
 // // the WPILib BSD license file in the root directory of this project.
@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static Team3467.robot.Constants.DriveConstants;
+import static frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
   
@@ -143,7 +143,7 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
-    SwerveDriveKinematics.normalizeWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
+//     SwerveDriveKinematics.normalizeWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
     m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
     m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());

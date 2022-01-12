@@ -2,12 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package Team3467.robot;
+package frc.robot;
 
-import Team3467.robot.Control.XboxControllerEE;
-import Team3467.robot.subsystems.Drive.DriveSubsystem;
-import Team3467.robot.subsystems.Drive.SwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Control.XboxControllerEE;
+import frc.robot.subsystems.Drive.DriveSubsystem;
+import frc.robot.subsystems.Drive.SwerveDrive;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
