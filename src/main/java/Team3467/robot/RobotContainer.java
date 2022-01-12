@@ -4,8 +4,9 @@
 
 package Team3467.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
+import Team3467.robot.Control.XboxControllerEE;
+import Team3467.robot.subsystems.Drive.DriveSubsystem;
+import Team3467.robot.subsystems.Drive.SwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -16,11 +17,18 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
 
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+
+  private final XboxControllerEE m_controller = new XboxControllerEE(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
+                                      () -> -(m_controller.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                                      () -> -(m_controller.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                                      () -> -(m_controller.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
   }
 
   /**
