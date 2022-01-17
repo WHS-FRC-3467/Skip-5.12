@@ -19,7 +19,8 @@ public final class Constants {
 
     }
     public static final class DriveConstants{
-    
+    //5 and 7 set inverted in pheonix tuner
+
     //The left-to-right distance between the drivetrain wheels
     //Should be measured from center to center.
      
@@ -35,21 +36,25 @@ public final class Constants {
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 1;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 2;
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 9; 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.719);
-    
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(79.0);
+
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 5; 
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 6; 
     public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 10; 
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(295.751); 
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(115.75);
 
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 3; 
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 4;
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 11; 
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(329.301); 
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(174.627);
 
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 7;
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 8; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 12; 
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(288.295); 
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(108.896); 
+
+    public static final double kP = 0.0;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
     }
 }
