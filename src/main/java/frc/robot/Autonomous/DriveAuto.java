@@ -20,8 +20,8 @@ public class DriveAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      //drives 2 feet at 45 degrees
-      new AutoDrive(m_drive, 45, 2)
+      //drives 2 feet at 0 degrees
+      new AutoDrive(m_drive, 0, 2)
     );
   }
 }

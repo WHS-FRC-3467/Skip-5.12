@@ -10,37 +10,44 @@ import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
 public class AutoDrive extends CommandBase {
   DriveSubsystem m_drive;
-  double m_angle, m_feet;
+  double m_angle, m_meter;
   double m_finalPosition, m_startEncoderValue;
-  PIDController pidController = new PIDController(DriveConstants.kP, DriveConstants.kI, DriveConstants.kD);
+  PIDController m_pidController = new PIDController(DriveConstants.kP, DriveConstants.kI, DriveConstants.kD);
 
-  public AutoDrive(DriveSubsystem drive, double angle, double feet) {
+  public AutoDrive(DriveSubsystem drive, double angle, double meter) {
     m_angle = angle;
+    m_meter = meter;
     m_drive = drive;
-    m_feet = feet;
+    addRequirements(m_drive);
   }
 
   @Override
   public void initialize() {
-    m_finalPosition = m_drive.feetToEncoderAngle(m_feet);
+    m_finalPosition = m_drive.meterToEncoderTicks(m_meter);
     m_startEncoderValue = m_drive.getAverageEncoder();
-    pidController.setTolerance(0.5);
+    m_pidController.setSetpoint(m_finalPosition);
+    m_pidController.setTolerance(DriveConstants.driveTollerance);
   }
 
   @Override
   public void execute() {
-    m_drive.setState(pidController.calculate(m_drive.getAverageEncoder()-m_startEncoderValue, m_finalPosition), m_angle);
-    SmartDashboard.putNumber("Drive Distance", (m_drive.getAverageEncoder()-m_startEncoderValue) * (Math.PI * SdsModuleConfigurations.MK3_STANDARD.getWheelDiameter()/4096));
-    SmartDashboard.putNumber("Drive error", pidController.getPositionError());
+    if(m_pidController.atSetpoint()){
+      m_drive.setState(0.0, m_angle);
+    }
+    m_drive.setState(m_pidController.calculate(m_drive.getAverageEncoder()-m_startEncoderValue), m_angle);
+    SmartDashboard.putNumber("Drive Distance", (m_drive.getAverageEncoder()-m_startEncoderValue) * (Math.PI * SdsModuleConfigurations.MK3_FAST.getWheelDiameter()/2048));
+    SmartDashboard.putNumber("Drive error", m_pidController.getPositionError());
+    SmartDashboard.putNumber("Encoder position", m_drive.getAverageEncoder());
   }
 
   @Override
   public void end(boolean interrupted) {
-    pidController.reset();
+    m_pidController.reset();
   }
 
   @Override

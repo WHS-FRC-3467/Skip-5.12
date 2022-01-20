@@ -44,10 +44,10 @@ public class DriveSubsystem extends SubsystemBase {
         // By default this value is setup for a Mk3 standard module using Falcon500s to
         // drive.
         // The maximum velocity of the robot in meters per second.
-        public static final double MAX_VELOCITY_METERS_PER_SECOND = 1.0;
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = 0.2;
         // 6380.0 / 60.0 *
-        // SdsModuleConfigurations.MK3_STANDARD.getDriveReduction() *
-        // SdsModuleConfigurations.MK3_STANDARD.getWheelDiameter() * Math.PI;
+        // SdsModuleConfigurations.MK3_FAST.getDriveReduction() *
+        // SdsModuleConfigurations.MK3_FAST.getWheelDiameter() * Math.PI;
 
         // The maximum angular velocity of the robot in radians per second.
         // This is a measure of how fast the robot can rotate in place.
@@ -95,7 +95,7 @@ public class DriveSubsystem extends SubsystemBase {
                         // the module on the dashboard.
                         tab.getLayout("Front Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(0,0),
                         // This can either be STANDARD or FAST depending on your gear configuration
-                        Mk3SwerveModuleHelper.GearRatio.STANDARD,
+                        Mk3SwerveModuleHelper.GearRatio.FAST,
                         // This is the ID of the drive motor
                         DriveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
                         // This is the ID of the steer motor
@@ -110,7 +110,7 @@ public class DriveSubsystem extends SubsystemBase {
                 // We will do the same for the other modules
                 m_frontRightModule = Mk3SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Front Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(2,0),
-                        Mk3SwerveModuleHelper.GearRatio.STANDARD, DriveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
+                        Mk3SwerveModuleHelper.GearRatio.FAST, DriveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
                         DriveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR,
                         DriveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER,
                         DriveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET
@@ -118,7 +118,7 @@ public class DriveSubsystem extends SubsystemBase {
 
                 m_backLeftModule = Mk3SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(4,0),
-                        Mk3SwerveModuleHelper.GearRatio.STANDARD, DriveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR,
+                        Mk3SwerveModuleHelper.GearRatio.FAST, DriveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR,
                         DriveConstants.BACK_LEFT_MODULE_STEER_MOTOR,
                         DriveConstants.BACK_LEFT_MODULE_STEER_ENCODER,
                         DriveConstants.BACK_LEFT_MODULE_STEER_OFFSET
@@ -126,7 +126,7 @@ public class DriveSubsystem extends SubsystemBase {
 
                 m_backRightModule = Mk3SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(6,0),
-                        Mk3SwerveModuleHelper.GearRatio.STANDARD, DriveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
+                        Mk3SwerveModuleHelper.GearRatio.FAST, DriveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
                         DriveConstants.BACK_RIGHT_MODULE_STEER_MOTOR,
                         DriveConstants.BACK_RIGHT_MODULE_STEER_ENCODER,
                         DriveConstants.BACK_RIGHT_MODULE_STEER_OFFSET
@@ -138,7 +138,11 @@ public class DriveSubsystem extends SubsystemBase {
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
-                m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
+                m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);m_frontLeftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+                m_frontLeftDriveMotor.setInverted(true);
+                m_backLeftDriveMotor.setInverted(true);
+                m_frontRightDriveMotor.setInverted(true);
+                m_backRightDriveMotor.setInverted(true);
         }
 
         @Override
@@ -170,21 +174,24 @@ public class DriveSubsystem extends SubsystemBase {
         }
 
         public double getAverageEncoder(){
-                return (m_frontLeftDriveMotor.getSelectedSensorPosition() + m_frontRightDriveMotor.getSelectedSensorPosition() + m_backLeftDriveMotor.getSelectedSensorPosition() + m_backRightDriveMotor.getSelectedSensorPosition())/4;
+                //returns in 2048/rotation
+                return -(m_frontLeftDriveMotor.getSelectedSensorPosition() + m_frontRightDriveMotor.getSelectedSensorPosition() + m_backLeftDriveMotor.getSelectedSensorPosition() + m_backRightDriveMotor.getSelectedSensorPosition())/4;
         }
 
-        public double feetToEncoderAngle(double feet){
-                return feet * (360/ (Math.PI * SdsModuleConfigurations.MK3_STANDARD.getWheelDiameter()));
+        public double meterToEncoderTicks(double meters){
+                return meters * (2048/(SdsModuleConfigurations.MK3_FAST.getDriveReduction() * SdsModuleConfigurations.MK3_FAST.getWheelDiameter() * Math.PI));
         }
 
         public void setState(double speed, double angle){
-                //sets 1 to -1 to 0 to 12
-                speed = Math.abs(speed * 12);
-                //sets angles to 
-                angle = angle * ((2*Math.PI)/360);
-                m_frontLeftModule.set(speed, angle);
-                m_frontRightModule.set(speed, angle);
-                m_backLeftModule.set(speed, angle);
-                m_backRightModule.set(speed, angle);
+                // Example module states
+                double mps = speed * MAX_VELOCITY_METERS_PER_SECOND;
+                var frontLeftState = new SwerveModuleState(mps, Rotation2d.fromDegrees(angle));
+                var frontRightState = new SwerveModuleState(mps, Rotation2d.fromDegrees(angle));
+                var backLeftState = new SwerveModuleState(mps, Rotation2d.fromDegrees(angle));
+                var backRightState = new SwerveModuleState(mps, Rotation2d.fromDegrees(angle));
+
+                // Convert to chassis speeds
+                m_chassisSpeeds = m_kinematics.toChassisSpeeds(
+                frontLeftState, frontRightState, backLeftState, backRightState);
         }
 }
