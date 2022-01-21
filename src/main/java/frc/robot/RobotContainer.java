@@ -5,7 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Autonomous.DriveAuto;
+import frc.robot.Autonomous.TestAuto;
 import frc.robot.Control.XboxControllerEE;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.SwerveDrive;
@@ -22,7 +22,7 @@ public class RobotContainer {
 
   private final XboxControllerEE m_controller = new XboxControllerEE(0);
   
-  private final DriveAuto m_autoCommand = new DriveAuto(m_driveSubsystem);
+  private final TestAuto m_autoCommand = new TestAuto(m_driveSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

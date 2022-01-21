@@ -55,7 +55,7 @@ public final class Constants {
 
     public static final double kP = 0.01;
     public static final double kI = 0.0;
-    public static final double kD = 0.0;
+    public static final double kD = 0.0008;
 
     public static final double driveTollerance = 100;
     }

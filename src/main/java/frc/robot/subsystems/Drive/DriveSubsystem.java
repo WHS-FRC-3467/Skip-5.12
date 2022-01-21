@@ -139,10 +139,10 @@ public class DriveSubsystem extends SubsystemBase {
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);m_frontLeftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-                m_frontLeftDriveMotor.setInverted(true);
-                m_backLeftDriveMotor.setInverted(true);
-                m_frontRightDriveMotor.setInverted(true);
-                m_backRightDriveMotor.setInverted(true);
+                m_frontLeftDriveMotor.setInverted(false);
+                m_backLeftDriveMotor.setInverted(false);
+                m_frontRightDriveMotor.setInverted(false);
+                m_backRightDriveMotor.setInverted(false);
         }
 
         @Override
@@ -177,6 +177,7 @@ public class DriveSubsystem extends SubsystemBase {
                 //returns in 2048/rotation
                 return -(m_frontLeftDriveMotor.getSelectedSensorPosition() + m_frontRightDriveMotor.getSelectedSensorPosition() + m_backLeftDriveMotor.getSelectedSensorPosition() + m_backRightDriveMotor.getSelectedSensorPosition())/4;
         }
+
 
         public double meterToEncoderTicks(double meters){
                 return meters * (2048/(SdsModuleConfigurations.MK3_FAST.getDriveReduction() * SdsModuleConfigurations.MK3_FAST.getWheelDiameter() * Math.PI));

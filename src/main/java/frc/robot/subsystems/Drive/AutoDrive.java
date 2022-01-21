@@ -10,7 +10,6 @@ import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
 public class AutoDrive extends CommandBase {
@@ -40,9 +39,9 @@ public class AutoDrive extends CommandBase {
       m_drive.setState(0.0, m_angle);
     }
     m_drive.setState(m_pidController.calculate(m_drive.getAverageEncoder()-m_startEncoderValue), m_angle);
-    SmartDashboard.putNumber("Drive Distance", (m_drive.getAverageEncoder()-m_startEncoderValue) * (Math.PI * SdsModuleConfigurations.MK3_FAST.getWheelDiameter()/2048));
+    SmartDashboard.putNumber("Drive Distance", (m_drive.getAverageEncoder()-m_startEncoderValue) * ((SdsModuleConfigurations.MK3_FAST.getDriveReduction() * SdsModuleConfigurations.MK3_FAST.getWheelDiameter() * Math.PI)/2048));
     SmartDashboard.putNumber("Drive error", m_pidController.getPositionError());
-    SmartDashboard.putNumber("Encoder position", m_drive.getAverageEncoder());
+    SmartDashboard.putNumber("Encoder position", m_drive.getAverageEncoder()-m_startEncoderValue);
   }
 
   @Override
@@ -52,6 +51,11 @@ public class AutoDrive extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    if(m_pidController.atSetpoint()){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 }
