@@ -21,7 +21,7 @@ public class TestAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       //drives 1 meter at 0 degrees
-      new AutoDrive(m_drive, 0, -1)
+      new AutoDrive(m_drive, 0, 1)
     );
   }
 }

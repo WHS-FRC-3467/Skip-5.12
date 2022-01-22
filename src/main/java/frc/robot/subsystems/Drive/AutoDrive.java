@@ -38,7 +38,9 @@ public class AutoDrive extends CommandBase {
     if(m_pidController.atSetpoint()){
       m_drive.setState(0.0, m_angle);
     }
-    m_drive.setState(m_pidController.calculate(m_drive.getAverageEncoder()-m_startEncoderValue), m_angle);
+    else{
+      m_drive.setState(m_pidController.calculate(m_drive.getAverageEncoder()-m_startEncoderValue), m_angle);
+    }
     SmartDashboard.putNumber("Drive Distance", (m_drive.getAverageEncoder()-m_startEncoderValue) * ((SdsModuleConfigurations.MK3_FAST.getDriveReduction() * SdsModuleConfigurations.MK3_FAST.getWheelDiameter() * Math.PI)/2048));
     SmartDashboard.putNumber("Drive error", m_pidController.getPositionError());
     SmartDashboard.putNumber("Encoder position", m_drive.getAverageEncoder()-m_startEncoderValue);
@@ -46,6 +48,7 @@ public class AutoDrive extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    // m_drive.setState(0.0, m_angle);
     m_pidController.reset();
   }
 

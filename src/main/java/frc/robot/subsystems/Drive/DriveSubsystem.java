@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 // package Team3467.robot.subsystems.DriveSubsystem;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
@@ -25,6 +26,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.DriveConstants;
@@ -38,13 +40,18 @@ public class DriveSubsystem extends SubsystemBase {
         TalonFX m_backLeftDriveMotor = new TalonFX(DriveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR);
         TalonFX m_backRightDriveMotor = new TalonFX(DriveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR);
 
+        CANCoder m_frontLeftCanCoder = new CANCoder(DriveConstants.FRONT_LEFT_MODULE_STEER_ENCODER);
+        CANCoder m_backLeftCanCoder = new CANCoder(DriveConstants.BACK_LEFT_MODULE_STEER_ENCODER);
+        CANCoder m_frontRightCanCoder = new CANCoder(DriveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER);
+        CANCoder m_backRightCanCoder = new CANCoder(DriveConstants.BACK_RIGHT_MODULE_STEER_ENCODER);
+
         // The formula for calculating the theoretical maximum velocity is:
         // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
         // pi
         // By default this value is setup for a Mk3 standard module using Falcon500s to
         // drive.
         // The maximum velocity of the robot in meters per second.
-        public static final double MAX_VELOCITY_METERS_PER_SECOND = 0.2;
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = 0.01;
         // 6380.0 / 60.0 *
         // SdsModuleConfigurations.MK3_FAST.getDriveReduction() *
         // SdsModuleConfigurations.MK3_FAST.getWheelDiameter() * Math.PI;
@@ -131,6 +138,7 @@ public class DriveSubsystem extends SubsystemBase {
                         DriveConstants.BACK_RIGHT_MODULE_STEER_ENCODER,
                         DriveConstants.BACK_RIGHT_MODULE_STEER_OFFSET
                 );
+                
                 m_frontLeftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
                 m_backLeftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
                 m_frontRightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
@@ -138,11 +146,16 @@ public class DriveSubsystem extends SubsystemBase {
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
-                m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);m_frontLeftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+                m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_frontLeftDriveMotor.setInverted(false);
                 m_backLeftDriveMotor.setInverted(false);
                 m_frontRightDriveMotor.setInverted(false);
                 m_backRightDriveMotor.setInverted(false);
+
+                m_frontLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+                m_backLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+                m_frontRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+                m_backRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
         }
 
         @Override
@@ -159,6 +172,11 @@ public class DriveSubsystem extends SubsystemBase {
                                 states[2].angle.getRadians());
                 m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[3].angle.getRadians());
+
+                SmartDashboard.putNumber("Front Left Encoder", m_frontLeftDriveMotor.getSelectedSensorPosition());                
+                SmartDashboard.putNumber("Front Right Encoder", m_frontRightDriveMotor.getSelectedSensorPosition());
+                SmartDashboard.putNumber("Back Left Encoder", m_backLeftDriveMotor.getSelectedSensorPosition());
+                SmartDashboard.putNumber("Back Right Encoder", m_backRightDriveMotor.getSelectedSensorPosition());
         }
 
         public void zeroGyroscope() {
@@ -175,7 +193,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         public double getAverageEncoder(){
                 //returns in 2048/rotation
-                return -(m_frontLeftDriveMotor.getSelectedSensorPosition() + m_frontRightDriveMotor.getSelectedSensorPosition() + m_backLeftDriveMotor.getSelectedSensorPosition() + m_backRightDriveMotor.getSelectedSensorPosition())/4;
+                return (m_frontLeftDriveMotor.getSelectedSensorPosition() + m_frontRightDriveMotor.getSelectedSensorPosition() + m_backLeftDriveMotor.getSelectedSensorPosition() + m_backRightDriveMotor.getSelectedSensorPosition())/4;
         }
 
 
@@ -185,11 +203,10 @@ public class DriveSubsystem extends SubsystemBase {
 
         public void setState(double speed, double angle){
                 // Example module states
-                double mps = speed * MAX_VELOCITY_METERS_PER_SECOND;
-                var frontLeftState = new SwerveModuleState(mps, Rotation2d.fromDegrees(angle));
-                var frontRightState = new SwerveModuleState(mps, Rotation2d.fromDegrees(angle));
-                var backLeftState = new SwerveModuleState(mps, Rotation2d.fromDegrees(angle));
-                var backRightState = new SwerveModuleState(mps, Rotation2d.fromDegrees(angle));
+                var frontLeftState = new SwerveModuleState(speed, Rotation2d.fromDegrees(angle));
+                var frontRightState = new SwerveModuleState(speed, Rotation2d.fromDegrees(angle));
+                var backLeftState = new SwerveModuleState(speed, Rotation2d.fromDegrees(angle));
+                var backRightState = new SwerveModuleState(speed, Rotation2d.fromDegrees(angle));
 
                 // Convert to chassis speeds
                 m_chassisSpeeds = m_kinematics.toChassisSpeeds(
