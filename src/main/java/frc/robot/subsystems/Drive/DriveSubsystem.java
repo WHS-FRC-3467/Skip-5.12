@@ -34,7 +34,7 @@ import static frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
 
-        // The maximum voltage that will be delivered to the drive motors.
+  // The maximum voltage that will be delivered to the drive motors.
         public static final double MAX_VOLTAGE = 12.0;
         TalonFX m_frontLeftDriveMotor = new TalonFX(CanConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR);
         TalonFX m_frontRightDriveMotor = new TalonFX(CanConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR);
