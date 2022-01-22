@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CanConstants;
 
 import static frc.robot.Constants.DriveConstants;
 
@@ -35,15 +36,15 @@ public class DriveSubsystem extends SubsystemBase {
 
         // The maximum voltage that will be delivered to the drive motors.
         public static final double MAX_VOLTAGE = 12.0;
-        TalonFX m_frontLeftDriveMotor = new TalonFX(DriveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR);
-        TalonFX m_frontRightDriveMotor = new TalonFX(DriveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR);
-        TalonFX m_backLeftDriveMotor = new TalonFX(DriveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR);
-        TalonFX m_backRightDriveMotor = new TalonFX(DriveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR);
+        TalonFX m_frontLeftDriveMotor = new TalonFX(CanConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR);
+        TalonFX m_frontRightDriveMotor = new TalonFX(CanConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR);
+        TalonFX m_backLeftDriveMotor = new TalonFX(CanConstants.BACK_LEFT_MODULE_DRIVE_MOTOR);
+        TalonFX m_backRightDriveMotor = new TalonFX(CanConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR);
 
-        CANCoder m_frontLeftCanCoder = new CANCoder(DriveConstants.FRONT_LEFT_MODULE_STEER_ENCODER);
-        CANCoder m_backLeftCanCoder = new CANCoder(DriveConstants.BACK_LEFT_MODULE_STEER_ENCODER);
-        CANCoder m_frontRightCanCoder = new CANCoder(DriveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER);
-        CANCoder m_backRightCanCoder = new CANCoder(DriveConstants.BACK_RIGHT_MODULE_STEER_ENCODER);
+        CANCoder m_frontLeftCanCoder = new CANCoder(CanConstants.FRONT_LEFT_MODULE_STEER_ENCODER);
+        CANCoder m_backLeftCanCoder = new CANCoder(CanConstants.BACK_LEFT_MODULE_STEER_ENCODER);
+        CANCoder m_frontRightCanCoder = new CANCoder(CanConstants.FRONT_RIGHT_MODULE_STEER_ENCODER);
+        CANCoder m_backRightCanCoder = new CANCoder(CanConstants.BACK_RIGHT_MODULE_STEER_ENCODER);
 
         // The formula for calculating the theoretical maximum velocity is:
         // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
@@ -83,7 +84,7 @@ public class DriveSubsystem extends SubsystemBase {
         // The important thing about how you configure your gyroscope is that rotating
         // the robot counter-clockwise should
         // cause the angle reading to increase until it wraps back over to zero.
-        private final TalonSRX m_pigeonTalon = new TalonSRX(DriveConstants.DRIVETRAIN_PIGEON_ID);
+        private final TalonSRX m_pigeonTalon = new TalonSRX(CanConstants.DRIVETRAIN_PIGEON_ID);
         private final PigeonIMU m_pigeon = new PigeonIMU(m_pigeonTalon);
 
         // These are our modules. We initialize them in the constructor.
@@ -104,11 +105,11 @@ public class DriveSubsystem extends SubsystemBase {
                         // This can either be STANDARD or FAST depending on your gear configuration
                         Mk3SwerveModuleHelper.GearRatio.FAST,
                         // This is the ID of the drive motor
-                        DriveConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
+                        CanConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
                         // This is the ID of the steer motor
-                        DriveConstants.FRONT_LEFT_MODULE_STEER_MOTOR,
+                        CanConstants.FRONT_LEFT_MODULE_STEER_MOTOR,
                         // This is the ID of the steer encoder
-                        DriveConstants.FRONT_LEFT_MODULE_STEER_ENCODER,
+                        CanConstants.FRONT_LEFT_MODULE_STEER_ENCODER,
                         // This is how much the steer encoder is offset from true zero (In our case,
                         // zero is facing straight forward)
                         DriveConstants.FRONT_LEFT_MODULE_STEER_OFFSET
@@ -117,25 +118,28 @@ public class DriveSubsystem extends SubsystemBase {
                 // We will do the same for the other modules
                 m_frontRightModule = Mk3SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Front Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(2,0),
-                        Mk3SwerveModuleHelper.GearRatio.FAST, DriveConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
-                        DriveConstants.FRONT_RIGHT_MODULE_STEER_MOTOR,
-                        DriveConstants.FRONT_RIGHT_MODULE_STEER_ENCODER,
+                        Mk3SwerveModuleHelper.GearRatio.FAST, 
+                        CanConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
+                        CanConstants.FRONT_RIGHT_MODULE_STEER_MOTOR,
+                        CanConstants.FRONT_RIGHT_MODULE_STEER_ENCODER,
                         DriveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET
                 );
 
                 m_backLeftModule = Mk3SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(4,0),
-                        Mk3SwerveModuleHelper.GearRatio.FAST, DriveConstants.BACK_LEFT_MODULE_DRIVE_MOTOR,
-                        DriveConstants.BACK_LEFT_MODULE_STEER_MOTOR,
-                        DriveConstants.BACK_LEFT_MODULE_STEER_ENCODER,
+                        Mk3SwerveModuleHelper.GearRatio.FAST, 
+                        CanConstants.BACK_LEFT_MODULE_DRIVE_MOTOR,
+                        CanConstants.BACK_LEFT_MODULE_STEER_MOTOR,
+                        CanConstants.BACK_LEFT_MODULE_STEER_ENCODER,
                         DriveConstants.BACK_LEFT_MODULE_STEER_OFFSET
                 );
 
                 m_backRightModule = Mk3SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(6,0),
-                        Mk3SwerveModuleHelper.GearRatio.FAST, DriveConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
-                        DriveConstants.BACK_RIGHT_MODULE_STEER_MOTOR,
-                        DriveConstants.BACK_RIGHT_MODULE_STEER_ENCODER,
+                        Mk3SwerveModuleHelper.GearRatio.FAST, 
+                        CanConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
+                        CanConstants.BACK_RIGHT_MODULE_STEER_MOTOR,
+                        CanConstants.BACK_RIGHT_MODULE_STEER_ENCODER,
                         DriveConstants.BACK_RIGHT_MODULE_STEER_OFFSET
                 );
                 
