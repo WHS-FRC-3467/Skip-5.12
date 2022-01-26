@@ -6,8 +6,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Autonomous.TestAuto;
 import frc.robot.Control.XboxControllerEE;
@@ -22,7 +25,7 @@ import frc.robot.subsystems.Drive.SwerveDrive;
  */
 
 public class RobotContainer {
-
+  
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
   private final XboxControllerEE m_driverController = new XboxControllerEE(0);
@@ -31,6 +34,7 @@ public class RobotContainer {
   private final TestAuto m_testAuto = new TestAuto(m_driveSubsystem);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+  Compressor phCompressor = new Compressor(1, PneumaticsModuleType.REVPH);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -38,6 +42,7 @@ public class RobotContainer {
     Shuffleboard.getTab("Driver Dash").add(m_chooser);
     m_chooser.addOption("Test Auto", m_testAuto);
 
+    SmartDashboard.putNumber("Pressure", phCompressor.getPressure());
     
     // Configure the button bindings
     configureButtonBindings();
