@@ -16,6 +16,8 @@ import frc.robot.Autonomous.TestAuto;
 import frc.robot.Control.XboxControllerEE;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.SwerveDrive;
+import frc.robot.subsystems.Intake.DriveIntake;
+import frc.robot.subsystems.Intake.IntakeSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -27,9 +29,10 @@ import frc.robot.subsystems.Drive.SwerveDrive;
 public class RobotContainer {
   
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
   private final XboxControllerEE m_driverController = new XboxControllerEE(0);
-  // private final XboxControllerEE m_OperatorController = new XboxControllerEE(1);
+  private final XboxControllerEE m_OperatorController = new XboxControllerEE(1);
 
   private final TestAuto m_testAuto = new TestAuto(m_driveSubsystem);
 
@@ -50,6 +53,11 @@ public class RobotContainer {
                                       () -> -(m_driverController.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
                                       () -> -(m_driverController.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
                                       () -> -(m_driverController.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+    
+    m_intakeSubsystem.setDefaultCommand(new DriveIntake(
+                                                        () -> -(m_driverController.getRightTriggerAxis()),  
+                                                        () -> -(m_driverController.getLeftTriggerAxis()),
+                                                        m_intakeSubsystem));
   }
 
   /**
