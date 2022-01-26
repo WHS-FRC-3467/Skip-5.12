@@ -42,6 +42,7 @@ public final class Constants {
         public static final int Blinkin1 = 1;
         public static final int Blinkin2 = 2;
     }
+    
     public static final class PHConstants{
         //PH is pneumatic Hub new PCM
         public static final int IntakeForwardSoleniod = 0;
@@ -49,13 +50,14 @@ public final class Constants {
         public static final int ClimberForwardSoleniod = 2;
         public static final int ClimberReverseSoleniod = 3;
     }
+
     public static final class DIOConstants{
         public static final int EntryBeamBreak = 0;
         public static final int MidTowerBeamBreak = 1;
         public static final int UpperTowerBeamBreak = 2;
     }
-    public static final class DriveConstants{
 
+    public static final class DriveConstants{
     //The left-to-right distance between the drivetrain wheels
     //Should be measured from center to center.
     public static final double DRIVETRAIN_TRACKWIDTH_METERS = 1.0; 
@@ -72,7 +74,9 @@ public final class Constants {
     public static final double kP = 0.01;
     public static final double kI = 0.0;
     public static final double kD = 0.0008;
-
     public static final double driveTollerance = 100;
+
+    //speed on -1 to 1 scale
+    public static final double SimpleAutoVelocity = 0;
     }
 }
