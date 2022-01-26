@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Autonomous.TestAuto;
 import frc.robot.Control.XboxControllerEE;
@@ -16,22 +18,31 @@ import frc.robot.subsystems.Drive.SwerveDrive;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
+
 public class RobotContainer {
 
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
-  private final XboxControllerEE m_controller = new XboxControllerEE(0);
-  
-  private final TestAuto m_autoCommand = new TestAuto(m_driveSubsystem);
+  private final XboxControllerEE m_driverController = new XboxControllerEE(0);
+  // private final XboxControllerEE m_OperatorController = new XboxControllerEE(1);
+
+  private final TestAuto m_testAuto = new TestAuto(m_driveSubsystem);
+
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    Shuffleboard.getTab("Driver Dash").add(m_chooser);
+    m_chooser.addOption("Test Auto", m_testAuto);
+
+    
     // Configure the button bindings
     configureButtonBindings();
     m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
-                                      () -> -(m_controller.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-                                      () -> -(m_controller.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-                                      () -> -(m_controller.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+                                      () -> -(m_driverController.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                                      () -> -(m_driverController.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                                      () -> -(m_driverController.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
   }
 
   /**
@@ -49,6 +60,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return m_testAuto;
   }
 }

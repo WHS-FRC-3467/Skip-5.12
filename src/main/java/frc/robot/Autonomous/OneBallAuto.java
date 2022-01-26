@@ -5,7 +5,7 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.Drive.AutoDrive;
+import frc.robot.subsystems.Drive.BasicAutoDrive;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -21,7 +21,7 @@ public class OneBallAuto extends SequentialCommandGroup {
     addCommands(
       //shooting command
       //drive back 2 meters
-      new AutoDrive(m_drive, 0, -2)
+      new BasicAutoDrive(m_drive, 0, -2)
     );
   }
 }

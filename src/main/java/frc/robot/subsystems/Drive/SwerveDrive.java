@@ -5,11 +5,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
 
 public class SwerveDrive extends CommandBase{
+      //Initialize Variables
     DriveSubsystem m_driveSubsystem;
     DoubleSupplier m_translationXSupplier;
     DoubleSupplier m_translationYSupplier;
     DoubleSupplier m_rotationSupplier;
-
+  
+    //Constructor for SwerveDrive
     public SwerveDrive(DriveSubsystem driveSubsystem, DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier rotationSupplier) {
         m_driveSubsystem = driveSubsystem;
         m_translationXSupplier = translationXSupplier;

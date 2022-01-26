@@ -7,9 +7,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 // // the WPILib BSD license file in the root directory of this project.
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-
-// package Team3467.robot.subsystems.DriveSubsystem;
-
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -17,7 +14,6 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
