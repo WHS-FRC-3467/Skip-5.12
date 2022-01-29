@@ -2,46 +2,40 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.Intake;
+package frc.robot.subsystems.Tower;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DriveIntake extends CommandBase {
-  /** Creates a new DriveIntake. */
-  
-  DoubleSupplier m_forwardspeed, m_backspeed;
-  IntakeSubsystem m_intake;
-  
-  public DriveIntake(IntakeSubsystem intake, DoubleSupplier forwardspeed, DoubleSupplier backspeed) {
-    m_intake = intake;
-    m_forwardspeed = forwardspeed;
-    m_backspeed = backspeed;
-    addRequirements(m_intake);
+public class DriveTower extends CommandBase {
+  /** Creates a new DriveTower. */
+  TowerSubsystem m_tower;
+  DoubleSupplier m_speed;
+  public DriveTower(TowerSubsystem tower, DoubleSupplier speed) { 
+    m_speed = speed;
+    m_tower = tower;
+    addRequirements(m_tower);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_forwardspeed.getAsDouble() > 0.2){
-       m_intake.driveIntake(m_forwardspeed.getAsDouble());
-    }
-    if(m_backspeed.getAsDouble() > 0.2){
-      m_intake.driveIntake(m_backspeed.getAsDouble());
-    
-    }
+    m_tower.driveWholeTower(m_speed.getAsDouble());
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intake.driveIntake(0.0);
+    m_tower.driveWholeTower(0.0);
+
   }
 
   // Returns true when the command should end.

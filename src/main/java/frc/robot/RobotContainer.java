@@ -26,6 +26,8 @@ import frc.robot.subsystems.Intake.DriveIntake;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.Shooter.ShooterCommand;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
+import frc.robot.subsystems.Tower.DriveTower;
+import frc.robot.subsystems.Tower.TowerSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -40,6 +42,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final ShooterSubsystem m_shooterSubystem = new ShooterSubsystem();
+  private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
 
   private final XboxControllerEE m_driverController = new XboxControllerEE(0);
   private final XboxControllerEE m_operatorController = new XboxControllerEE(1);
@@ -64,15 +67,15 @@ public class RobotContainer {
                                       () -> -(m_driverController.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
                                       () -> -(m_driverController.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     
-    m_intakeSubsystem.setDefaultCommand(new DriveIntake(
+    m_intakeSubsystem.setDefaultCommand(new DriveIntake(m_intakeSubsystem,
                                         () -> -(m_driverController.getRightTriggerAxis()),  
-                                        () -> -(m_driverController.getLeftTriggerAxis()),
-                                        m_intakeSubsystem));
+                                        () -> -(m_driverController.getLeftTriggerAxis())));
 
-    m_climberSubsystem.setDefaultCommand(new ExtendClimber(
-                                        m_climberSubsystem, 
+    m_climberSubsystem.setDefaultCommand(new ExtendClimber(m_climberSubsystem, 
                                         () -> m_operatorController.getRightY()));
   
+    m_towerSubsystem.setDefaultCommand(new DriveTower(m_towerSubsystem,  
+                                      () -> m_operatorController.getLeftY()));
   }
 
   /**
