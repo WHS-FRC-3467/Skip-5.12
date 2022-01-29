@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.PHConstants;
@@ -28,6 +29,18 @@ public class IntakeSubsystem extends SubsystemBase {
 public void driveIntake(double speed){
   m_intakeMotor.set(ControlMode.PercentOutput, speed);
 
+
+}
+public void intakeIn(){
+  m_intakePiston.set(Value.kForward);
+}
+public void intakeOut(){
+  m_intakePiston.set(Value.kForward);
+}
+public void toggleIntake(){
+  m_intakePiston.toggle();
 }
 
 }
+
+

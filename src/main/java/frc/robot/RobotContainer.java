@@ -12,12 +12,20 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Autonomous.TestAuto;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.Control.XBoxControllerDPad;
+import frc.robot.Control.XboxControllerButton;
 import frc.robot.Control.XboxControllerEE;
+import frc.robot.subsystems.Climber.ClimberSubsystem;
+import frc.robot.subsystems.Climber.ExtendClimber;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
+import frc.robot.subsystems.Shooter.ShooterCommand;
+import frc.robot.subsystems.Shooter.ShooterSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,9 +38,11 @@ public class RobotContainer {
   
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  private final ShooterSubsystem m_shooterSubystem = new ShooterSubsystem();
 
   private final XboxControllerEE m_driverController = new XboxControllerEE(0);
-  private final XboxControllerEE m_OperatorController = new XboxControllerEE(1);
+  private final XboxControllerEE m_operatorController = new XboxControllerEE(1);
 
   private final TestAuto m_testAuto = new TestAuto(m_driveSubsystem);
 
@@ -55,9 +65,14 @@ public class RobotContainer {
                                       () -> -(m_driverController.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     
     m_intakeSubsystem.setDefaultCommand(new DriveIntake(
-                                                        () -> -(m_driverController.getRightTriggerAxis()),  
-                                                        () -> -(m_driverController.getLeftTriggerAxis()),
-                                                        m_intakeSubsystem));
+                                        () -> -(m_driverController.getRightTriggerAxis()),  
+                                        () -> -(m_driverController.getLeftTriggerAxis()),
+                                        m_intakeSubsystem));
+
+    m_climberSubsystem.setDefaultCommand(new ExtendClimber(
+                                        m_climberSubsystem, 
+                                        () -> m_operatorController.getRightY()));
+  
   }
 
   /**
@@ -66,7 +81,23 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadUp)
+    .whileActiveContinuous(new InstantCommand(m_climberSubsystem::climberForward, m_climberSubsystem));
+    
+    new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadDown)
+    .whileActiveContinuous(new InstantCommand(m_climberSubsystem::climberReverse, m_climberSubsystem));
+
+    new XboxControllerButton(m_driverController, XboxControllerEE.Button.kLeftBumper)
+    .whenPressed(new InstantCommand(m_intakeSubsystem::intakeIn, m_intakeSubsystem));
+    
+    new XboxControllerButton(m_driverController, XboxControllerEE.Button.kRightBumper)
+    .whenPressed(new InstantCommand(m_intakeSubsystem::intakeOut, m_intakeSubsystem));
+
+    new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kA)
+    .whenHeld(new ShooterCommand(ShooterConstants.testSpeed, m_shooterSubystem));
+
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

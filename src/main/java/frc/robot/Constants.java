@@ -78,6 +78,10 @@ public final class Constants {
     public static final double driveTollerance = 100;
 
     //speed on -1 to 1 scale
-    public static final double SimpleAutoVelocity = 0;
+    public static final double SimpleAutoVelocity = 0.25;
+    }
+
+    public static final class ShooterConstants {
+        public static final double testSpeed = 200.0;
     }
 }
