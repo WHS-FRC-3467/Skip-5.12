@@ -7,13 +7,19 @@ package frc.robot.subsystems.Tower;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
+import frc.robot.Constants.DIOConstants;
 
 public class TowerSubsystem extends SubsystemBase {
   /** Creates a new TowerSubsystem. */
   TalonSRX m_lowerTower = new TalonSRX(CanConstants.LowerTowerMotor);
-  TalonSRX m_upperTower = new TalonSRX(CanConstants.UpperTowerMotor);
+  TalonSRX m_upperTower = new TalonSRX(CanConstants.UpperTowerMotor); 
+  DigitalInput m_entryBeamBreak = new DigitalInput(DIOConstants.EntryBeamBreak);
+  DigitalInput m_midBeamBreak = new DigitalInput(DIOConstants.MidTowerBeamBreak);
+  DigitalInput m_upperBeamBreak = new DigitalInput(DIOConstants.UpperTowerBeamBreak);
+
   public TowerSubsystem() {}
 
   @Override
