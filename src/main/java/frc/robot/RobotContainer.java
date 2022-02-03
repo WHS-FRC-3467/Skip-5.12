@@ -24,6 +24,7 @@ import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
+import frc.robot.subsystems.Shooter.AutoShoot;
 import frc.robot.subsystems.Shooter.ShooterCommand;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.DriveTower;
@@ -99,6 +100,9 @@ public class RobotContainer {
 
     new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kA)
     .whenHeld(new ShooterCommand(ShooterConstants.testSpeed, m_shooterSubystem));
+
+    new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kB)
+    .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem));
 
   }
 
