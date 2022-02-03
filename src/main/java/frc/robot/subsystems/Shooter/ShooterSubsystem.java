@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -15,6 +16,7 @@ public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   TalonFX m_shooterMotorLeft = new TalonFX(Constants.CanConstants.ShooterLeft);
   TalonFX m_shooterMotorRight = new TalonFX(Constants.CanConstants.ShooterRight);
+  Servo m_hoodActuator = new Servo(Constants.PWMConstants.HoodAcuator);
   BangBangController BangBang;
 
   
@@ -42,5 +44,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
   public double getEncoderAverage() {
     return (m_shooterMotorLeft.getSelectedSensorVelocity() + m_shooterMotorRight.getSelectedSensorVelocity()) / 2;
+  }
+  public void setHoodPosition(double pos) {
+    m_hoodActuator.setPosition(pos);
   }
 }
