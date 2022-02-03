@@ -17,9 +17,11 @@ import frc.robot.Constants.PHConstants;
 public class IntakeSubsystem extends SubsystemBase {
   DoubleSolenoid m_intakePiston = new DoubleSolenoid(9, PneumaticsModuleType.REVPH, PHConstants.IntakeForwardSoleniod, PHConstants.IntakeReverseSoleniod);
   TalonFX m_intakeMotor = new TalonFX(CanConstants.IntakeMotor);
+  //true
+  public boolean intakeRetracted;
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-
+    intakeRetracted = true;
   }
 
   @Override
@@ -31,16 +33,21 @@ public void driveIntake(double speed){
 
 
 }
-public void intakeIn(){
+public void intakeDeploy(){
   m_intakePiston.set(Value.kForward);
+  intakeRetracted = false;
 }
-public void intakeOut(){
-  m_intakePiston.set(Value.kForward);
+public void intakeRetract(){
+  m_intakePiston.set(Value.kReverse);
+  intakeRetracted = true;
+
 }
 public void toggleIntake(){
   m_intakePiston.toggle();
 }
 
 }
+
+
 
 
