@@ -18,6 +18,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Control.XBoxControllerDPad;
 import frc.robot.Control.XboxControllerButton;
 import frc.robot.Control.XboxControllerEE;
+import frc.robot.subsystems.Climber.AutoClimber;
 import frc.robot.subsystems.Climber.ClimberSubsystem;
 import frc.robot.subsystems.Climber.ExtendClimber;
 import frc.robot.subsystems.Drive.DriveSubsystem;
@@ -86,10 +87,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadUp)
-    .whileActiveContinuous(new InstantCommand(m_climberSubsystem::climberForward, m_climberSubsystem));
+    .whileActiveContinuous(new InstantCommand(m_climberSubsystem::fixedClimberForward, m_climberSubsystem));
     
     new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadDown)
-    .whileActiveContinuous(new InstantCommand(m_climberSubsystem::climberReverse, m_climberSubsystem));
+    .whileActiveContinuous(new InstantCommand(m_climberSubsystem::fixedClimberReverse, m_climberSubsystem));
+
+    new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadLeft)
+    .whileActiveContinuous(new InstantCommand(m_climberSubsystem::extendingClimberForward, m_climberSubsystem));
+    
+    new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadRight)
+    .whileActiveContinuous(new InstantCommand(m_climberSubsystem::extendingClimberReverse, m_climberSubsystem));
 
     new XboxControllerButton(m_driverController, XboxControllerEE.Button.kLeftBumper)
     .whenPressed(new InstantCommand(m_intakeSubsystem::intakeIn, m_intakeSubsystem));
@@ -99,7 +106,9 @@ public class RobotContainer {
 
     new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kA)
     .whenHeld(new ShooterCommand(ShooterConstants.testSpeed, m_shooterSubystem));
-
+    
+    new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kBack)
+    .whenHeld(new AutoClimber(m_climberSubsystem));
   }
 
   /**
