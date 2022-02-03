@@ -84,4 +84,7 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final double testSpeed = 200.0;
     }
+    public static final class TowerConstants {
+        public static final double testSpeed = 0.75;
+    }
 }
