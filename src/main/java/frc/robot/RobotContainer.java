@@ -25,6 +25,8 @@ import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
+import frc.robot.subsystems.Intake.ToggleIntake;
+import frc.robot.subsystems.Shooter.AutoShoot;
 import frc.robot.subsystems.Shooter.ShooterCommand;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.DriveTower;
@@ -99,14 +101,21 @@ public class RobotContainer {
     .whileActiveContinuous(new InstantCommand(m_climberSubsystem::extendingClimberReverse, m_climberSubsystem));
 
     new XboxControllerButton(m_driverController, XboxControllerEE.Button.kLeftBumper)
-    .whenPressed(new InstantCommand(m_intakeSubsystem::intakeIn, m_intakeSubsystem));
+    .whenPressed(new InstantCommand(m_intakeSubsystem::intakeDeploy, m_intakeSubsystem));
     
     new XboxControllerButton(m_driverController, XboxControllerEE.Button.kRightBumper)
-    .whenPressed(new InstantCommand(m_intakeSubsystem::intakeOut, m_intakeSubsystem));
+    .whenPressed(new InstantCommand(m_intakeSubsystem::intakeRetract, m_intakeSubsystem));
 
     new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kA)
     .whenHeld(new ShooterCommand(ShooterConstants.testSpeed, m_shooterSubystem));
     
+
+    new XboxControllerButton(m_driverController, XboxControllerEE.Button.kA)
+    .whenHeld(new ToggleIntake(m_intakeSubsystem));
+
+    new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kB)
+    .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.testSpeed));
+
     new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kBack)
     .whenHeld(new AutoClimber(m_climberSubsystem));
   }

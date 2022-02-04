@@ -86,8 +86,13 @@ public final class Constants {
 
     public static final class ShooterConstants {
         public static final double testSpeed = 200.0;
+        public static final double LowerHubVelocity = 200.0;
     }
 
+    public static final class TowerConstants {
+        public static final double standardTowerSpeed = 0.75;
+    }
+    
     public static final class ClimberConstants {
         public static final double kP = 0.0;
         public static final double kI = 0.0;
@@ -97,5 +102,6 @@ public final class Constants {
         public static final double retractedPostion = 0.0;
         //not tuned
         public static final double extendedPosition = 10.0;
+		public static final double testSpeed = 0.75;
     }
 }
