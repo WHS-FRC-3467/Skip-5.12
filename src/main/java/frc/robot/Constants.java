@@ -47,8 +47,11 @@ public final class Constants {
         //PH is pneumatic Hub new PCM
         public static final int IntakeForwardSoleniod = 0;
         public static final int IntakeReverseSoleniod = 1;
-        public static final int ClimberForwardSoleniod = 2;
-        public static final int ClimberReverseSoleniod = 3;
+        public static final int FixedClimberForwardSoleniod = 2;
+        public static final int FixedClimberReverseSoleniod = 3;
+        public static final int ExtendingClimberForwardSoleniod = 4;
+        public static final int ExtendingClimberReverseSoleniod = 5;
+
     }
 
     public static final class DIOConstants{
@@ -83,5 +86,22 @@ public final class Constants {
 
     public static final class ShooterConstants {
         public static final double testSpeed = 200.0;
+        public static final double LowerHubVelocity = 200.0;
+    }
+
+    public static final class TowerConstants {
+        public static final double standardTowerSpeed = 0.75;
+    }
+    
+    public static final class ClimberConstants {
+        public static final double kP = 0.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        
+        //encoder ticks for 
+        public static final double retractedPostion = 0.0;
+        //not tuned
+        public static final double extendedPosition = 10.0;
+		public static final double testSpeed = 0.75;
     }
 }
