@@ -42,7 +42,10 @@ public class BasicAutoDrive extends CommandBase {
     if(currentEncoder <= m_finalPosition){
       m_drive.setState(DriveConstants.SimpleAutoVelocity, m_angle);
     }
-    else{
+    else if (currentEncoder >= m_finalPosition){
+      m_drive.setState(-DriveConstants.SimpleAutoVelocity, m_angle);
+    }
+    else if(m_finalPosition - currentEncoder > 50 || m_finalPosition - currentEncoder < 50){
       m_drive.setState(0.0, m_angle);
     }
 
@@ -61,7 +64,7 @@ public class BasicAutoDrive extends CommandBase {
   public boolean isFinished() {
     double currentEncoder = m_drive.getAverageEncoder()-m_startEncoderValue;
     //Returns true if current encoder value is less than the goal point
-    if(currentEncoder <= m_finalPosition){
+    if(currentEncoder <= m_finalPosition || currentEncoder >= m_finalPosition){
       return false;
     }
     else{

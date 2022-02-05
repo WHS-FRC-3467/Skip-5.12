@@ -18,6 +18,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Control.XBoxControllerDPad;
 import frc.robot.Control.XboxControllerButton;
 import frc.robot.Control.XboxControllerEE;
+import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.subsystems.Climber.AutoClimber;
 import frc.robot.subsystems.Climber.ClimberSubsystem;
 import frc.robot.subsystems.Climber.ExtendClimber;
@@ -63,6 +64,9 @@ public class RobotContainer {
 
     SmartDashboard.putNumber("Pressure", phCompressor.getPressure());
     
+    Limelight.initialize();
+    Limelight.setDriverMode();
+
     // Configure the button bindings
     configureButtonBindings();
     m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 

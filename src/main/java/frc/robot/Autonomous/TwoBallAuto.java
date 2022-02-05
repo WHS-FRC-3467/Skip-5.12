@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Drive.BasicAutoDrive;
 import frc.robot.subsystems.Drive.DriveSubsystem;
+import frc.robot.subsystems.Intake.AutoDriveIntake;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
-import frc.robot.subsystems.Intake.ToggleIntake;
 import frc.robot.subsystems.Shooter.AutoShoot;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.TowerSubsystem;
@@ -33,7 +33,8 @@ public class TwoBallAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new AutoShoot(m_shooter, m_tower, ShooterConstants.LowerHubVelocity).withTimeout(5.0),
-      new ToggleIntake(m_intake),
+      new InstantCommand(m_intake::intakeDeploy),
+      new AutoDriveIntake(m_intake),
       new BasicAutoDrive(drive, 14.5, 3.3),
       new BasicAutoDrive(drive, 14.5, -3.3),
       new AutoShoot(m_shooter, m_tower, ShooterConstants.LowerHubVelocity).withTimeout(5.0)
