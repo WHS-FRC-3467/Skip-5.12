@@ -54,7 +54,7 @@ public class RobotContainer {
   private final TestAuto m_testAuto = new TestAuto(m_driveSubsystem);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-  Compressor phCompressor = new Compressor(1, PneumaticsModuleType.REVPH);
+  Compressor phCompressor = new Compressor(PneumaticsModuleType.REVPH);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

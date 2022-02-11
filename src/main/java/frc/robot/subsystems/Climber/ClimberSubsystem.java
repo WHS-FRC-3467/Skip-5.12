@@ -21,8 +21,8 @@ import frc.robot.Constants.PHConstants;
 public class ClimberSubsystem extends SubsystemBase {
   TalonFX m_climberMotorLeft = new TalonFX(CanConstants.ClimberLeft);
   TalonFX m_climberMotorRight = new TalonFX(CanConstants.ClimberRight);
-  DoubleSolenoid m_fixedClimberPiston = new DoubleSolenoid(9, PneumaticsModuleType.REVPH, PHConstants.FixedClimberForwardSoleniod, PHConstants.FixedClimberReverseSoleniod);
-  DoubleSolenoid m_extenedingClimberPiston = new DoubleSolenoid(9, PneumaticsModuleType.REVPH, PHConstants.ExtendingClimberForwardSoleniod, PHConstants.ExtendingClimberReverseSoleniod);
+  DoubleSolenoid m_fixedClimberPiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, PHConstants.FixedClimberForwardSoleniod, PHConstants.FixedClimberReverseSoleniod);
+  DoubleSolenoid m_extenedingClimberPiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, PHConstants.ExtendingClimberForwardSoleniod, PHConstants.ExtendingClimberReverseSoleniod);
 
   PIDController m_pidController = new PIDController(ClimberConstants.kP, ClimberConstants.kI, ClimberConstants.kD);
  

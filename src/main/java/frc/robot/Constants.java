@@ -27,7 +27,6 @@ public final class Constants {
         public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 10; 
         public static final int BACK_LEFT_MODULE_STEER_ENCODER = 11; 
         public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 12; 
-        public static final int DRIVETRAIN_PIGEON_ID = 13; 
         public static final int LowerTowerMotor = 13;
         public static final int UpperTowerMotor = 14;
         public static final int ShooterLeft = 15;
@@ -35,6 +34,8 @@ public final class Constants {
         public static final int ClimberLeft = 17;
         public static final int ClimberRight = 18;
         public static final int IntakeMotor = 19;
+        public static final int DRIVETRAIN_PIGEON_ID = 20; 
+
     }
 
     public static final class PWMConstants{
