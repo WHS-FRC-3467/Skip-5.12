@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DIOConstants;
@@ -24,8 +25,12 @@ public class TowerSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    sendToTop();
-  }
+    // sendToTop();
+    SmartDashboard.putBoolean("Entry Beam Break", m_entryBeamBreak.get());
+    SmartDashboard.putBoolean("Mid Beam Break", m_midBeamBreak.get());
+    SmartDashboard.putBoolean("Upper Beam Break", m_upperBeamBreak.get());
+
+    }
 
   public void driveLowerTower(double speed){
     m_lowerTower.set(ControlMode.PercentOutput, speed);

@@ -19,9 +19,9 @@ import frc.robot.Control.XBoxControllerDPad;
 import frc.robot.Control.XboxControllerButton;
 import frc.robot.Control.XboxControllerEE;
 import frc.robot.Feedback.Cameras.Limelight;
-import frc.robot.subsystems.Climber.AutoClimber;
-import frc.robot.subsystems.Climber.ClimberSubsystem;
-import frc.robot.subsystems.Climber.ExtendClimber;
+// import frc.robot.subsystems.Climber.AutoClimber;
+// import frc.robot.subsystems.Climber.ClimberSubsystem;
+// import frc.robot.subsystems.Climber.ExtendClimber;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
@@ -44,7 +44,7 @@ public class RobotContainer {
   
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  // private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final ShooterSubsystem m_shooterSubystem = new ShooterSubsystem();
   private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
 
@@ -72,17 +72,17 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
                                       () -> -(m_driverController.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
                                       () -> -(m_driverController.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-                                      () -> -(m_driverController.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+                                      () -> (m_driverController.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     
     m_intakeSubsystem.setDefaultCommand(new DriveIntake(m_intakeSubsystem,
-                                        () -> -(m_driverController.getRightTriggerAxis()),  
-                                        () -> -(m_driverController.getLeftTriggerAxis())));
+                                        () -> (m_driverController.getRightTriggerAxis()),  
+                                        () -> (m_driverController.getLeftTriggerAxis())));
 
-    m_climberSubsystem.setDefaultCommand(new ExtendClimber(m_climberSubsystem, 
-                                        () -> m_operatorController.getRightY()));
+    // m_climberSubsystem.setDefaultCommand(new ExtendClimber(m_climberSubsystem, 
+    //                                     () -> -m_operatorController.getRightY()));
   
     m_towerSubsystem.setDefaultCommand(new DriveTower(m_towerSubsystem,  
-                                      () -> m_operatorController.getLeftY()));
+                                      () -> -m_operatorController.getLeftY()));
   }
 
   /**
@@ -92,17 +92,17 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadUp)
-    .whileActiveContinuous(new InstantCommand(m_climberSubsystem::fixedClimberForward, m_climberSubsystem));
+    // new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadUp)
+    // .whileActiveContinuous(new InstantCommand(m_climberSubsystem::fixedClimberForward, m_climberSubsystem));
     
-    new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadDown)
-    .whileActiveContinuous(new InstantCommand(m_climberSubsystem::fixedClimberReverse, m_climberSubsystem));
+    // new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadDown)
+    // .whileActiveContinuous(new InstantCommand(m_climberSubsystem::fixedClimberReverse, m_climberSubsystem));
 
-    new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadLeft)
-    .whileActiveContinuous(new InstantCommand(m_climberSubsystem::extendingClimberForward, m_climberSubsystem));
+    // new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadLeft)
+    // .whileActiveContinuous(new InstantCommand(m_climberSubsystem::extendingClimberForward, m_climberSubsystem));
     
-    new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadRight)
-    .whileActiveContinuous(new InstantCommand(m_climberSubsystem::extendingClimberReverse, m_climberSubsystem));
+    // new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadRight)
+    // .whileActiveContinuous(new InstantCommand(m_climberSubsystem::extendingClimberReverse, m_climberSubsystem));
 
     new XboxControllerButton(m_driverController, XboxControllerEE.Button.kLeftBumper)
     .whenPressed(new InstantCommand(m_intakeSubsystem::intakeDeploy, m_intakeSubsystem));
@@ -118,10 +118,10 @@ public class RobotContainer {
     .whenHeld(new ToggleIntake(m_intakeSubsystem));
 
     new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kB)
-    .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.testSpeed));
+    .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, 0.2));
 
-    new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kBack)
-    .whenHeld(new AutoClimber(m_climberSubsystem));
+    // new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kBack)
+    // .whenHeld(new AutoClimber(m_climberSubsystem));
   }
 
   /**

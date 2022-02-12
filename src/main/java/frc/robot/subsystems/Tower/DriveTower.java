@@ -28,7 +28,6 @@ public class DriveTower extends CommandBase {
   @Override
   public void execute() {
     m_tower.driveWholeTower(m_speed.getAsDouble());
-
   }
 
   // Called once the command ends or is interrupted.

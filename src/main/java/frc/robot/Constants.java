@@ -71,10 +71,10 @@ public final class Constants {
     //Should be measured from center to center.
     public static final double DRIVETRAIN_WHEELBASE_METERS = 0.5334; 
 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(104.179);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(115.75);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(324.755);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(108.896); 
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(69.169);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(105.117);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(111.181);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(130.429); 
 
     public static final double kP = 0.01;
     public static final double kI = 0.0;
@@ -88,6 +88,13 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final double testSpeed = 200.0;
         public static final double LowerHubVelocity = 200.0;
+
+        public static final double kP = 0.1;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double kF = 0.0;
+
+
     }
 
     public static final class TowerConstants {

@@ -10,7 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
-import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -92,12 +92,11 @@ public class DriveSubsystem extends SubsystemBase {
         public DriveSubsystem() {
                 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
-                m_frontLeftModule = Mk3SwerveModuleHelper.createFalcon500(
+                m_frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                         // This parameter is optional, but will allow you to see the current state of
                         // the module on the dashboard.
                         tab.getLayout("Front Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(0,0),
-                        // This can either be STANDARD or FAST depending on your gear configuration
-                        Mk3SwerveModuleHelper.GearRatio.FAST,
+                        Mk4SwerveModuleHelper.GearRatio.L2,
                         // This is the ID of the drive motor
                         CanConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
                         // This is the ID of the steer motor
@@ -110,27 +109,27 @@ public class DriveSubsystem extends SubsystemBase {
                 );
 
                 // We will do the same for the other modules
-                m_frontRightModule = Mk3SwerveModuleHelper.createFalcon500(
+                m_frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Front Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(2,0),
-                        Mk3SwerveModuleHelper.GearRatio.FAST, 
+                        Mk4SwerveModuleHelper.GearRatio.L2, 
                         CanConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
                         CanConstants.FRONT_RIGHT_MODULE_STEER_MOTOR,
                         CanConstants.FRONT_RIGHT_MODULE_STEER_ENCODER,
                         DriveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET
                 );
 
-                m_backLeftModule = Mk3SwerveModuleHelper.createFalcon500(
+                m_backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(4,0),
-                        Mk3SwerveModuleHelper.GearRatio.FAST, 
+                        Mk4SwerveModuleHelper.GearRatio.L2, 
                         CanConstants.BACK_LEFT_MODULE_DRIVE_MOTOR,
                         CanConstants.BACK_LEFT_MODULE_STEER_MOTOR,
                         CanConstants.BACK_LEFT_MODULE_STEER_ENCODER,
                         DriveConstants.BACK_LEFT_MODULE_STEER_OFFSET
                 );
 
-                m_backRightModule = Mk3SwerveModuleHelper.createFalcon500(
+                m_backRightModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(6,0),
-                        Mk3SwerveModuleHelper.GearRatio.FAST, 
+                        Mk4SwerveModuleHelper.GearRatio.L2, 
                         CanConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
                         CanConstants.BACK_RIGHT_MODULE_STEER_MOTOR,
                         CanConstants.BACK_RIGHT_MODULE_STEER_ENCODER,
