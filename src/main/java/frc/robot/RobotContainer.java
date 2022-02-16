@@ -55,6 +55,8 @@ public class RobotContainer {
     Shuffleboard.getTab("Driver Dash").add(m_chooser);
     m_chooser.addOption("Test Auto", m_testAuto);
     
+    m_pneumactics.EnableAnalog();
+    
     Limelight.initialize();
     Limelight.setDriverMode();
 
@@ -109,7 +111,7 @@ public class RobotContainer {
     .whenHeld(new ToggleIntake(m_intakeSubsystem));
 
     new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kB)
-    .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, 0.2));
+    .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.testSpeed));
 
     // new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kBack)
     // .whenHeld(new AutoClimber(m_climberSubsystem));

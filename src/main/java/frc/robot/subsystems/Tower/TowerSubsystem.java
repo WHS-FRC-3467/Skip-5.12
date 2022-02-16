@@ -32,15 +32,8 @@ public class TowerSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Mid Beam Break", m_midBeamBreak.get());
     SmartDashboard.putBoolean("Upper Beam Break", m_upperBeamBreak.get());
     
-    doesBallExist = m_entryBeamBreak.get() || m_midBeamBreak.get() || m_upperBeamBreak.get();
-    m_entryState = m_entryBeamBreak.get();
-    m_middleState = m_midBeamBreak.get();
-    m_upperState = m_upperBeamBreak.get();
-    m_middleTopState = m_upperBeamBreak.get() && m_midBeamBreak.get();
-    m_entryTopState = m_upperBeamBreak.get() && m_entryBeamBreak.get();
-    m_entryMiddleState = m_midBeamBreak.get() && m_entryBeamBreak.get();
-    m_noBallState = doesBallExist;
-    }
+    // doesBallExist = m_entryBeamBreak.get() || m_midBeamBreak.get() || m_upperBeamBreak.get();
+  }
 
   public void driveLowerTower(double speed){
     m_lowerTower.set(ControlMode.PercentOutput, speed);
@@ -52,37 +45,35 @@ public class TowerSubsystem extends SubsystemBase {
     m_upperTower.set(ControlMode.PercentOutput, speed);
     m_lowerTower.set(ControlMode.PercentOutput, speed);
   }
-
-  // public void sendToTop() {
-  //   if ((m_upperBeamBreak.get() == false) && (doesBallExist == true)) { // when both motors should be run
-  //     driveWholeTower(TowerConstants.standardTowerSpeed); // calibrate for something reasonable 
-  //   } else if ((m_upperBeamBreak.get() == true) && (m_entryBeamBreak.get() == true)) { // when just the lower motor should run
-  //     driveLowerTower(TowerConstants.standardTowerSpeed); // calibrate for something reasonable
-  //   } else {
-  //     driveWholeTower(0);
-  //   }
   
   public void sendToTop(){
-    if(m_noBallState){
-      driveWholeTower(0.0);
-    }
-    if(m_upperState){
-      driveWholeTower(0.0);
-    }
-    if(m_entryState){
+    if(m_entryBeamBreak.get()==false && m_midBeamBreak.get()==true && m_upperBeamBreak.get()==true){
+      //Ball entry
       driveWholeTower(TowerConstants.standardTowerSpeed);
     }
-    if(m_middleState){
+    if(m_entryBeamBreak.get()==true && m_midBeamBreak.get()== false && m_upperBeamBreak.get() == true){
+      //Ball middle
       driveWholeTower(TowerConstants.standardTowerSpeed);
     }
-    if(m_middleTopState){
+    if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == false){
+      //ball upper
       driveWholeTower(0.0);
     }
-    if(m_entryMiddleState){
-      driveWholeTower(TowerConstants.standardTowerSpeed);
+    if(m_entryBeamBreak.get()==true && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == false){
+      //ball mid and upper
+      driveWholeTower(0.0);
     }
-    if(m_entryTopState){
+    if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == true && m_upperBeamBreak.get() ==false){
+      //ball entry and upper
       driveLowerTower(TowerConstants.standardTowerSpeed);
+    }
+    if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == true){
+      //ball entry and middle
+      driveWholeTower(TowerConstants.standardTowerSpeed);
+    }
+    if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){
+      //no balls
+      driveWholeTower(0.0);
     }
   }
 

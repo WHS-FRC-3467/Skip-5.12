@@ -93,7 +93,7 @@ public final class Constants {
 
         public static final int kShooterTolerance = 25;
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
-        public static final Gains kGains = new Gains( 0.03, 0.0, 0.1, 0.08, 0,  1.00);
+        public static final Gains kGains = new Gains(0.01, 0.0, 0.1, 0.0465, 0,  1.00);
 	}
 
     public static final class TowerConstants {

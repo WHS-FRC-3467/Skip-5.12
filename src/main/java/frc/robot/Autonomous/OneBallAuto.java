@@ -31,7 +31,7 @@ public class OneBallAuto extends SequentialCommandGroup {
       //shooting command
       new AutoShoot(m_shooter, m_tower, ShooterConstants.LowerHubVelocity).withTimeout(5.0),
       //drive forward 3.5 meters
-      new BasicAutoDrive(m_drive, 0.0, 3.5)
+      new BasicAutoDrive(m_drive, 0.0, 3.5, true)
     );
   }
 }

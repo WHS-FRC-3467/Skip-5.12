@@ -13,13 +13,15 @@ public class BasicAutoDrive extends CommandBase {
   DriveSubsystem m_drive;
   double m_angle, m_meter;
   double m_finalPosition, m_startEncoderValue;
-
+  boolean m_forward;
+  boolean m_end;
   //Constructor for BasicAutoDrive
-  public BasicAutoDrive(DriveSubsystem drive, double angle, double meter) {
+  public BasicAutoDrive(DriveSubsystem drive, double angle, double meter, boolean forward) {
     //Set constructer variables equal to member variables 
     m_angle = angle;
     m_meter = meter;
     m_drive = drive;
+    m_forward = forward;
     addRequirements(m_drive);
   }
 
@@ -39,15 +41,25 @@ public class BasicAutoDrive extends CommandBase {
     //Returns true if current encoder value is less than the goal point
     //If true sets drive base at a speed and angle 
     //If false sets drivebase to zero
-    if(currentEncoder <= m_finalPosition){
-      m_drive.setState(DriveConstants.SimpleAutoVelocity, m_angle);
+    if(m_forward){
+      if(currentEncoder <= m_finalPosition){
+          m_drive.setState(DriveConstants.SimpleAutoVelocity, m_angle);
+          m_end = false;
+      }
+      else{
+        m_end = true;
+      }
     }
-    else if (currentEncoder >= m_finalPosition){
-      m_drive.setState(-DriveConstants.SimpleAutoVelocity, m_angle);
+    else if (m_forward == false){
+      if(currentEncoder >= m_finalPosition){
+        m_drive.setState(-DriveConstants.SimpleAutoVelocity, m_angle);
+        m_end=false;
+      }
+      else{
+        m_end = true;
+      }
     }
-    else if(m_finalPosition - currentEncoder > 50 || m_finalPosition - currentEncoder < 50){
-      m_drive.setState(0.0, m_angle);
-    }
+    
 
     //Puts drive distance and encoder distance to smart Dashboard
     SmartDashboard.putNumber("Drive Distance", (m_drive.getAverageEncoder()-m_startEncoderValue) * ((SdsModuleConfigurations.MK3_FAST.getDriveReduction() * SdsModuleConfigurations.MK3_FAST.getWheelDiameter() * Math.PI)/2048));
@@ -62,13 +74,6 @@ public class BasicAutoDrive extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    double currentEncoder = m_drive.getAverageEncoder()-m_startEncoderValue;
-    //Returns true if current encoder value is less than the goal point
-    if(currentEncoder <= m_finalPosition || currentEncoder >= m_finalPosition){
-      return false;
-    }
-    else{
-      return true;
-    }
+    return m_end;
   }
 }
