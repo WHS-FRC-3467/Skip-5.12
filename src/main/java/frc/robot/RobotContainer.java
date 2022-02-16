@@ -41,7 +41,7 @@ public class RobotContainer {
   // private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final ShooterSubsystem m_shooterSubystem = new ShooterSubsystem();
   private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
-
+  private final Pneumactics m_pneumactics = new Pneumactics();
   private final XboxControllerEE m_driverController = new XboxControllerEE(0);
   private final XboxControllerEE m_operatorController = new XboxControllerEE(1);
 

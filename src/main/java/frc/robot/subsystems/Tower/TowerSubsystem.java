@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DIOConstants;
+import frc.robot.Constants.TowerConstants;
 
 public class TowerSubsystem extends SubsystemBase {
   /** Creates a new TowerSubsystem. */
@@ -21,7 +22,8 @@ public class TowerSubsystem extends SubsystemBase {
   DigitalInput m_midBeamBreak = new DigitalInput(DIOConstants.MidTowerBeamBreak);
   DigitalInput m_upperBeamBreak = new DigitalInput(DIOConstants.UpperTowerBeamBreak);
 
-  public boolean doesBallExist = m_entryBeamBreak.get() || m_midBeamBreak.get() || m_upperBeamBreak.get();
+  public boolean doesBallExist;
+  public boolean m_entryState, m_middleState, m_upperState, m_middleTopState, m_entryTopState, m_entryMiddleState, m_noBallState;
 
   @Override
   public void periodic() {
@@ -29,7 +31,15 @@ public class TowerSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Entry Beam Break", m_entryBeamBreak.get());
     SmartDashboard.putBoolean("Mid Beam Break", m_midBeamBreak.get());
     SmartDashboard.putBoolean("Upper Beam Break", m_upperBeamBreak.get());
-
+    
+    doesBallExist = m_entryBeamBreak.get() || m_midBeamBreak.get() || m_upperBeamBreak.get();
+    m_entryState = m_entryBeamBreak.get();
+    m_middleState = m_midBeamBreak.get();
+    m_upperState = m_upperBeamBreak.get();
+    m_middleTopState = m_upperBeamBreak.get() && m_midBeamBreak.get();
+    m_entryTopState = m_upperBeamBreak.get() && m_entryBeamBreak.get();
+    m_entryMiddleState = m_midBeamBreak.get() && m_entryBeamBreak.get();
+    m_noBallState = doesBallExist;
     }
 
   public void driveLowerTower(double speed){
@@ -43,15 +53,39 @@ public class TowerSubsystem extends SubsystemBase {
     m_lowerTower.set(ControlMode.PercentOutput, speed);
   }
 
-  public void sendToTop() {
-    if ((m_upperBeamBreak.get() == false) && (doesBallExist == true)) { // when both motors should be run
-      driveWholeTower(0.01); // calibrate for something reasonable 
-    } else if ((m_upperBeamBreak.get() == true) && (m_entryBeamBreak.get() == true)) { // when just the lower motor should run
-      driveLowerTower(0.01); // calibrate for something reasonable
-    } else {
-      driveWholeTower(0);
+  // public void sendToTop() {
+  //   if ((m_upperBeamBreak.get() == false) && (doesBallExist == true)) { // when both motors should be run
+  //     driveWholeTower(TowerConstants.standardTowerSpeed); // calibrate for something reasonable 
+  //   } else if ((m_upperBeamBreak.get() == true) && (m_entryBeamBreak.get() == true)) { // when just the lower motor should run
+  //     driveLowerTower(TowerConstants.standardTowerSpeed); // calibrate for something reasonable
+  //   } else {
+  //     driveWholeTower(0);
+  //   }
+  
+  public void sendToTop(){
+    if(m_noBallState){
+      driveWholeTower(0.0);
+    }
+    if(m_upperState){
+      driveWholeTower(0.0);
+    }
+    if(m_entryState){
+      driveWholeTower(TowerConstants.standardTowerSpeed);
+    }
+    if(m_middleState){
+      driveWholeTower(TowerConstants.standardTowerSpeed);
+    }
+    if(m_middleTopState){
+      driveWholeTower(0.0);
+    }
+    if(m_entryMiddleState){
+      driveWholeTower(TowerConstants.standardTowerSpeed);
+    }
+    if(m_entryTopState){
+      driveLowerTower(TowerConstants.standardTowerSpeed);
     }
   }
+
   public int ballCount(){
     if (doesBallExist == false) {
       return 0;
