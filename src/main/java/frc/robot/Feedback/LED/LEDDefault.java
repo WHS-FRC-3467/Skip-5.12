@@ -6,15 +6,15 @@ package frc.robot.Feedback.LED;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.Shooter.ShooterSubsystem;
+import frc.robot.subsystems.Shooter.FalconVelocity;
 import frc.robot.subsystems.Tower.TowerSubsystem;
 
 public class LEDDefault extends CommandBase {
   /** Creates a new LEDDefault. */
   LED m_led;
-  ShooterSubsystem m_shooter;
+  FalconVelocity m_shooter;
   TowerSubsystem m_tower;
-  public LEDDefault(LED led, ShooterSubsystem shooter, TowerSubsystem tower) {
+  public LEDDefault(LED led, FalconVelocity shooter, TowerSubsystem tower) {
     m_tower = tower;
     m_shooter = shooter;
     m_led = led;

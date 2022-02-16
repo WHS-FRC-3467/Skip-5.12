@@ -36,6 +36,7 @@ public final class Constants {
         public static final int IntakeMotor = 19;
         public static final int DRIVETRAIN_PIGEON_ID = 20; 
 
+        
     }
 
     public static final class PWMConstants{
@@ -86,16 +87,14 @@ public final class Constants {
     }
 
     public static final class ShooterConstants {
-        public static final double testSpeed = 200.0;
+
+        public static final double testSpeed = 1000.0;
         public static final double LowerHubVelocity = 200.0;
 
-        public static final double kP = 0.1;
-        public static final double kI = 0.0;
-        public static final double kD = 0.0;
-        public static final double kF = 0.0;
-
-
-    }
+        public static final int kShooterTolerance = 25;
+        //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
+        public static final Gains kGains = new Gains( 0.03, 0.0, 0.1, 0.08, 0,  1.00);
+	}
 
     public static final class TowerConstants {
         public static final double standardTowerSpeed = 0.75;
