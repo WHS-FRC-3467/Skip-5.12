@@ -12,23 +12,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Pneumactics extends SubsystemBase{
   /** Creates a new Pneumactics. */
-  Compressor phCompressor = new Compressor(PneumaticsModuleType.REVPH);
+  Compressor phCompressor = new Compressor(1, PneumaticsModuleType.REVPH);
   PneumaticHub m_hub = new PneumaticHub();
+
+  
 
   boolean enabled = phCompressor.enabled();
   boolean pressureSwitch = phCompressor.getPressureSwitchValue();
-  double current = phCompressor.getCurrent();
+  double current = phCompressor.getPressure();
 
   public Pneumactics() {
 
   }
-
-  public void EnableAnalog(){
-    phCompressor.enableAnalog(0, 120);
-  }
   
   @Override
   public void periodic() {
+    phCompressor.enableAnalog(120, 130);
     SmartDashboard.putNumber("Pressure", phCompressor.getPressure());
     SmartDashboard.putBoolean("Compressor On", pressureSwitch);
     // This method will be called once per scheduler run

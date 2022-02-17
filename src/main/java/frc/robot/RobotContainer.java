@@ -55,7 +55,7 @@ public class RobotContainer {
     Shuffleboard.getTab("Driver Dash").add(m_chooser);
     m_chooser.addOption("Test Auto", m_testAuto);
     
-    m_pneumactics.EnableAnalog();
+    // m_pneumactics.EnableAnalog();
     
     Limelight.initialize();
     Limelight.setDriverMode();
