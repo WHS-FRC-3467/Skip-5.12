@@ -32,12 +32,12 @@ public class TwoBallAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.LowerHubVelocity).withTimeout(5.0),
+      new AutoShoot(m_shooter, m_tower, ShooterConstants.lowerHubVelocity).withTimeout(5.0),
       new InstantCommand(m_intake::intakeDeploy),
       new AutoDriveIntake(m_intake),
       new BasicAutoDrive(drive, 14.5, 3.3, true),
       new BasicAutoDrive(drive, 14.5, -3.3, false),
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.LowerHubVelocity).withTimeout(5.0)
+      new AutoShoot(m_shooter, m_tower, ShooterConstants.lowerHubVelocity).withTimeout(5.0)
     );
   }
 }

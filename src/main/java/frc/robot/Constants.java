@@ -88,12 +88,11 @@ public final class Constants {
 
     public static final class ShooterConstants {
 
-        public static final double testSpeed = 1000.0;
-        public static final double LowerHubVelocity = 1000.0;
+        public static final double lowerHubVelocity = 3000.0;
 
         public static final int kShooterTolerance = 25;
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
-        public static final Gains kGains = new Gains(0.01, 0.0, 0.1, 0.0465, 0,  1.00);
+        public static final Gains kGains = new Gains(0.01, 0.0, 0.0, 0.0465, 0,  1.00);
 	}
 
     public static final class TowerConstants {

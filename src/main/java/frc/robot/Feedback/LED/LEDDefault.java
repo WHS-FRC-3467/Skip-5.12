@@ -33,10 +33,10 @@ public class LEDDefault extends CommandBase {
     if(m_shooter.getEncoderAverage() <= 20.0){
       m_led.shooterOffLight();
     }
-    if(m_shooter.getEncoderAverage() < ShooterConstants.LowerHubVelocity - 20.0 /*tune to tollerance*/){
+    if(m_shooter.getEncoderAverage() < ShooterConstants.lowerHubVelocity - 20.0 /*tune to tollerance*/){
       m_led.shooterOnLight();
     }
-    if(m_shooter.getEncoderAverage() >= ShooterConstants.LowerHubVelocity - 20.0 /*tune to tollerance*/){
+    if(m_shooter.getEncoderAverage() >= ShooterConstants.lowerHubVelocity - 20.0 /*tune to tollerance*/){
       m_led.shooterAtSpeed();
     }
     if(m_tower.ballCount() == 0){

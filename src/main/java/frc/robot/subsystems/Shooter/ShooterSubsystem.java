@@ -29,8 +29,8 @@ public class ShooterSubsystem extends SubsystemBase {
     /* Initialize Smart Dashboard display */
     SmartDashboard.putNumber("P Gain", m_speedGains.kP);
     SmartDashboard.putNumber("Feed Forward", m_speedGains.kF);
+    SmartDashboard.putNumber("D Gain", m_speedGains.kD);
     SmartDashboard.putNumber("Target Velocity", 0.0);
-
     SmartDashboard.putNumber("Current Velocity", 0);
     SmartDashboard.putNumber("Current Output Percent", 0);
     SmartDashboard.putNumber("Velocity Error", 0);

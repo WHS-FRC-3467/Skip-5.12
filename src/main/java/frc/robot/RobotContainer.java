@@ -13,9 +13,8 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Control.XboxControllerButton;
 import frc.robot.Control.XboxControllerEE;
 import frc.robot.Feedback.Cameras.Limelight;
-// import frc.robot.subsystems.Climber.AutoClimber;
-// import frc.robot.subsystems.Climber.ClimberSubsystem;
-// import frc.robot.subsystems.Climber.ExtendClimber;
+import frc.robot.subsystems.Climber.ClimberSubsystem;
+import frc.robot.subsystems.Climber.ExtendClimber;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
@@ -38,7 +37,7 @@ public class RobotContainer {
   
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  // private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final ShooterSubsystem m_shooterSubystem = new ShooterSubsystem();
   private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
   private final Pneumactics m_pneumactics = new Pneumactics();
@@ -54,9 +53,7 @@ public class RobotContainer {
 
     Shuffleboard.getTab("Driver Dash").add(m_chooser);
     m_chooser.addOption("Test Auto", m_testAuto);
-    
-    // m_pneumactics.EnableAnalog();
-    
+        
     Limelight.initialize();
     Limelight.setDriverMode();
 
@@ -71,8 +68,8 @@ public class RobotContainer {
                                         () -> (m_driverController.getRightTriggerAxis()),  
                                         () -> (m_driverController.getLeftTriggerAxis())));
 
-    // m_climberSubsystem.setDefaultCommand(new ExtendClimber(m_climberSubsystem, 
-    //                                     () -> -m_operatorController.getRightY()));
+    m_climberSubsystem.setDefaultCommand(new ExtendClimber(m_climberSubsystem, 
+                                        () -> -m_operatorController.getRightY()));
   
     m_towerSubsystem.setDefaultCommand(new DriveTower(m_towerSubsystem,  
                                       () -> -m_operatorController.getLeftY()));
@@ -104,14 +101,14 @@ public class RobotContainer {
     .whenPressed(new InstantCommand(m_intakeSubsystem::intakeRetract, m_intakeSubsystem));
 
     new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kA)
-    .whenHeld(new ShooterCommand(ShooterConstants.testSpeed, m_shooterSubystem));
+    .whenHeld(new ShooterCommand(ShooterConstants.lowerHubVelocity, m_shooterSubystem));
     
 
     new XboxControllerButton(m_driverController, XboxControllerEE.Button.kA)
     .whenHeld(new ToggleIntake(m_intakeSubsystem));
 
     new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kB)
-    .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.testSpeed));
+    .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.lowerHubVelocity));
 
     // new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kBack)
     // .whenHeld(new AutoClimber(m_climberSubsystem));
