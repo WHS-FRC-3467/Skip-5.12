@@ -11,6 +11,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
@@ -25,6 +26,7 @@ public class Limelight extends SubsystemBase {
   public static void initialize(){
     ShuffleboardTab dashboardTab = Shuffleboard.getTab("Driver Dash");
     limelightFeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
+	// SmartDashboard.putData(limelightFeed);
     dashboardTab.add("LL", limelightFeed).withPosition(1,0).withSize(12, 6).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
 
     setDriverMode();

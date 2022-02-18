@@ -5,16 +5,15 @@
 package frc.robot.Feedback.LED;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.Shooter.FalconVelocity;
+import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.TowerSubsystem;
 
 public class LEDDefault extends CommandBase {
   /** Creates a new LEDDefault. */
   LED m_led;
-  FalconVelocity m_shooter;
+  ShooterSubsystem m_shooter;
   TowerSubsystem m_tower;
-  public LEDDefault(LED led, FalconVelocity shooter, TowerSubsystem tower) {
+  public LEDDefault(LED led, ShooterSubsystem shooter, TowerSubsystem tower) {
     m_tower = tower;
     m_shooter = shooter;
     m_led = led;
@@ -30,13 +29,13 @@ public class LEDDefault extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_shooter.getEncoderAverage() <= 20.0){
-      m_led.shooterOffLight();
-    }
-    if(m_shooter.getEncoderAverage() < ShooterConstants.lowerHubVelocity - 20.0 /*tune to tollerance*/){
+    // if(m_shooter.getCurrent <= 20.0){
+    //   m_led.shooterOffLight();
+    // }
+    if(m_shooter.isWheelAtSpeed()==false){
       m_led.shooterOnLight();
     }
-    if(m_shooter.getEncoderAverage() >= ShooterConstants.lowerHubVelocity - 20.0 /*tune to tollerance*/){
+    if(m_shooter.isWheelAtSpeed() ){
       m_led.shooterAtSpeed();
     }
     if(m_tower.ballCount() == 0){

@@ -3,10 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Autonomous.OneBallAuto;
 import frc.robot.Autonomous.TestAuto;
 import frc.robot.Constants.ShooterConstants;
 //import frc.robot.Control.XBoxControllerDPad;
@@ -21,7 +22,8 @@ import frc.robot.subsystems.Intake.DriveIntake;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.Intake.ToggleIntake;
 import frc.robot.subsystems.Shooter.AutoShoot;
-import frc.robot.subsystems.Shooter.ShooterCommand;
+import frc.robot.subsystems.Shooter.ShootLowerHub;
+import frc.robot.subsystems.Shooter.ShootUpperHub;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.DriveTower;
 import frc.robot.subsystems.Tower.TowerSubsystem;
@@ -40,20 +42,22 @@ public class RobotContainer {
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final ShooterSubsystem m_shooterSubystem = new ShooterSubsystem();
   private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
-  private final Pneumactics m_pneumactics = new Pneumactics();
   private final XboxControllerEE m_driverController = new XboxControllerEE(0);
   private final XboxControllerEE m_operatorController = new XboxControllerEE(1);
 
   private final TestAuto m_testAuto = new TestAuto(m_driveSubsystem);
+  private final OneBallAuto m_oneBallAuto = new OneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-
-    Shuffleboard.getTab("Driver Dash").add(m_chooser);
+    new Pneumactics();
     m_chooser.addOption("Test Auto", m_testAuto);
-        
+    m_chooser.addOption("One Ball Auto", m_oneBallAuto);
+  
+    SmartDashboard.putData(m_chooser);
+
     Limelight.initialize();
     Limelight.setDriverMode();
 
@@ -82,36 +86,36 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadUp)
-    // .whileActiveContinuous(new InstantCommand(m_climberSubsystem::fixedClimberForward, m_climberSubsystem));
-    
-    // new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadDown)
-    // .whileActiveContinuous(new InstantCommand(m_climberSubsystem::fixedClimberReverse, m_climberSubsystem));
-
-    // new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadLeft)
-    // .whileActiveContinuous(new InstantCommand(m_climberSubsystem::extendingClimberForward, m_climberSubsystem));
-    
-    // new XBoxControllerDPad(m_operatorController, XboxControllerEE.DPad.kDPadRight)
-    // .whileActiveContinuous(new InstantCommand(m_climberSubsystem::extendingClimberReverse, m_climberSubsystem));
-
+    //Driver Controller
     new XboxControllerButton(m_driverController, XboxControllerEE.Button.kLeftBumper)
     .whenPressed(new InstantCommand(m_intakeSubsystem::intakeDeploy, m_intakeSubsystem));
     
     new XboxControllerButton(m_driverController, XboxControllerEE.Button.kRightBumper)
     .whenPressed(new InstantCommand(m_intakeSubsystem::intakeRetract, m_intakeSubsystem));
 
-    new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kA)
-    .whenHeld(new ShooterCommand(ShooterConstants.lowerHubVelocity, m_shooterSubystem));
-    
+    new XboxControllerButton(m_driverController, XboxControllerEE.Button.kBack)
+    .whenHeld(new InstantCommand(m_driveSubsystem::zeroGyroscope, m_driveSubsystem));
 
     new XboxControllerButton(m_driverController, XboxControllerEE.Button.kA)
     .whenHeld(new ToggleIntake(m_intakeSubsystem));
 
-    new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kB)
-    .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.lowerHubVelocity));
 
-    // new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kBack)
-    // .whenHeld(new AutoClimber(m_climberSubsystem));
+    //Operator controller    
+    new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kA)
+    .whenHeld(new ShootLowerHub(m_shooterSubystem, m_towerSubsystem));
+
+    new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kB)
+    .whenHeld(new ShootUpperHub(m_shooterSubystem, m_towerSubsystem));
+
+    new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kX)
+    .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.upperHubVelocity));
+
+
+    new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kLeftBumper)
+    .whileActiveContinuous(new InstantCommand(m_shooterSubystem::deployHood, m_shooterSubystem));
+    
+    new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kRightBumper)
+    .whileActiveContinuous(new InstantCommand(m_shooterSubystem::retractHood, m_shooterSubystem));
   }
 
   /**

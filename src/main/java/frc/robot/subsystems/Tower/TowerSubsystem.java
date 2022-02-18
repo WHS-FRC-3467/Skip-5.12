@@ -24,15 +24,13 @@ public class TowerSubsystem extends SubsystemBase {
 
   public boolean doesBallExist;
   public boolean m_entryState, m_middleState, m_upperState, m_middleTopState, m_entryTopState, m_entryMiddleState, m_noBallState;
+  public boolean entryBall, midBall, upperBall;
 
   @Override
   public void periodic() {
-    // sendToTop();
     SmartDashboard.putBoolean("Entry Beam Break", m_entryBeamBreak.get());
     SmartDashboard.putBoolean("Mid Beam Break", m_midBeamBreak.get());
     SmartDashboard.putBoolean("Upper Beam Break", m_upperBeamBreak.get());
-    
-    // doesBallExist = m_entryBeamBreak.get() || m_midBeamBreak.get() || m_upperBeamBreak.get();
   }
 
   public void driveLowerTower(double speed){

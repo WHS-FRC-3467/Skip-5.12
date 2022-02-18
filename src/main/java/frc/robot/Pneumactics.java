@@ -15,8 +15,6 @@ public class Pneumactics extends SubsystemBase{
   Compressor phCompressor = new Compressor(1, PneumaticsModuleType.REVPH);
   PneumaticHub m_hub = new PneumaticHub();
 
-  
-
   boolean enabled = phCompressor.enabled();
   boolean pressureSwitch = phCompressor.getPressureSwitchValue();
   double current = phCompressor.getPressure();
@@ -29,7 +27,7 @@ public class Pneumactics extends SubsystemBase{
   public void periodic() {
     phCompressor.enableAnalog(115, 120);
     SmartDashboard.putNumber("Pressure", phCompressor.getPressure());
-    SmartDashboard.putBoolean("Compressor On", pressureSwitch);
+    SmartDashboard.putBoolean("Compressor On?", enabled);
     // This method will be called once per scheduler run
   }
 }
