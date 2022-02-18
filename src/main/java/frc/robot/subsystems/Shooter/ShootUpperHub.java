@@ -26,7 +26,7 @@ public class ShootUpperHub extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.shootLowerHub();
+    m_shooter.shootUpperHub();
     
     if (m_shooter.isWheelAtSpeed()) {
       m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);

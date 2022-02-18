@@ -5,6 +5,7 @@ package frc.robot.subsystems.Climber;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
@@ -35,6 +36,9 @@ public class ClimberSubsystem extends SubsystemBase {
     
     m_climberMotorRight.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
     m_climberMotorLeft.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
+
+    m_climberMotorLeft.setNeutralMode(NeutralMode.Brake);
+    m_climberMotorRight.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
