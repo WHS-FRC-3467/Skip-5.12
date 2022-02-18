@@ -15,7 +15,7 @@ import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.PHConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  DoubleSolenoid m_intakePiston = new DoubleSolenoid(9, PneumaticsModuleType.REVPH, PHConstants.IntakeForwardSoleniod, PHConstants.IntakeReverseSoleniod);
+  DoubleSolenoid m_intakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, PHConstants.IntakeForwardSoleniod, PHConstants.IntakeReverseSoleniod);
   TalonFX m_intakeMotor = new TalonFX(CanConstants.IntakeMotor);
   //true
   public boolean intakeRetracted;

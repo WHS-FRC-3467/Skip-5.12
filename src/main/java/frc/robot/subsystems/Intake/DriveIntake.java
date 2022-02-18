@@ -33,9 +33,11 @@ public class DriveIntake extends CommandBase {
        m_intake.driveIntake(m_forwardspeed.getAsDouble());
     }
     if(m_backspeed.getAsDouble() > 0.2){
-      m_intake.driveIntake(m_backspeed.getAsDouble());
-    
+      m_intake.driveIntake(-m_backspeed.getAsDouble());
     }
+   if(m_backspeed.getAsDouble() < 0.2 && m_forwardspeed.getAsDouble() < 0.2){
+      m_intake.driveIntake(0.0);
+   }
   }
 
   // Called once the command ends or is interrupted.

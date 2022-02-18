@@ -7,11 +7,10 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 // // the WPILib BSD license file in the root directory of this project.
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
-import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -22,7 +21,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
 
@@ -80,8 +78,7 @@ public class DriveSubsystem extends SubsystemBase {
         // The important thing about how you configure your gyroscope is that rotating
         // the robot counter-clockwise should
         // cause the angle reading to increase until it wraps back over to zero.
-        private final TalonSRX m_pigeonTalon = new TalonSRX(CanConstants.DRIVETRAIN_PIGEON_ID);
-        private final PigeonIMU m_pigeon = new PigeonIMU(m_pigeonTalon);
+        private final Pigeon2 m_pigeon = new Pigeon2(CanConstants.DRIVETRAIN_PIGEON_ID);
 
         // These are our modules. We initialize them in the constructor.
         private final SwerveModule m_frontLeftModule;
@@ -94,12 +91,11 @@ public class DriveSubsystem extends SubsystemBase {
         public DriveSubsystem() {
                 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
-                m_frontLeftModule = Mk3SwerveModuleHelper.createFalcon500(
+                m_frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                         // This parameter is optional, but will allow you to see the current state of
                         // the module on the dashboard.
                         tab.getLayout("Front Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(0,0),
-                        // This can either be STANDARD or FAST depending on your gear configuration
-                        Mk3SwerveModuleHelper.GearRatio.FAST,
+                        Mk4SwerveModuleHelper.GearRatio.L2,
                         // This is the ID of the drive motor
                         CanConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
                         // This is the ID of the steer motor
@@ -112,27 +108,27 @@ public class DriveSubsystem extends SubsystemBase {
                 );
 
                 // We will do the same for the other modules
-                m_frontRightModule = Mk3SwerveModuleHelper.createFalcon500(
+                m_frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Front Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(2,0),
-                        Mk3SwerveModuleHelper.GearRatio.FAST, 
+                        Mk4SwerveModuleHelper.GearRatio.L2, 
                         CanConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
                         CanConstants.FRONT_RIGHT_MODULE_STEER_MOTOR,
                         CanConstants.FRONT_RIGHT_MODULE_STEER_ENCODER,
                         DriveConstants.FRONT_RIGHT_MODULE_STEER_OFFSET
                 );
 
-                m_backLeftModule = Mk3SwerveModuleHelper.createFalcon500(
+                m_backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(4,0),
-                        Mk3SwerveModuleHelper.GearRatio.FAST, 
+                        Mk4SwerveModuleHelper.GearRatio.L2, 
                         CanConstants.BACK_LEFT_MODULE_DRIVE_MOTOR,
                         CanConstants.BACK_LEFT_MODULE_STEER_MOTOR,
                         CanConstants.BACK_LEFT_MODULE_STEER_ENCODER,
                         DriveConstants.BACK_LEFT_MODULE_STEER_OFFSET
                 );
 
-                m_backRightModule = Mk3SwerveModuleHelper.createFalcon500(
+                m_backRightModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(6,0),
-                        Mk3SwerveModuleHelper.GearRatio.FAST, 
+                        Mk4SwerveModuleHelper.GearRatio.L2, 
                         CanConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
                         CanConstants.BACK_RIGHT_MODULE_STEER_MOTOR,
                         CanConstants.BACK_RIGHT_MODULE_STEER_ENCODER,
@@ -172,19 +168,14 @@ public class DriveSubsystem extends SubsystemBase {
                                 states[2].angle.getRadians());
                 m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[3].angle.getRadians());
-
-                SmartDashboard.putNumber("Front Left Encoder", m_frontLeftDriveMotor.getSelectedSensorPosition());                
-                SmartDashboard.putNumber("Front Right Encoder", m_frontRightDriveMotor.getSelectedSensorPosition());
-                SmartDashboard.putNumber("Back Left Encoder", m_backLeftDriveMotor.getSelectedSensorPosition());
-                SmartDashboard.putNumber("Back Right Encoder", m_backRightDriveMotor.getSelectedSensorPosition());
         }
 
         public void zeroGyroscope() {
-                m_pigeon.setFusedHeading(0.0);
+                m_pigeon.configMountPoseYaw(0.0);
         }
 
         public Rotation2d getGyroscopeRotation() {
-                return Rotation2d.fromDegrees(m_pigeon.getFusedHeading());
+                return Rotation2d.fromDegrees(m_pigeon.getYaw());
         }
 
         public void drive(ChassisSpeeds chassisSpeeds) {
