@@ -5,6 +5,7 @@ package frc.robot.subsystems.Climber;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
@@ -27,6 +28,8 @@ public class ClimberSubsystem extends SubsystemBase {
  
   /** Creates a new IntakeSubsystem. */
   public ClimberSubsystem() {
+    m_climberMotorLeft.setNeutralMode(NeutralMode.Brake);
+    m_climberMotorRight.setNeutralMode(NeutralMode.Brake);
     m_climberMotorLeft.setInverted(true);
     m_climberMotorLeft.follow(m_climberMotorRight);
 

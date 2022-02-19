@@ -73,9 +73,9 @@ public final class Constants {
     public static final double DRIVETRAIN_WHEELBASE_METERS = 0.5334; 
 
     public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(69.169);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(105.117);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(111.181);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(130.429); 
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(105.117 + 190.0);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(111.181); 
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(130.429); // add 180 for swerve module replacement
 
     public static final double kP = 0.01;
     public static final double kI = 0.0;
@@ -88,8 +88,8 @@ public final class Constants {
 
     public static final class ShooterConstants {
 
-        public static final double lowerHubVelocity = 2000.0;
-	    public static final double upperHubVelocity = 3000.0;
+        public static final double lowerHubVelocity = 1550.0;
+	    public static final double upperHubVelocity = 2600.0;
 
         public static final int kShooterTolerance = 100;
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
