@@ -72,10 +72,10 @@ public final class Constants {
     //Should be measured from center to center.
     public static final double DRIVETRAIN_WHEELBASE_METERS = 0.5334; 
 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(69.169);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(105.117);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(111.181);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(130.429); 
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(250.0);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(116.0);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(293.0); 
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(312.0);
 
     public static final double kP = 0.01;
     public static final double kI = 0.0;
@@ -83,13 +83,13 @@ public final class Constants {
     public static final double driveTollerance = 100;
 
     //speed on -1 to 1 scale
-    public static final double SimpleAutoVelocity = 0.25;
+    public static final double SimpleAutoVelocity = 0.15;
     }
 
     public static final class ShooterConstants {
 
-        public static final double lowerHubVelocity = 2000.0;
-	    public static final double upperHubVelocity = 3000.0;
+        public static final double lowerHubVelocity = 1400.0;
+	    public static final double upperHubVelocity = 2900.0;
 
         public static final int kShooterTolerance = 100;
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
@@ -98,12 +98,12 @@ public final class Constants {
         public static final double lowerKP = 0.01;
         public static final double lowerKI = 0.0;
         public static final double lowerKD = 1.2;
-        public static final double lowerKF = 0.0503;
+        public static final double lowerKF = 0.053;
 
         public static final double upperKP = 0.01; 
         public static final double upperKI = 0.0;
-        public static final double upperKD = 1.15;
-        public static final double upperKF = 0.0484;
+        public static final double upperKD = 1.5;
+        public static final double upperKF = 0.04835;
 	}
 
     public static final class TowerConstants {

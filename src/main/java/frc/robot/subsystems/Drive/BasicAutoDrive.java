@@ -51,7 +51,7 @@ public class BasicAutoDrive extends CommandBase {
       }
     }
     else if (m_forward == false){
-      if(currentEncoder >= m_finalPosition){
+      if(Math.abs(currentEncoder) <= m_finalPosition){
         m_drive.setState(-DriveConstants.SimpleAutoVelocity, m_angle);
         m_end=false;
       }
@@ -69,7 +69,7 @@ public class BasicAutoDrive extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     //When finished the drivebase is set to zero
-    m_drive.setState(0.0, m_angle);
+    m_drive.setState(0.0, 0.0);
   }
 
   @Override

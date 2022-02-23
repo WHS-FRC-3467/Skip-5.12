@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
 
@@ -143,10 +144,10 @@ public class DriveSubsystem extends SubsystemBase {
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
-                m_frontLeftDriveMotor.setInverted(false);
-                m_backLeftDriveMotor.setInverted(false);
-                m_frontRightDriveMotor.setInverted(false);
-                m_backRightDriveMotor.setInverted(false);
+                m_frontLeftDriveMotor.setInverted(true);
+                m_backLeftDriveMotor.setInverted(true);
+                m_frontRightDriveMotor.setInverted(true);
+                m_backRightDriveMotor.setInverted(true);
 
                 m_frontLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
                 m_backLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
@@ -168,6 +169,11 @@ public class DriveSubsystem extends SubsystemBase {
                                 states[2].angle.getRadians());
                 m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[3].angle.getRadians());
+                SmartDashboard.putNumber("front right", m_frontRightDriveMotor.getSelectedSensorPosition());
+                SmartDashboard.putNumber("front left", m_frontLeftDriveMotor.getSelectedSensorPosition());
+                SmartDashboard.putNumber("Back left", m_backLeftDriveMotor.getSelectedSensorPosition());
+                SmartDashboard.putNumber("Back right", m_backLeftDriveMotor.getSelectedSensorPosition());
+
         }
 
         public void zeroGyroscope() {
@@ -189,7 +195,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
         public double meterToEncoderTicks(double meters){
-                return meters * (2048/(SdsModuleConfigurations.MK3_FAST.getDriveReduction() * SdsModuleConfigurations.MK3_FAST.getWheelDiameter() * Math.PI));
+                return meters * (2048/(SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI));
         }
 
         public void setState(double speed, double angle){

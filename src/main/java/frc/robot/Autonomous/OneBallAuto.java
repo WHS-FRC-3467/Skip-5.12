@@ -5,10 +5,9 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Drive.BasicAutoDrive;
 import frc.robot.subsystems.Drive.DriveSubsystem;
-import frc.robot.subsystems.Shooter.AutoShoot;
+import frc.robot.subsystems.Shooter.ShootUpperHub;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.TowerSubsystem;
 
@@ -29,9 +28,9 @@ public class OneBallAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       //shooting command
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.lowerHubVelocity).withTimeout(5.0),
+      new ShootUpperHub(m_shooter, m_tower).withTimeout(5.0)
       //drive forward 3.5 meters
-      new BasicAutoDrive(m_drive, 0.0, 3.5, true)
+      // new BasicAutoDrive(m_drive, 0.0, 0.5, true)
     );
   }
 }

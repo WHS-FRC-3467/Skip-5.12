@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Autonomous.OneBallAuto;
+import frc.robot.Autonomous.OneShot;
 import frc.robot.Autonomous.TestAuto;
 import frc.robot.Constants.ShooterConstants;
 //import frc.robot.Control.XBoxControllerDPad;
@@ -47,7 +48,7 @@ public class RobotContainer {
 
   private final TestAuto m_testAuto = new TestAuto(m_driveSubsystem);
   private final OneBallAuto m_oneBallAuto = new OneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem);
-
+  private final OneShot m_oneShot = new OneShot(m_shooterSubystem, m_towerSubsystem);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -55,7 +56,8 @@ public class RobotContainer {
     new Pneumactics();
     m_chooser.addOption("Test Auto", m_testAuto);
     m_chooser.addOption("One Ball Auto", m_oneBallAuto);
-  
+    m_chooser.addOption("No drive One ball", m_oneShot);
+
     SmartDashboard.putData(m_chooser);
 
     Limelight.initialize();
@@ -64,8 +66,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
-                                      () -> (m_driverController.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
                                       () -> -(m_driverController.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                                      () -> -(m_driverController.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
                                       () -> (m_driverController.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     
     m_intakeSubsystem.setDefaultCommand(new DriveIntake(m_intakeSubsystem,
@@ -125,6 +127,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_testAuto;
+    return m_chooser.getSelected();
   }
 }
