@@ -49,53 +49,60 @@ public class TowerSubsystem extends SubsystemBase {
       //Ball entry
       driveWholeTower(TowerConstants.standardTowerSpeed);
     }
-    if(m_entryBeamBreak.get()==true && m_midBeamBreak.get()== false && m_upperBeamBreak.get() == true){
+    else if(m_entryBeamBreak.get()==true && m_midBeamBreak.get()== false && m_upperBeamBreak.get() == true){
       //Ball middle
       driveWholeTower(TowerConstants.standardTowerSpeed);
     }
-    if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == false){
+    else if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == false){
       //ball upper
       driveWholeTower(0.0);
     }
-    if(m_entryBeamBreak.get()==true && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == false){
+    else if(m_entryBeamBreak.get()==true && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == false){
       //ball mid and upper
       driveWholeTower(0.0);
     }
-    if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == true && m_upperBeamBreak.get() ==false){
+    else if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == false){
       //ball entry and upper
       driveLowerTower(TowerConstants.standardTowerSpeed);
     }
-    if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == true){
+    else if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == true){
       //ball entry and middle
       driveWholeTower(TowerConstants.standardTowerSpeed);
     }
-    if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){
+    else if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){
       //no balls
       driveWholeTower(0.0);
     }
   }
 
   public int ballCount(){
-    if (doesBallExist == false) {
+    if(m_entryBeamBreak.get()==false && m_midBeamBreak.get()==true && m_upperBeamBreak.get()==true){
+      //Ball entry
+      return 1;
+    }
+    else if(m_entryBeamBreak.get()==true && m_midBeamBreak.get()== false && m_upperBeamBreak.get() == true){
+      //Ball middle
+      return 1;
+    }
+    else if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == false){
+      //ball upper
+      return 1;
+    }
+    else if(m_entryBeamBreak.get()==true && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == false){
+      //ball mid and upper
+      return 2;
+    }
+    else if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == true && m_upperBeamBreak.get() ==false){
+      //ball entry and upper
+      return 2;
+    }
+    else if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == true){
+      //ball entry and middle
+      return 2;
+    }
+    else if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){
+      //no balls
       return 0;
-    }
-    else if ((m_upperBeamBreak.get()) && (m_midBeamBreak.get())){
-      return 2;
-    }
-    else if(m_midBeamBreak.get() && m_entryBeamBreak.get()){
-      return 2;
-    }
-    else if(m_upperBeamBreak.get() && m_entryBeamBreak.get()){
-      return 2;
-    }
-    else if (m_upperBeamBreak.get()){
-      return 1;
-    }
-    else if (m_midBeamBreak.get()){
-      return 1;
-    }
-    else if (m_entryBeamBreak.get()){
-      return 1;
     }
     else{
       return 0;

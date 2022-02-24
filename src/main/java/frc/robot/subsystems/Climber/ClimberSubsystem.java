@@ -38,6 +38,9 @@ public class ClimberSubsystem extends SubsystemBase {
     
     m_climberMotorRight.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
     m_climberMotorLeft.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
+
+    m_climberMotorLeft.setNeutralMode(NeutralMode.Brake);
+    m_climberMotorRight.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override

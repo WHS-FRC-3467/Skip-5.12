@@ -5,17 +5,19 @@
 package frc.robot.subsystems.Shooter;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import edu.wpi.first.wpilibj.Servo;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Gains;
+import frc.robot.Constants.PHConstants;
 import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
     /** Creates a new ShooterSubsystem. */
-    
-    Servo m_hoodActuator = new Servo(Constants.PWMConstants.HoodAcuator);
+    DoubleSolenoid m_hood = new DoubleSolenoid(PneumaticsModuleType.REVPH, PHConstants.HoodForwardSolenoid, PHConstants.HoodReverseSolenoid);
     Gains m_speedGains;
     FalconVelocity m_speedControl;
     public ShooterSubsystem m_shooter;
@@ -34,6 +36,7 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Current Velocity", 0);
         SmartDashboard.putNumber("Current Output Percent", 0);
         SmartDashboard.putNumber("Velocity Error", 0);
+        
     }
 
     /*
@@ -104,7 +107,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
         // Update the target velocity and get back the current velocity
         int currentVelocity = m_speedControl.runVelocityPIDF(ShooterConstants.upperHubVelocity);
-
+    
         // Show the Current Velocity, Error, and Current Output Percent on the SDB
         SmartDashboard.putNumber("Current Velocity", currentVelocity);
         SmartDashboard.putNumber("Error", m_speedControl.getError());
@@ -120,16 +123,12 @@ public class ShooterSubsystem extends SubsystemBase {
     {
         m_speedControl.m_motorLeft.set(ControlMode.PercentOutput, 0.0);
     }
-
-    public void setHoodPosition(double pos) {
-      m_hoodActuator.setPosition(pos);
-    }
     public void retractHood(){
-        setHoodPosition(0);
+        m_hood.set(Value.kReverse);
     }
     public void deployHood(){
-        //one of these is right
-        //setHoodPosition(1);
-        setHoodPosition(180);
+        m_hood.set(Value.kForward);
+
     }
+
 }
