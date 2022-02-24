@@ -53,6 +53,8 @@ public final class Constants {
         public static final int FixedClimberReverseSoleniod = 3;
         public static final int ExtendingClimberForwardSoleniod = 4;
         public static final int ExtendingClimberReverseSoleniod = 5;
+        public static final int HoodForwardSolenoid = 6;
+        public static final int HoodReverseSolenoid = 7;
 
     }
 
@@ -89,7 +91,7 @@ public final class Constants {
     public static final class ShooterConstants {
 
         public static final double lowerHubVelocity = 1400.0;
-	    public static final double upperHubVelocity = 2900.0;
+	    public static final double upperHubVelocity = 3190.0;
 
         public static final int kShooterTolerance = 100;
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
@@ -102,8 +104,8 @@ public final class Constants {
 
         public static final double upperKP = 0.01; 
         public static final double upperKI = 0.0;
-        public static final double upperKD = 1.5;
-        public static final double upperKF = 0.04835;
+        public static final double upperKD = 1.7;
+        public static final double upperKF = 0.048;
 	}
 
     public static final class TowerConstants {

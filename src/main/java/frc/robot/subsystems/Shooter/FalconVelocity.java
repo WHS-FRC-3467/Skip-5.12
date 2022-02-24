@@ -114,11 +114,13 @@ public class FalconVelocity extends SubsystemBase
  
      public void stop()
      {
-         m_motorLeft.set(ControlMode.PercentOutput, 0.0);
+        m_motorLeft.set(ControlMode.PercentOutput, 0.0);
      }
 
      public double getEncoderAverage(){
         return m_motorLeft.getSelectedSensorVelocity();
      }
+
+     
   
 }

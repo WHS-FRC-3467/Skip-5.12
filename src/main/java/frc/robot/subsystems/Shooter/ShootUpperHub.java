@@ -16,7 +16,6 @@ public class ShootUpperHub extends CommandBase {
     m_tower = tower;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooter);
-    addRequirements(m_tower);
   }
 
   // Called when the command is initially scheduled.
