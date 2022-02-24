@@ -28,6 +28,8 @@ public class ClimberSubsystem extends SubsystemBase {
  
   /** Creates a new IntakeSubsystem. */
   public ClimberSubsystem() {
+    m_climberMotorLeft.setNeutralMode(NeutralMode.Brake);
+    m_climberMotorRight.setNeutralMode(NeutralMode.Brake);
     m_climberMotorLeft.setInverted(true);
     m_climberMotorLeft.follow(m_climberMotorRight);
 
