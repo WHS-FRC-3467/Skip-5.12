@@ -101,6 +101,7 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Error", m_speedControl.getError());
         SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
     }
+    
     public void shootUpperHub(){    
         // Update gains on the controller
         m_speedControl.updateGains(ShooterConstants.upperKP, ShooterConstants.upperKI, ShooterConstants.upperKD, ShooterConstants.upperKF);

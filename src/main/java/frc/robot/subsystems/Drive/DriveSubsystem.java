@@ -47,10 +47,7 @@ public class DriveSubsystem extends SubsystemBase {
         // By default this value is setup for a Mk3 standard module using Falcon500s to
         // drive.
         // The maximum velocity of the robot in meters per second.
-        public static final double MAX_VELOCITY_METERS_PER_SECOND = 0.01;
-        // 6380.0 / 60.0 *
-        // SdsModuleConfigurations.MK3_FAST.getDriveReduction() *
-        // SdsModuleConfigurations.MK3_FAST.getWheelDiameter() * Math.PI;
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
 
         // The maximum angular velocity of the robot in radians per second.
         // This is a measure of how fast the robot can rotate in place.
@@ -80,7 +77,6 @@ public class DriveSubsystem extends SubsystemBase {
         // the robot counter-clockwise should
         // cause the angle reading to increase until it wraps back over to zero.
         private final Pigeon2 m_pigeon = new Pigeon2(CanConstants.DRIVETRAIN_PIGEON_ID);
-
         // These are our modules. We initialize them in the constructor.
         private final SwerveModule m_frontLeftModule;
         private final SwerveModule m_frontRightModule;
@@ -169,11 +165,8 @@ public class DriveSubsystem extends SubsystemBase {
                                 states[2].angle.getRadians());
                 m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[3].angle.getRadians());
-                SmartDashboard.putNumber("front right", m_frontRightDriveMotor.getSelectedSensorPosition());
-                SmartDashboard.putNumber("front left", m_frontLeftDriveMotor.getSelectedSensorPosition());
-                SmartDashboard.putNumber("Back left", m_backLeftDriveMotor.getSelectedSensorPosition());
-                SmartDashboard.putNumber("Back right", m_backLeftDriveMotor.getSelectedSensorPosition());
 
+                SmartDashboard.putNumber("front right", m_frontRightDriveMotor.getSelectedSensorPosition());
         }
 
         public void zeroGyroscope() {
@@ -190,9 +183,8 @@ public class DriveSubsystem extends SubsystemBase {
 
         public double getAverageEncoder(){
                 //returns in 2048/rotation
-                return (m_frontLeftDriveMotor.getSelectedSensorPosition() + m_frontRightDriveMotor.getSelectedSensorPosition() + m_backLeftDriveMotor.getSelectedSensorPosition() + m_backRightDriveMotor.getSelectedSensorPosition())/4;
+                return m_frontLeftDriveMotor.getSelectedSensorPosition();
         }
-
 
         public double meterToEncoderTicks(double meters){
                 return meters * (2048/(SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI));

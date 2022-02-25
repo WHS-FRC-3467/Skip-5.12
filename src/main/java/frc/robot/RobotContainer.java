@@ -98,9 +98,8 @@ public class RobotContainer {
     new XboxControllerButton(m_driverController, XboxControllerEE.Button.kBack)
     .whenHeld(new InstantCommand(m_driveSubsystem::zeroGyroscope, m_driveSubsystem));
 
-    new XboxControllerButton(m_driverController, XboxControllerEE.Button.kA)
-    .whenPressed(new ToggleIntake(m_intakeSubsystem));
-
+    // new XboxControllerButton(m_driverController, XboxControllerEE.Button.kA)
+    // .whenPressed(new ToggleIntake(m_intakeSubsystem));
 
     //Operator controller    
     new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kA)
@@ -112,11 +111,9 @@ public class RobotContainer {
     new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kX)
     .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.upperHubVelocity));
 
-
     new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kLeftBumper)
     .whileActiveContinuous(new InstantCommand(m_shooterSubystem::deployHood, m_shooterSubystem));
     
-
     new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kRightBumper)
     .whileActiveContinuous(new InstantCommand(m_shooterSubystem::retractHood, m_shooterSubystem));
   }

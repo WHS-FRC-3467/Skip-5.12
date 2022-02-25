@@ -35,8 +35,6 @@ public final class Constants {
         public static final int ClimberRight = 18;
         public static final int IntakeMotor = 19;
         public static final int DRIVETRAIN_PIGEON_ID = 20; 
-
-        
     }
 
     public static final class PWMConstants{
@@ -55,7 +53,6 @@ public final class Constants {
         public static final int ExtendingClimberReverseSoleniod = 5;
         public static final int HoodForwardSolenoid = 6;
         public static final int HoodReverseSolenoid = 7;
-
     }
 
     public static final class DIOConstants{
@@ -79,22 +76,17 @@ public final class Constants {
     public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(293.0); 
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(312.0);
 
-    public static final double kP = 0.01;
-    public static final double kI = 0.0;
-    public static final double kD = 0.0008;
-    public static final double driveTollerance = 100;
+    public static final double precisionSpeed = 0.25;
 
     //speed on -1 to 1 scale
     public static final double SimpleAutoVelocity = 0.15;
     }
 
     public static final class ShooterConstants {
-
         public static final double lowerHubVelocity = 1400.0;
-	    public static final double upperHubVelocity = 3190.0;
-        
+	    public static final double upperHubVelocity = 3215.0;
 
-        public static final int kShooterTolerance = 100;
+        public static final int kShooterTolerance = 75;
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
         public static final Gains kGains = new Gains(0.0, 0.0, 0.0, 0.0, 0,  1.00);
             
@@ -105,8 +97,8 @@ public final class Constants {
 
         public static final double upperKP = 0.01; 
         public static final double upperKI = 0.0;
-        public static final double upperKD = 1.7;
-        public static final double upperKF = 0.048;
+        public static final double upperKD = 0.9;
+        public static final double upperKF = 0.0482;
 	}
 
     public static final class TowerConstants {

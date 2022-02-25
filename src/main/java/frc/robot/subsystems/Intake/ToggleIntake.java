@@ -4,14 +4,13 @@
 
 package frc.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ToggleIntake extends InstantCommand {
+public class ToggleIntake extends CommandBase {
   IntakeSubsystem m_intake;
-
   public ToggleIntake(IntakeSubsystem intake) {
     m_intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -22,14 +21,31 @@ public class ToggleIntake extends InstantCommand {
   public void initialize() {
     if(m_intake.intakePosition()){
       m_intake.intakeDeploy();
-      m_intake.driveIntake(1.0);
     }
     else{
       m_intake.intakeRetract();
-      m_intake.driveIntake(0.0);
     }
-
     
   }
-  
+  @Override
+  public void execute() {
+    if(m_intake.intakePosition()){
+      m_intake.driveIntake(0.0);;
+    }
+    else{
+      m_intake.driveIntake(1.0);;
+    }
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    m_intake.driveIntake(0.0);
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
 }
