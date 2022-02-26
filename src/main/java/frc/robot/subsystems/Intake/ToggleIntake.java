@@ -25,11 +25,11 @@ public class ToggleIntake extends CommandBase {
     else{
       m_intake.intakeRetract();
     }
-    
   }
+  
   @Override
   public void execute() {
-    if(m_intake.intakePosition()){
+    if(m_intake.intakePosition()== false){
       m_intake.driveIntake(0.0);;
     }
     else{
