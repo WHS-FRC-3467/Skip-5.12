@@ -19,7 +19,7 @@ public class ToggleIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(m_intake.intakePosition()){
+    if(m_intake.intakePosition()==false){
       m_intake.intakeDeploy();
     }
     else{

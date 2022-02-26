@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 /**
@@ -71,10 +67,10 @@ public final class Constants {
     //Should be measured from center to center.
     public static final double DRIVETRAIN_WHEELBASE_METERS = 0.5334; 
 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(250.0);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(116.0);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(293.0); 
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(312.0);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(69.0);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(294.0);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(110.0); 
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(131.0);
 
     public static final double precisionSpeed = 0.25;
 

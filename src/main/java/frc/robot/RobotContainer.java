@@ -63,8 +63,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
-                                      () -> -(m_driverController.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
                                       () -> -(m_driverController.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                                      () -> (m_driverController.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
                                       () -> (m_driverController.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     
     m_intakeSubsystem.setDefaultCommand(new DriveIntake(m_intakeSubsystem,
@@ -96,7 +96,7 @@ public class RobotContainer {
     .whenHeld(new InstantCommand(m_driveSubsystem::zeroGyroscope, m_driveSubsystem));
 
     new XboxControllerButton(m_driverController, XboxControllerEE.Button.kA)
-    .whenPressed(new ToggleIntake(m_intakeSubsystem));
+    .whenHeld(new ToggleIntake(m_intakeSubsystem));
 
     //Operator controller    
     new XboxControllerButton(m_operatorController, XboxControllerEE.Button.kA)
