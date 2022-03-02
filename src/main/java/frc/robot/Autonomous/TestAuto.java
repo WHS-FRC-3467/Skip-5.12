@@ -5,7 +5,6 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.Drive.BasicAutoDrive;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

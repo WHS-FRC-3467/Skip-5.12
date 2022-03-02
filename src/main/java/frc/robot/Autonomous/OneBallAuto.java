@@ -28,7 +28,7 @@ public class OneBallAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ShootUpperHub(m_shooter, m_tower).withTimeout(3),
-      new BasicAutoDrive(drive, 0, 3)
+      new BasicAutoDrive(drive, 0, 3, true, false)
     );
   }
 }
