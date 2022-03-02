@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.Shooter;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.TowerConstants;
 import frc.robot.subsystems.Tower.TowerSubsystem;
@@ -11,6 +12,8 @@ import frc.robot.subsystems.Tower.TowerSubsystem;
 public class ShootUpperHub extends CommandBase {
   ShooterSubsystem m_shooter;
   TowerSubsystem m_tower;
+  double m_time, m_startTime;
+
   public ShootUpperHub(ShooterSubsystem shooter, TowerSubsystem tower) {
     m_shooter = shooter;
     m_tower = tower;
@@ -20,14 +23,21 @@ public class ShootUpperHub extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_startTime = Timer.getFPGATimestamp();
+    m_shooter.retractHood();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.shootUpperHub();
-    
+    m_time = Timer.getFPGATimestamp() - m_startTime;
+    m_shooter.shootUpperHub();  
+    //m_shooter.isWheelAtSpeed() 
     if (m_shooter.isWheelAtSpeed()) {
+      m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
+    }
+    else if(m_time > 1.0){
       m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
     }
   }

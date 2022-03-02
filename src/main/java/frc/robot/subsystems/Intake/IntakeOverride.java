@@ -1,37 +1,42 @@
-package frc.robot.subsystems.Climber;
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-import java.util.function.DoubleSupplier;
+package frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ExtendClimber extends CommandBase {
-  /** Creates a new ExtendClimber. */
-  ClimberSubsystem m_climber;
-  DoubleSupplier m_speed;
-  public ExtendClimber(ClimberSubsystem climber, DoubleSupplier speed) {
-    m_speed = speed;
-    m_climber = climber;
-    addRequirements(m_climber);
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class IntakeOverride extends CommandBase {
+  IntakeSubsystem m_intake;
+  boolean m_deployed;
+  public IntakeOverride(IntakeSubsystem intake, boolean deployed) {
+    m_intake = intake;
+    m_deployed = deployed;
+    addRequirements(m_intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
+  public void initialize() {
+    
+  }
   @Override
   public void execute() {
-    m_climber.driveClimber(m_speed.getAsDouble());
+    if(m_deployed == true){
+      m_intake.intakeDeploy();
+    }
+    else if(m_deployed == false){
+      m_intake.intakeRetract();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climber.driveClimber(0.0);
   }
 
   // Returns true when the command should end.

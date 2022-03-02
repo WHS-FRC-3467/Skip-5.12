@@ -5,27 +5,35 @@
 package frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Tower.TowerSubsystem;
 
 public class AutoDriveIntake extends CommandBase {
-  /** Creates a new AutoDrive. */
+  /** Creates a new AutoDriveIntake. */
   IntakeSubsystem m_intake;
-  public AutoDriveIntake(IntakeSubsystem intake) {
+  TowerSubsystem m_tower;
+  double m_speed;
+  public AutoDriveIntake(IntakeSubsystem intake, TowerSubsystem tower, double speed) {
     m_intake = intake;
-
-    // Use addRequirements() here to declare subsystem dependencies.
+    m_speed = speed;
+    m_tower = tower;
+    addRequirements(m_intake, m_tower);
   }
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_intake.driveIntake(m_speed);
+    m_tower.driveLowerTower(m_speed);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_intake.driveIntake(0.0);
+  }
 
   // Returns true when the command should end.
   @Override

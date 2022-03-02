@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
+import frc.robot.Constants.RobotConstants;
 
 import static frc.robot.Constants.DriveConstants;
 
@@ -47,29 +48,29 @@ public class DriveSubsystem extends SubsystemBase {
         // By default this value is setup for a Mk3 standard module using Falcon500s to
         // drive.
         // The maximum velocity of the robot in meters per second.
-        public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = 5800.0 / 60.0 * SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
 
         // The maximum angular velocity of the robot in radians per second.
         // This is a measure of how fast the robot can rotate in place.
         // Here we calculate the theoretical maximum angular velocity. You can also
         // replace this with a measured amount.
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND
-                        / Math.hypot(DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-                                        DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
+                        / Math.hypot(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+                                RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
         private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
                         // Front left
-                        new Translation2d(DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-                                        DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
+                        new Translation2d(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+                                RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
                         // Front right
-                        new Translation2d(DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-                                        -DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
+                        new Translation2d(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+                                        -RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
                         // Back left
-                        new Translation2d(-DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-                                        DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
+                        new Translation2d(-RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+                                        RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
                         // Back right
-                        new Translation2d(-DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-                                        -DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0));
+                        new Translation2d(-RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+                                        -RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
         // By default we use a Pigeon for our gyroscope. But if you use another
         // gyroscope, like a NavX, you can change this.
@@ -136,14 +137,11 @@ public class DriveSubsystem extends SubsystemBase {
                 m_backLeftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
                 m_frontRightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
                 m_backRightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
-                m_frontLeftDriveMotor.setInverted(true);
-                m_backLeftDriveMotor.setInverted(true);
-                m_frontRightDriveMotor.setInverted(true);
-                m_backRightDriveMotor.setInverted(true);
 
                 m_frontLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
                 m_backLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
@@ -186,8 +184,17 @@ public class DriveSubsystem extends SubsystemBase {
                 return m_frontLeftDriveMotor.getSelectedSensorPosition();
         }
 
+        public void resetDriveEncoders(){
+                m_backLeftDriveMotor.setSelectedSensorPosition(0.0);
+                m_frontLeftDriveMotor.setSelectedSensorPosition(0.0);
+                m_backRightDriveMotor.setSelectedSensorPosition(0.0);
+                m_frontRightDriveMotor.setSelectedSensorPosition(0.0);
+        }
         public double meterToEncoderTicks(double meters){
                 return meters * (2048/(SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI));
+        }
+        public double encoderTicksToMeter(double encoderTicks){
+                return encoderTicks/  (2048/(SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI));
         }
 
         public void setState(double speed, double angle){

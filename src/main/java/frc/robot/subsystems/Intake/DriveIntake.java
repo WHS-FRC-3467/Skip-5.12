@@ -31,12 +31,15 @@ public class DriveIntake extends CommandBase {
   public void execute() {
     if(m_forwardspeed.getAsDouble() > 0.2){
        m_intake.driveIntake(m_forwardspeed.getAsDouble());
+       m_intake.intakeDeploy();
     }
     if(m_backspeed.getAsDouble() > 0.2){
       m_intake.driveIntake(-m_backspeed.getAsDouble());
+      m_intake.intakeDeploy();
     }
    if(m_backspeed.getAsDouble() < 0.2 && m_forwardspeed.getAsDouble() < 0.2){
       m_intake.driveIntake(0.0);
+      m_intake.intakeRetract();
    }
   }
 

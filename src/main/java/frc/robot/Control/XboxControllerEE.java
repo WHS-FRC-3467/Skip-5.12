@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.GenericHID;
  * This class handles Xbox input that comes from the Driver Station. Each time a value is requested the most recent value is returned. There is a single class
  * instance for each controller and the mapping of ports to hardware buttons depends on the code in the Driver Station.
  */
-public class XboxControllerEE extends XboxController  
+public class XBoxControllerEE extends XboxController  
 {
 
     /**
@@ -44,7 +44,7 @@ public class XboxControllerEE extends XboxController
      *
      * @param port The port on the Driver Station that the joystick is plugged into.
      */
-    public XboxControllerEE(final int port)
+    public XBoxControllerEE(final int port)
     {
         super(port);
     }

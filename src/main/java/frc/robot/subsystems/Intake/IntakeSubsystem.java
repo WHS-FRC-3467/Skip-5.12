@@ -15,7 +15,7 @@ import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.PHConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  DoubleSolenoid m_intakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, PHConstants.IntakeForwardSoleniod, PHConstants.IntakeReverseSoleniod);
+  DoubleSolenoid m_intakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, PHConstants.IntakeForwardSolenoid, PHConstants.IntakeReverseSolenoid);
   TalonFX m_intakeMotor = new TalonFX(CanConstants.IntakeMotor);
 
   public boolean intakeRetracted = true;
@@ -27,27 +27,28 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  public void driveIntake(double speed){
-   m_intakeMotor.set(ControlMode.PercentOutput, speed);
-  }
-  public void intakeDeploy(){
-    m_intakePiston.set(Value.kForward);
-  }
-  public void intakeRetract(){
-   m_intakePiston.set(Value.kReverse);
-  }
-  public Value intakeValue(){
-    return m_intakePiston.get();
-  }
-  public boolean intakePosition(){
+public void driveIntake(double speed){
+  m_intakeMotor.set(ControlMode.PercentOutput, speed);
+}
+public void intakeDeploy(){
+  m_intakePiston.set(Value.kForward);
+}
+public void intakeRetract(){
+  m_intakePiston.set(Value.kReverse);
+}
+public Value intakeValue(){
+  return m_intakePiston.get();
+}
+public boolean intakePosition(){
   //true = retacted
-    if(intakeValue() == Value.kReverse){
-      return true;
-    }
-    else{
-      return false;
-    }
+  if(intakeValue() == Value.kReverse){
+    return true;
   }
+  else{
+    return false;
+  }
+}
+
 }
 
 

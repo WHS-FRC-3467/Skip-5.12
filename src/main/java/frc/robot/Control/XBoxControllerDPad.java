@@ -10,12 +10,12 @@ package frc.robot.Control;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
- * One of the four arms of a {@link XboxControllerEE.DPad} that gets its state from an {@link XboxControllerEE}.
+ * One of the four arms of a {@link XBoxControllerEE.DPad} that gets its state from an {@link XBoxControllerEE}.
  */
 public class XBoxControllerDPad extends Trigger
 {
 
-    private final XboxControllerEE m_controller;
+    private final XBoxControllerEE m_controller;
     private final int m_DPadValue;
 
     /**
@@ -24,7 +24,7 @@ public class XBoxControllerDPad extends Trigger
      * @param ctrlr   The XboxController object that has that DPad
      * @param dpadArm The DPad arm
      */
-    public XBoxControllerDPad(XboxControllerEE ctrlr, XboxControllerEE.DPad dpadArm)
+    public XBoxControllerDPad(XBoxControllerEE ctrlr, XBoxControllerEE.DPad dpadArm)
     {
         m_controller = ctrlr;
         m_DPadValue = dpadArm.value;

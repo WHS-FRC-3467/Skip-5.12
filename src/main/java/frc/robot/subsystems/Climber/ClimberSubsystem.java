@@ -1,82 +1,91 @@
-package frc.robot.subsystems.Climber;
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+package frc.robot.subsystems.Climber;
 
-// import edu.wpi.first.math.controller.PIDController;
-// import edu.wpi.first.wpilibj.DoubleSolenoid;
-// import edu.wpi.first.wpilibj.PneumaticsModuleType;
-// import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants.CanConstants;
-// import frc.robot.Constants.ClimberConstants;
-// import frc.robot.Constants.PHConstants;
+import frc.robot.Constants.PHConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
-  TalonFX m_climberMotorLeft = new TalonFX(CanConstants.ClimberLeft);
-  TalonFX m_climberMotorRight = new TalonFX(CanConstants.ClimberRight);
-//   DoubleSolenoid m_fixedClimberPiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, PHConstants.FixedClimberForwardSoleniod, PHConstants.FixedClimberReverseSoleniod);
-//   DoubleSolenoid m_extenedingClimberPiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, PHConstants.ExtendingClimberForwardSoleniod, PHConstants.ExtendingClimberReverseSoleniod);
 
-//   PIDController m_pidController = new PIDController(ClimberConstants.kP, ClimberConstants.kI, ClimberConstants.kD);
- 
-  /** Creates a new IntakeSubsystem. */
+  // Solenoid control
+  DoubleSolenoid m_fixedClimberPiston = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+      PHConstants.FixedClimberVerticalSolenoid, PHConstants.FixedClimberAngledSolenoid);
+  DoubleSolenoid m_extendingClimberPiston = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+      PHConstants.ExtendingClimberAngledSolenoid, PHConstants.ExtendingClimberVerticalSolenoid);
+
+  // Climber Winch Motors
+  TwinTalonFXMech m_talonMech = new TwinTalonFXMech(CanConstants.ClimberLeft, CanConstants.ClimberRight);
+
+  /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
-    m_climberMotorLeft.setNeutralMode(NeutralMode.Brake);
-    m_climberMotorRight.setNeutralMode(NeutralMode.Brake);
-    m_climberMotorLeft.setInverted(true);
-    m_climberMotorLeft.follow(m_climberMotorRight);
 
-    m_climberMotorRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    m_climberMotorLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    
-    m_climberMotorRight.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
-    m_climberMotorLeft.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
+    // Zero the encoders
+    m_talonMech.zeroSensors();
 
-    m_climberMotorLeft.setNeutralMode(NeutralMode.Brake);
-    m_climberMotorRight.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+	public void simulationPeriodic() {
+	}
+
+  /*
+   * Manual Extendable Arm Control
+   */
+  public void adjustArmsManually(double speed) {
+    m_talonMech.drive(speed);
   }
 
-  public void driveClimber(double speed) {
-    m_climberMotorRight.set(ControlMode.PercentOutput, speed);
+  /*
+   * Arm Calibration method
+   */
+  public boolean calibrateArm(boolean left) {
+    return m_talonMech.calibrate(left);
   }
 
-//   public void fixedClimberForward(){
-//   m_fixedClimberPiston.set(Value.kForward);
-//   }
+  /*
+   * Motion Magic Extendable Arm Control
+   */
+  public void adjustArmsMagically(double position) {
+    m_talonMech.runMotionMagic(position);
+  }
 
-//   public void fixedClimberReverse(){
-//   m_fixedClimberPiston.set(Value.kReverse);
-//   }
+  public void adjustArmsMagically() {
+    m_talonMech.runMotionMagic();
+  }
 
-//   public void extendingClimberForward(){
-//     m_extenedingClimberPiston.set(Value.kForward);
-//   }
-  
-//   public void extendingClimberReverse(){
-//     m_extenedingClimberPiston.set(Value.kReverse);
-//   }
+  public boolean areArmsOnTarget() {
+    return m_talonMech.isMechOnTarget();
+  }
 
-//   public double getEncoderAverage(){
-//     return m_climberMotorRight.getSelectedSensorPosition() + m_climberMotorLeft.getSelectedSensorPosition()/2;
-//   }
-  
-//   public void climberUp(){
-//     m_climberMotorRight.set(ControlMode.PercentOutput, m_pidController.calculate(getEncoderAverage(), ClimberConstants.extendedPosition));  
-//   }
+  public void zeroSensors() {
+    m_talonMech.zeroSensors();
+  }
 
-//   public void climberDown(){
-//     m_climberMotorRight.set(ControlMode.PercentOutput, m_pidController.calculate(getEncoderAverage(), 0.0));  
-//   }
+  /*
+   *  Pneumatic Arm Positioning
+   */
+
+  public void fixedClimberVertical() {
+    m_fixedClimberPiston.set(Value.kForward);
+  }
+
+  public void fixedClimberAngled() {
+    m_fixedClimberPiston.set(Value.kReverse);
+  }
+
+  public void extendingClimberAngled() {
+    m_extendingClimberPiston.set(Value.kForward);
+  }
+
+  public void extendingClimberVertical() {
+    m_extendingClimberPiston.set(Value.kReverse);
+  }
+
 }

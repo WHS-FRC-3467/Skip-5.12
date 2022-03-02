@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ThreeBallTerminal extends SequentialCommandGroup {
-  /** Creates a new ThreeBallTerminal. */
-  public ThreeBallTerminal() {
+public class ThreeBallTriangleAuto extends SequentialCommandGroup {
+  /** Creates a new ThreeBallTriangle. */
+  public ThreeBallTriangleAuto() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands();

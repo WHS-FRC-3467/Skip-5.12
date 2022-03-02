@@ -3,7 +3,7 @@ package frc.robot.subsystems.Drive;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Control.XboxControllerEE;
+import frc.robot.Control.XBoxControllerEE;
 
 import java.util.function.DoubleSupplier;
 
@@ -13,8 +13,9 @@ public class SwerveDrive extends CommandBase{
     DoubleSupplier m_translationXSupplier;
     DoubleSupplier m_translationYSupplier;
     DoubleSupplier m_rotationSupplier;
-    private final XboxControllerEE m_driverController = new XboxControllerEE(0);
-
+    Boolean m_precisionMode;
+    private final XBoxControllerEE m_driverController = new XBoxControllerEE(0);
+    
     //Constructor for SwerveDrive
     public SwerveDrive(DriveSubsystem driveSubsystem, DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier rotationSupplier) {
         m_driveSubsystem = driveSubsystem;
@@ -49,7 +50,6 @@ public class SwerveDrive extends CommandBase{
                 )
             ); 
         }
-        
     }
 
     @Override

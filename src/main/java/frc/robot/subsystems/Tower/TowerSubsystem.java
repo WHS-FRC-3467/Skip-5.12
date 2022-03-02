@@ -22,7 +22,6 @@ public class TowerSubsystem extends SubsystemBase {
   DigitalInput m_midBeamBreak = new DigitalInput(DIOConstants.MidTowerBeamBreak);
   DigitalInput m_upperBeamBreak = new DigitalInput(DIOConstants.UpperTowerBeamBreak);
 
-  public boolean doesBallExist;
   public boolean m_entryState, m_middleState, m_upperState, m_middleTopState, m_entryTopState, m_entryMiddleState, m_noBallState;
   public boolean entryBall, midBall, upperBall;
 
@@ -106,6 +105,15 @@ public class TowerSubsystem extends SubsystemBase {
     }
     else{
       return 0;
+    }
+  }
+  public boolean doesBallExist (){
+    if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){
+      //no balls
+      return true;
+    }
+    else{
+      return false;
     }
   }
   

@@ -5,23 +5,15 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.Drive.BasicAutoDrive;
-import frc.robot.subsystems.Drive.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TestAuto extends SequentialCommandGroup {
-  /** Creates a new DriveAuto. */
-  DriveSubsystem m_drive;
-  public TestAuto(DriveSubsystem drive) {
-    m_drive = drive;
-    addRequirements(m_drive);
+public class ThreeBallLAuto extends SequentialCommandGroup {
+  /** Creates a new ThreeBallL. */
+  public ThreeBallLAuto() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-      //drives 1 meter at 0 degrees
-      // new BasicAutoDrive(m_drive, 0, 1, true)
-    );
+    addCommands();
   }
 }
