@@ -12,18 +12,24 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakeCam extends SubsystemBase {
   /** Creates a new IntakeCam. */
   public IntakeCam() {
-    UsbCamera intakeCam = CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
-    intakeCam.setResolution(320, 240);
-    intakeCam.setFPS(15);
-    intakeCam.setResolution(640, 480);
-    intakeCam.setExposureAuto();
-    intakeCam.setWhiteBalanceAuto();
-    intakeCam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-
+    initializeIntakeCam();
   }
 
   @Override
   public void periodic() {
+
     // This method will be called once per scheduler run
+  }
+  public void initializeIntakeCam(){
+    UsbCamera camera1 = CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
+    camera1.setResolution(320, 240);
+    camera1.setFPS(15);
+    camera1.setResolution(640, 480);
+    camera1.setExposureAuto();
+    camera1.setWhiteBalanceAuto();
+    camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+      
+  
+
   }
 }

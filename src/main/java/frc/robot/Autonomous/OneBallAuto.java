@@ -4,6 +4,7 @@
 
 package frc.robot.Autonomous;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Drive.BasicAutoDrive;
 import frc.robot.subsystems.Drive.DriveSubsystem;
@@ -27,6 +28,7 @@ public class OneBallAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new InstantCommand(m_drive::resetDriveEncoders),
       new ShootUpperHub(m_shooter, m_tower).withTimeout(3),
       new BasicAutoDrive(drive, 0, 3, true, false)
     );
