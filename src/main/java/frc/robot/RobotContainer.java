@@ -13,19 +13,19 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Autonomous.OneBallAuto;
 import frc.robot.Autonomous.TwoBallAuto;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Control.XBoxControllerDPad;
+//import frc.robot.Control.XBoxControllerDPad;
 import frc.robot.Control.XBoxControllerButton;
 import frc.robot.Control.XBoxControllerEE;
 import frc.robot.Feedback.Cameras.IntakeCam;
 import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.subsystems.Climber.A0_CalibrateClimber;
 import frc.robot.subsystems.Climber.A1_PrepareToClimb;
-import frc.robot.subsystems.Climber.A2_LiftToBar;
-import frc.robot.subsystems.Climber.A3_ReachToNextBar;
-import frc.robot.subsystems.Climber.A4_HookToNextBar;
+import frc.robot.subsystems.Climber.A2_LiftAndReach;
+import frc.robot.subsystems.Climber.A3_HookAndReach;
+import frc.robot.subsystems.Climber.A4_HookAndStop;
+import frc.robot.subsystems.Climber.A9_DoItAll;
+import frc.robot.subsystems.Climber.AX_CancelClimb;
 import frc.robot.subsystems.Climber.ClimberSubsystem;
-import frc.robot.subsystems.Climber.MagicClimbByDash;
-import frc.robot.subsystems.Climber.MagicClimbByStick;
 import frc.robot.subsystems.Climber.ManualClimbByStick;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.SwerveDrive;
@@ -95,22 +95,19 @@ public class RobotContainer {
     m_towerSubsystem.setDefaultCommand(new DriveTower(m_towerSubsystem,  
                                       () -> -m_operatorController.getLeftY()));
 
-    m_climberSubsystem.setDefaultCommand(new ManualClimbByStick(m_climberSubsystem, 
-                                        () -> m_operatorController.getRightY()));
-
     // Make the Climb Sequence commands available on SmartDash
     SmartDashboard.putData(new A0_CalibrateClimber(m_climberSubsystem));
-    SmartDashboard.putData(new A1_PrepareToClimb(m_climberSubsystem /*, m_intakeSubsystem */));
-    SmartDashboard.putData(new A2_LiftToBar(m_climberSubsystem));
-    SmartDashboard.putData(new A3_ReachToNextBar(m_climberSubsystem));
-    SmartDashboard.putData(new A4_HookToNextBar(m_climberSubsystem));
-    
-    // Arm Driving Commands
-    SmartDashboard.putData(new ManualClimbByStick(m_climberSubsystem, () -> (-1.0) * m_operatorController.getRightY()));
-    SmartDashboard.putData(new MagicClimbByStick(m_climberSubsystem, () -> (-1.0) * m_operatorController.getRightY()));
-    SmartDashboard.putData(new MagicClimbByDash(m_climberSubsystem));
-
-    SmartDashboard.putData(new InstantCommand(m_climberSubsystem::zeroSensors, m_climberSubsystem));
+    SmartDashboard.putData(new A1_PrepareToClimb(m_climberSubsystem));
+    SmartDashboard.putData(new A2_LiftAndReach(m_climberSubsystem));
+    SmartDashboard.putData(new A3_HookAndReach(m_climberSubsystem));
+    SmartDashboard.putData(new A4_HookAndStop(m_climberSubsystem));
+    SmartDashboard.putData(new A9_DoItAll(m_climberSubsystem));
+    SmartDashboard.putData(new AX_CancelClimb(m_climberSubsystem));
+        
+    // Climber Arm Driving Command
+    // Leave this here in case it's needed for manual control
+    // It will need to be activated from the Dashboard.
+    SmartDashboard.putData(new ManualClimbByStick(m_climberSubsystem, () -> (-1.0)*m_operatorController.getRightY()));
 
   }
 
@@ -146,9 +143,7 @@ public class RobotContainer {
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kRightBumper)
       .whileActiveContinuous(new InstantCommand(m_shooterSubystem::retractHood, m_shooterSubystem));
 
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kA)
-      .whenPressed(new InstantCommand(m_climberSubsystem::zeroSensors));
-        
+/*
     new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadUp)
      .whileActiveContinuous(new InstantCommand(m_climberSubsystem::fixedClimberVertical));
     
@@ -160,7 +155,8 @@ public class RobotContainer {
     
     new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadRight)
       .whileActiveContinuous(new InstantCommand(m_climberSubsystem::extendingClimberVertical));
-  }
+*/
+ }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems.Climber;
 
-
+//import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -16,7 +16,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import frc.robot.Robot;
 import frc.robot.Constants.ClimberConstants;
+//import frc.robot.sim.PhysicsSim;
 
 /**
  *  This class manages Motion Magic control in the two separate winch Talon 500s
@@ -25,7 +27,7 @@ import frc.robot.Constants.ClimberConstants;
 public class TwinTalonFXMech {
 
     /* Enable SmartDash Output? */
-	boolean m_debugging = true;	
+	boolean m_debugging = false;	
 	int m_debug_counter = 0;	
 		
     /** Hardware */
@@ -145,6 +147,15 @@ public class TwinTalonFXMech {
 
         /* Initialize sensors */
 		zeroSensors();
+
+		/* Set up the Talons in Simulation */
+	/*
+		if (Robot.isSimulation()) {
+			// simulationInit
+			PhysicsSim.getInstance().addTalonFX(m_leftFollower, 0.5, 21777, false);
+			PhysicsSim.getInstance().addTalonFX(m_rightMaster, 0.5, 21777, false);
+		}
+	*/
 	}
 	
 	/*
@@ -165,7 +176,7 @@ public class TwinTalonFXMech {
 		TalonFX talon = (left ? m_leftFollower : m_rightMaster);
 
 		current = talon.getStatorCurrent();
-		SmartDashboard.putNumber("Calib Curr " + (left ? "L: " : "R: "), current);
+		// SmartDashboard.putNumber("Calib Curr " + (left ? "L: " : "R: "), current);
 		if (current < ClimberConstants.kCalibCurrentLimit) {
 			talon.set(ControlMode.PercentOutput, -0.10);
 			isFinished = false;
@@ -222,34 +233,41 @@ public class TwinTalonFXMech {
 		return (m_withinThresholdLoops > kLoopsToSettle);
 	}
 
-	//commented out for non-testing purposes - makes smartdash easier to read for driver and operator
-	//Can be put back for testing of climber
+	public double getATPosition() {
+		return m_rightMaster.getActiveTrajectoryPosition();
+	}
+
+	public void setMotionAccel(double accel) {
+		m_rightMaster.configMotionAcceleration(accel);
+		m_leftFollower.configMotionAcceleration(accel);
+	}
+
 	public void reportMotionToDashboard() {
 
-		// if (m_debugging && ++m_debug_counter > 10) {
-		// 	SmartDashboard.putString("Arms ControlMode", getTalonControlMode());
-	    // 	SmartDashboard.putNumber("Right Arm Position", m_rightMaster.getSelectedSensorPosition(0));
-	    // 	SmartDashboard.putNumber("Left Arm Position", m_leftFollower.getSelectedSensorPosition(0));
-		// 	SmartDashboard.putNumber("Arms MotorOutputPercent", m_rightMaster.getMotorOutputPercent());
-		// 	SmartDashboard.putNumber("Right Arm Draw", m_rightMaster.getStatorCurrent());
-		// 	SmartDashboard.putNumber("Left Arm Draw", m_leftFollower.getStatorCurrent());
+		if (m_debugging && ++m_debug_counter > 10) {
+			// SmartDashboard.putString("Arms ControlMode", getTalonControlMode());
+	    	SmartDashboard.putNumber("Right Arm Position", m_rightMaster.getSelectedSensorPosition(0));
+	    	SmartDashboard.putNumber("Left Arm Position", m_leftFollower.getSelectedSensorPosition(0));
+			// SmartDashboard.putNumber("Arms MotorOutputPercent", m_rightMaster.getMotorOutputPercent());
+			// SmartDashboard.putNumber("Right Arm Draw", m_rightMaster.getStatorCurrent());
+			// SmartDashboard.putNumber("Left Arm Draw", m_leftFollower.getStatorCurrent());
 	    	
-		// 	if (m_rightMaster.getControlMode() == ControlMode.MotionMagic) {
-		// 		SmartDashboard.putNumber("Arms Traj. Position", m_rightMaster.getActiveTrajectoryPosition());
-		// 		SmartDashboard.putNumber("Arms ClosedLoopTarget", m_rightMaster.getClosedLoopTarget(0));
-		// 		SmartDashboard.putNumber("Arms ClosedLoopError", m_rightMaster.getClosedLoopError(0));
-		// 	}
+			if (m_rightMaster.getControlMode() == ControlMode.MotionMagic) {
+				// SmartDashboard.putNumber("Arms Traj. Position", m_rightMaster.getActiveTrajectoryPosition());
+				// SmartDashboard.putNumber("Arms ClosedLoopTarget", m_rightMaster.getClosedLoopTarget(0));
+				// SmartDashboard.putNumber("Arms ClosedLoopError", m_rightMaster.getClosedLoopError(0));
+			}
 
-		// 	SmartDashboard.putNumber("P", getP());
-		// 	SmartDashboard.putNumber("I", getI());
-		// 	SmartDashboard.putNumber("D", getD());
-		// 	SmartDashboard.putNumber("F", getF());
-		// 	SmartDashboard.putNumber("Setpoint", getSetpoint());
-		// 	SmartDashboard.putNumber("Accel", getMMAccel());
-		// 	SmartDashboard.putNumber("Cruise", getMMCruise());
+			// SmartDashboard.putNumber("P", getP());
+			// SmartDashboard.putNumber("I", getI());
+			// SmartDashboard.putNumber("D", getD());
+			// SmartDashboard.putNumber("F", getF());
+			// SmartDashboard.putNumber("Setpoint", getSetpoint());
+			// SmartDashboard.putNumber("Accel", getMMAccel());
+			// SmartDashboard.putNumber("Cruise", getMMCruise());
 	  
-		// 	m_debug_counter = 0;
-		//}
+			m_debug_counter = 0;
+		}
 	}
 	
 	/**
@@ -292,7 +310,7 @@ public class TwinTalonFXMech {
         return (TalonFX)m_rightMaster;
     }
 
-	// //private void setSetpoint(double sp)  { m_setpoint = sp; }
+	//private void setSetpoint(double sp)  { m_setpoint = sp; }
 	// private double getSetpoint()  { return m_setpoint; }
     
 	// //private void setP(double p)  {m_rightMaster.selectProfileSlot(0, 0); m_rightMaster.config_kP(0, p); m_leftFollower.selectProfileSlot(0, 0); m_leftFollower.config_kP(0, p);}

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.PHConstants;
+//import frc.robot.sim.PhysicsSim;
 
 public class ClimberSubsystem extends SubsystemBase {
 
@@ -31,9 +32,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
   }
 
+/*
   @Override
 	public void simulationPeriodic() {
+		PhysicsSim.getInstance().run();
 	}
+*/
 
   /*
    * Manual Extendable Arm Control
@@ -62,6 +66,14 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public boolean areArmsOnTarget() {
     return m_talonMech.isMechOnTarget();
+  }
+
+  public double getATposition() {
+    return m_talonMech.getATPosition();
+  }
+
+  public void setMotionAccel(double accel) {
+    m_talonMech.setMotionAccel(accel);
   }
 
   public void zeroSensors() {
