@@ -36,8 +36,8 @@ public class ShooterSubsystem extends SubsystemBase {
         // SmartDashboard.putNumber("D Gain", m_speedGains.kD);
         // SmartDashboard.putNumber("Target Velocity", 0.0);
         SmartDashboard.putNumber("Current Velocity", 0);
-        SmartDashboard.putNumber("Current Output Percent", 0);
-        SmartDashboard.putNumber("Velocity Error", 0);
+        // SmartDashboard.putNumber("Current Output Percent", 0);
+        // SmartDashboard.putNumber("Velocity Error", 0);
         
     }
 
@@ -74,21 +74,21 @@ public class ShooterSubsystem extends SubsystemBase {
         //SmartDashboard.putNumber("Target Velocity", targetVelocity);
 
         // read PID coefficients from SmartDashboard
-        double kP = SmartDashboard.getNumber("P Gain", 0);
-        double kI = SmartDashboard.getNumber("I Gain", 0);
-        double kD = SmartDashboard.getNumber("D Gain", 0);
-        double kF = SmartDashboard.getNumber("Feed Forward", 0);
+        // double kP = SmartDashboard.getNumber("P Gain", 0);
+        // double kI = SmartDashboard.getNumber("I Gain", 0);
+        // double kD = SmartDashboard.getNumber("D Gain", 0);
+        // double kF = SmartDashboard.getNumber("Feed Forward", 0);
 
         // Update gains on the controller
-        m_speedControl.updateGains(kP, kI, kD, kF);
+        m_speedControl.updateGains(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, ShooterConstants.kF);
 
         // Update the target velocity and get back the current velocity
         int currentVelocity = m_speedControl.runVelocityPIDF(targetVelocity);
 
         // Show the Current Velocity, Error, and Current Output Percent on the SDB
         SmartDashboard.putNumber("Current Velocity", currentVelocity);
-        SmartDashboard.putNumber("Error", m_speedControl.getError());
-        SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
+        // SmartDashboard.putNumber("Error", m_speedControl.getError());
+        // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
     }
 
     public void shootLowerHub(){
@@ -100,8 +100,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
         // Show the Current Velocity, Error, and Current Output Percent on the SDB
         SmartDashboard.putNumber("Current Velocity", currentVelocity);
-        SmartDashboard.putNumber("Error", m_speedControl.getError());
-        SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
+        // SmartDashboard.putNumber("Error", m_speedControl.getError());
+        // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
     }
     
     public void shootUpperHub(){    
@@ -113,8 +113,8 @@ public class ShooterSubsystem extends SubsystemBase {
     
         // Show the Current Velocity, Error, and Current Output Percent on the SDB
         SmartDashboard.putNumber("Current Velocity", currentVelocity);
-        SmartDashboard.putNumber("Error", m_speedControl.getError());
-        SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
+        // SmartDashboard.putNumber("Error", m_speedControl.getError());
+        // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
     }
     // public int currentVelocity(){
     //     m_falconVelocity

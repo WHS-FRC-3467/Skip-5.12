@@ -4,15 +4,12 @@
 
 package frc.robot.Feedback.Cameras;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeCam extends SubsystemBase {
   /** Creates a new IntakeCam. */
   public IntakeCam() {
-    initializeIntakeCam();
+    // initializeIntakeCam();
   }
 
   @Override
@@ -21,13 +18,13 @@ public class IntakeCam extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   public void initializeIntakeCam(){
-    UsbCamera camera1 = CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
-    camera1.setResolution(320, 240);
-    camera1.setFPS(15);
-    camera1.setResolution(640, 480);
-    camera1.setExposureAuto();
-    camera1.setWhiteBalanceAuto();
-    camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+    // UsbCamera camera1 = CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
+    // camera1.setResolution(320, 240);
+    // camera1.setFPS(15);
+    // camera1.setResolution(640, 480);
+    // camera1.setExposureAuto();
+    // camera1.setWhiteBalanceAuto();
+    // camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
       
   
 

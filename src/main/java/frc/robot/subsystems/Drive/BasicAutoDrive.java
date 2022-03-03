@@ -60,7 +60,7 @@ public class BasicAutoDrive extends CommandBase {
     double driveDistance = m_drive.encoderTicksToMeter(m_drive.getAverageEncoder());
     //Puts drive distance and encoder distance to smart Dashboard
     SmartDashboard.putNumber("Drive Distance", driveDistance);
-    SmartDashboard.putNumber("Encoder position", m_drive.getAverageEncoder());
+    //SmartDashboard.putNumber("Encoder position", m_drive.getAverageEncoder());
   }
 
   

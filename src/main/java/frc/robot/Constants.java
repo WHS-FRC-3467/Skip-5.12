@@ -177,7 +177,12 @@ public final class Constants {
         public static final int kShooterTolerance = 100;
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
         public static final Gains kGains = new Gains(0.0, 0.0, 0.0, 0.0, 0,  1.00);
-            
+        
+        public static final double kP = 0.01;
+        public static final double kI = 0.0;
+        public static final double kD = 1.3;
+        public static final double kF = 0.048;
+
         public static final double lowerKP = 0.01;
         public static final double lowerKI = 0.0;
         public static final double lowerKD = 1.3;

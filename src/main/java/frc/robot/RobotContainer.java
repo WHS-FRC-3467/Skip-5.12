@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -16,7 +17,7 @@ import frc.robot.Constants.DriveConstants;
 //import frc.robot.Control.XBoxControllerDPad;
 import frc.robot.Control.XBoxControllerButton;
 import frc.robot.Control.XBoxControllerEE;
-import frc.robot.Feedback.Cameras.IntakeCam;
+// import frc.robot.Feedback.Cameras.IntakeCam;
 import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.subsystems.Climber.A0_CalibrateClimber;
 import frc.robot.subsystems.Climber.A1_PrepareToClimb;
@@ -53,7 +54,6 @@ public class RobotContainer {
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final ShooterSubsystem m_shooterSubystem = new ShooterSubsystem();
   private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
-  private final IntakeCam m_intakeCam = new IntakeCam();
   private final XBoxControllerEE m_driverController = new XBoxControllerEE(0);
   private final XBoxControllerEE m_operatorController = new XBoxControllerEE(1);
 
@@ -66,7 +66,9 @@ public class RobotContainer {
     // Detect if controllers are missing / Stop multiple warnings
     DriverStation.silenceJoystickConnectionWarning(DriveConstants.PRACTICE);
     
-    m_intakeCam.initializeIntakeCam();
+
+    CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
+
 
     Shuffleboard.getTab("Driver Dash").add("Auto Chooser", m_chooser);
     m_chooser.addOption("Two Ball Auto", new TwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
