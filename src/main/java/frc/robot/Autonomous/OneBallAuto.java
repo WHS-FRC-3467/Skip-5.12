@@ -30,7 +30,7 @@ public class OneBallAuto extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(m_drive::resetDriveEncoders),
       new ShootUpperHub(m_shooter, m_tower).withTimeout(3),
-      new BasicAutoDrive(drive, 0, 3, true, false)
+      new BasicAutoDrive(drive, 0, 3, 0.0, -1.0)
     );
   }
 }

@@ -4,15 +4,12 @@
 
 package frc.robot.subsystems.Shooter;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.TowerConstants;
 import frc.robot.subsystems.Tower.TowerSubsystem;
 
 public class ShootLowerHub extends CommandBase {
   ShooterSubsystem m_shooter;
   TowerSubsystem m_tower;
-  double m_time, m_startTime;
 
   public ShootLowerHub(ShooterSubsystem shooter, TowerSubsystem tower) {
     m_shooter = shooter;
@@ -25,7 +22,6 @@ public class ShootLowerHub extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_startTime = Timer.getFPGATimestamp();
     m_shooter.deployHood();
 
   }
@@ -33,17 +29,8 @@ public class ShootLowerHub extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_time = Timer.getFPGATimestamp() - m_startTime;
-
     m_shooter.shootLowerHub();
     
-    if (m_shooter.isWheelAtSpeed() || m_time > 1.0) {
-      m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
-    }
-    else{
-      m_tower.driveWholeTower(0.0);
-    }
-
   }
 
   // Called once the command ends or is interrupted.

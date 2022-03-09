@@ -4,15 +4,17 @@
 
 package frc.robot.subsystems.Shooter;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.TowerConstants;
 import frc.robot.subsystems.Tower.TowerSubsystem;
 
-public class AutonomousShoot extends CommandBase {
+public class AutoShoot extends CommandBase {
   ShooterSubsystem m_shooter;
   TowerSubsystem m_tower;
+  double m_time, m_startTime;
 
-  public AutonomousShoot(ShooterSubsystem shooter, TowerSubsystem tower) {
+  public AutoShoot(ShooterSubsystem shooter, TowerSubsystem tower) {
     m_shooter = shooter;
     m_tower = tower;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -22,18 +24,21 @@ public class AutonomousShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_startTime = Timer.getFPGATimestamp();
     m_shooter.retractHood();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_time = Timer.getFPGATimestamp() - m_startTime;
     m_shooter.shootUpperHub();  
-    if (m_shooter.isWheelAtSpeed()) {
+    
+    if(m_shooter.isWheelAtSpeed()){
       m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
     }
-    else{
-      m_tower.driveWholeTower(0.0);
+    else if(m_time > 1.0){
+      m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
     }
   }
 

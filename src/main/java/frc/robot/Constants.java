@@ -51,9 +51,8 @@ public final class Constants {
     }
 
     public static final class PWMConstants{
-        public static final int HoodAcuator = 0;
-        public static final int Blinkin1 = 1;
-        public static final int Blinkin2 = 2;
+        public static final int Blinkin1 = 3;
+        public static final int Blinkin2 = 4;
     }
     
     public static final class PHConstants{
@@ -117,10 +116,10 @@ public final class Constants {
             new Translation2d(-RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
         );
 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(69.1);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(294.2);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(107.8); 
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(127.7);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.6);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(108.5);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(111.3); 
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(135.9);
 
         // Drivetrain Performance Mechanical limits
         
@@ -195,7 +194,7 @@ public final class Constants {
 	}
 
     public static final class TowerConstants {
-        public static final double standardTowerSpeed = 0.75;
+        public static final double standardTowerSpeed = 0.7;
     }
     
     public static final class ClimberConstants {

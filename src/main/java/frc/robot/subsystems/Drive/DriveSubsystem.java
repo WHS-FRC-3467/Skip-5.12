@@ -2,6 +2,7 @@ package frc.robot.subsystems.Drive;
 // Copyright (c) FIRST and other WPILib contributors.
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 // // Open Source Software; you can modify and/or share it under the terms of
 // // the WPILib BSD license file in the root directory of this project.
@@ -35,6 +36,12 @@ public class DriveSubsystem extends SubsystemBase {
         TalonFX m_frontRightDriveMotor = new TalonFX(CanConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR);
         TalonFX m_backLeftDriveMotor = new TalonFX(CanConstants.BACK_LEFT_MODULE_DRIVE_MOTOR);
         TalonFX m_backRightDriveMotor = new TalonFX(CanConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR);
+
+        TalonFX m_frontLeftSteerMotor = new TalonFX(CanConstants.FRONT_LEFT_MODULE_STEER_MOTOR);
+        TalonFX m_frontRightSteerMotor = new TalonFX(CanConstants.FRONT_RIGHT_MODULE_STEER_MOTOR);
+        TalonFX m_backLeftSteerMotor = new TalonFX(CanConstants.BACK_LEFT_MODULE_STEER_MOTOR);
+        TalonFX m_backRightSteerMotor = new TalonFX(CanConstants.BACK_RIGHT_MODULE_STEER_MOTOR);
+
 
         CANCoder m_frontLeftCanCoder = new CANCoder(CanConstants.FRONT_LEFT_MODULE_STEER_ENCODER);
         CANCoder m_backLeftCanCoder = new CANCoder(CanConstants.BACK_LEFT_MODULE_STEER_ENCODER);
@@ -138,14 +145,25 @@ public class DriveSubsystem extends SubsystemBase {
                 m_backRightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
                 m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
-                m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
-                m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
-                m_frontLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
+                m_frontRightDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
+                m_backLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
+                m_backRightDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
 
                 m_frontLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
                 m_backLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
                 m_frontRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
                 m_backRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+
+                m_frontLeftDriveMotor.setNeutralMode(NeutralMode.Brake);
+                m_frontRightDriveMotor.setNeutralMode(NeutralMode.Brake);
+                m_backLeftDriveMotor.setNeutralMode(NeutralMode.Brake);
+                m_backRightDriveMotor.setNeutralMode(NeutralMode.Brake);
+
+                m_frontLeftSteerMotor.setNeutralMode(NeutralMode.Brake);
+                m_frontRightSteerMotor.setNeutralMode(NeutralMode.Brake);
+                m_backLeftSteerMotor.setNeutralMode(NeutralMode.Brake);
+                m_backRightSteerMotor.setNeutralMode(NeutralMode.Brake);
+
         }
 
         @Override

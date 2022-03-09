@@ -11,7 +11,7 @@ import frc.robot.subsystems.Drive.BasicAutoDrive;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Intake.AutoDriveIntake;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
-import frc.robot.subsystems.Shooter.ShootUpperHub;
+import frc.robot.subsystems.Shooter.AutoShoot;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.TowerSubsystem;
 
@@ -31,16 +31,18 @@ public class TwoBallAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand(m_drive::resetDriveEncoders),
-      new ShootUpperHub(m_shooter, m_tower).withTimeout(3.0),
-
       new InstantCommand(m_intake::intakeDeploy, m_intake),
+      new AutoDriveIntake(m_intake, m_tower,  1.0).withTimeout(1.7),
+
+      new AutoShoot(m_shooter, m_tower).withTimeout(3.0),
+
       new ParallelCommandGroup(
-                                new BasicAutoDrive(m_drive, 0.0, 3, true, false),
+                                new BasicAutoDrive(m_drive, 0.0, 3.0, -0.878, -1.12),
                                 new AutoDriveIntake(m_intake, m_tower,  1.0).withTimeout(4)
                               ),
       new InstantCommand(m_drive::resetDriveEncoders),
-      new BasicAutoDrive(m_drive, 0.0, 3, false, true),
-      new ShootUpperHub(m_shooter, m_tower).withTimeout(3.0)
+      new BasicAutoDrive(m_drive, 0.0, 3.0, 0.878, 1.12),
+      new AutoShoot(m_shooter, m_tower).withTimeout(3.0)
     );
   }
 }

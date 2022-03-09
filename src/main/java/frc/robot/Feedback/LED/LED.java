@@ -10,8 +10,8 @@ import frc.robot.Constants.PWMConstants;
 
 public class LED extends SubsystemBase {
   /** Creates a new LED. */
-  Spark towerBlinkin = new Spark(PWMConstants.Blinkin1);
-  Spark shooterBlinkin = new Spark(PWMConstants.Blinkin1);
+  Spark sponsorBlinkin = new Spark(PWMConstants.Blinkin1);
+  Spark bottomBlinkin = new Spark(PWMConstants.Blinkin2);
 
   public LED() {  
   }
@@ -22,33 +22,20 @@ public class LED extends SubsystemBase {
   }
 
   public void noBallLight(){
-    //Solid Purple
-    towerBlinkin.set(0.91);
+    //Solid s
+    sponsorBlinkin.set(0.91);
   }
   public void oneBallLight(){
     //Solid Orange
-    towerBlinkin.set(0.65);
+    sponsorBlinkin.set(0.65);
   }
   public void twoBallLight(){
     //Solid Green
-    towerBlinkin.set(0.77);
+    sponsorBlinkin.set(0.77);
   }
-  public void shooterOffLight(){
-    //Solid Red
-    shooterBlinkin.set(0.61);
-  }
-  public void shooterOnLight(){
-    //Solid Blue
-    shooterBlinkin.set(0.87);
-  }
-  public void shooterAtSpeed(){
-    //Solid Yellow
-    shooterBlinkin.set(0.69);
-  }
-  public void disabledColor(){
-    //Moving reds, yellows, and oranges.
-    towerBlinkin.set(-0.73);
-    shooterBlinkin.set(-0.73);
 
-  }
+  // public void bottomLights(){
+  //   //Moving reds, yellows, and oranges.
+  //   bottomBlinkin.set(-0.73);
+  // }
 }

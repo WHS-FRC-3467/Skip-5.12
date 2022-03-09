@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,6 +20,8 @@ import frc.robot.Control.XBoxControllerButton;
 import frc.robot.Control.XBoxControllerEE;
 // import frc.robot.Feedback.Cameras.IntakeCam;
 import frc.robot.Feedback.Cameras.Limelight;
+import frc.robot.Feedback.LED.LED;
+import frc.robot.Feedback.LED.LEDDefault;
 import frc.robot.subsystems.Climber.A0_CalibrateClimber;
 import frc.robot.subsystems.Climber.A1_PrepareToClimb;
 import frc.robot.subsystems.Climber.A2_LiftAndReach;
@@ -54,6 +57,7 @@ public class RobotContainer {
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final ShooterSubsystem m_shooterSubystem = new ShooterSubsystem();
   private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
+  private final LED m_led = new LED();
   private final XBoxControllerEE m_driverController = new XBoxControllerEE(0);
   private final XBoxControllerEE m_operatorController = new XBoxControllerEE(1);
 
@@ -67,12 +71,13 @@ public class RobotContainer {
     DriverStation.silenceJoystickConnectionWarning(DriveConstants.PRACTICE);
     
 
-    CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
+    //CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
 
 
     Shuffleboard.getTab("Driver Dash").add("Auto Chooser", m_chooser);
     m_chooser.addOption("Two Ball Auto", new TwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
     m_chooser.addOption("One Ball Auto", new OneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
+    m_chooser.addOption("No Auto", null);
 
     SmartDashboard.putData("Auto Chooser", m_chooser);
 
@@ -84,6 +89,7 @@ public class RobotContainer {
 
     // For simulation
 
+    
 	  // Set up the default commands for the various subsystems
     m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
                                       () -> (m_driverController.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
@@ -96,6 +102,8 @@ public class RobotContainer {
 
     m_towerSubsystem.setDefaultCommand(new DriveTower(m_towerSubsystem,  
                                       () -> -m_operatorController.getLeftY()));
+
+    m_led.setDefaultCommand(new LEDDefault(m_led, m_towerSubsystem));
 
     // Make the Climb Sequence commands available on SmartDash
     SmartDashboard.putData(new A0_CalibrateClimber(m_climberSubsystem));
@@ -122,10 +130,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //Driver Controller
         
-    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kLeftBumper)
+    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kLeftBumper)
       .whileHeld(new IntakeOverride(m_intakeSubsystem, true));
     
-    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kRightBumper)
+    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kRightBumper)
       .whileHeld(new IntakeOverride(m_intakeSubsystem, false));
 
     // Back button zeros the gyroscope
@@ -139,10 +147,10 @@ public class RobotContainer {
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kB)
       .whenHeld(new ShootUpperHub(m_shooterSubystem, m_towerSubsystem));
 
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kLeftBumper)
+    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kBack)
       .whileActiveContinuous(new InstantCommand(m_shooterSubystem::deployHood, m_shooterSubystem));
     
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kRightBumper)
+    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kStart)
       .whileActiveContinuous(new InstantCommand(m_shooterSubystem::retractHood, m_shooterSubystem));
 
 /*
