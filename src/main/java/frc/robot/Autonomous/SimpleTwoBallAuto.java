@@ -15,13 +15,13 @@ import frc.robot.subsystems.Shooter.AutoShoot;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.TowerSubsystem;
 
-public class TwoBallAuto extends SequentialCommandGroup {
+public class SimpleTwoBallAuto extends SequentialCommandGroup {
   /** Creates a new TwoBallAuto. */
   DriveSubsystem m_drive;
   ShooterSubsystem m_shooter;
   TowerSubsystem m_tower;
   IntakeSubsystem m_intake;
-  public TwoBallAuto(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower, IntakeSubsystem intake) {
+  public SimpleTwoBallAuto(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower, IntakeSubsystem intake) {
     m_drive = drive;
     m_intake = intake;
     m_tower = tower;

@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -12,8 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.Autonomous.OneBallAuto;
-import frc.robot.Autonomous.TwoBallAuto;
+import frc.robot.Autonomous.SimpleOneBallAuto;
+import frc.robot.Autonomous.SimpleTwoBallAuto;
 import frc.robot.Constants.DriveConstants;
 //import frc.robot.Control.XBoxControllerDPad;
 import frc.robot.Control.XBoxControllerButton;
@@ -75,8 +74,8 @@ public class RobotContainer {
 
 
     Shuffleboard.getTab("Driver Dash").add("Auto Chooser", m_chooser);
-    m_chooser.addOption("Two Ball Auto", new TwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
-    m_chooser.addOption("One Ball Auto", new OneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
+    m_chooser.addOption("Two Ball Auto", new SimpleTwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("One Ball Auto", new SimpleOneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
     m_chooser.addOption("No Auto", null);
 
     SmartDashboard.putData("Auto Chooser", m_chooser);

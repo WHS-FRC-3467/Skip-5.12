@@ -5,15 +5,35 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Drive.PathResetOdometry;
+import frc.robot.subsystems.Drive.TrajectoryFollow;
+import frc.robot.subsystems.Intake.AutoDriveIntake;
+import frc.robot.subsystems.Intake.IntakeSubsystem;
+import frc.robot.subsystems.Shooter.AutoShoot;
+import frc.robot.subsystems.Shooter.ShooterSubsystem;
+import frc.robot.subsystems.Tower.TowerSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ThreeBallTriangleAuto extends SequentialCommandGroup {
   /** Creates a new ThreeBallTriangle. */
-  public ThreeBallTriangleAuto() {
+  IntakeSubsystem m_intake;
+  TowerSubsystem m_tower;
+  ShooterSubsystem m_shooter;
+  public ThreeBallTriangleAuto(IntakeSubsystem intake, TowerSubsystem tower, ShooterSubsystem shooter) {
+    m_intake = intake;
+    m_tower = tower;
+    m_shooter = shooter;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands();
+    addCommands(
+      new AutoShoot(m_shooter, m_tower).withTimeout(3.0),
+      new PathResetOdometry("3BallTriangle"),
+      //Timeout Needs to be tuned
+      new TrajectoryFollow("3BallTriangle").withTimeout(5.0).raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
+      new AutoShoot(m_shooter, m_tower).withTimeout(3.0)
+      
+    );
   }
 }
