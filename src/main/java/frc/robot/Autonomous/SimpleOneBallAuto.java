@@ -15,12 +15,12 @@ import frc.robot.subsystems.Tower.TowerSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class OneBallAuto extends SequentialCommandGroup {
+public class SimpleOneBallAuto extends SequentialCommandGroup {
   /** Creates a new OneBallAuto. */
   DriveSubsystem m_drive;
   TowerSubsystem m_tower;
   ShooterSubsystem m_shooter;
-  public OneBallAuto(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower) {
+  public SimpleOneBallAuto(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower) {
     m_drive = drive;
     m_tower = tower;
     m_shooter = shooter;

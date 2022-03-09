@@ -14,11 +14,15 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -29,9 +33,14 @@ import frc.robot.Constants.RobotConstants;
 import static frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
+        private static DriveSubsystem instance = null;
+        private SwerveDriveOdometry m_odometry;
+        private NetworkTableEntry odometryEntry;
 
-  // The maximum voltage that will be delivered to the drive motors.
+        // The maximum voltage that will be delivered to the drive motors.
         public static final double MAX_VOLTAGE = 12.0;
+        public static final double AUTO_DRIVE_SCALE = 1;
+
         TalonFX m_frontLeftDriveMotor = new TalonFX(CanConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR);
         TalonFX m_frontRightDriveMotor = new TalonFX(CanConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR);
         TalonFX m_backLeftDriveMotor = new TalonFX(CanConstants.BACK_LEFT_MODULE_DRIVE_MOTOR);
@@ -164,10 +173,14 @@ public class DriveSubsystem extends SubsystemBase {
                 m_backLeftSteerMotor.setNeutralMode(NeutralMode.Brake);
                 m_backRightSteerMotor.setNeutralMode(NeutralMode.Brake);
 
+                m_odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation());
+
         }
 
         @Override
         public void periodic() {
+                odometryEntry.setString(getCurrentPose().toString());
+
                 SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
                 // normalize wheel speeds
                 SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
@@ -188,9 +201,6 @@ public class DriveSubsystem extends SubsystemBase {
                 m_pigeon.configMountPoseYaw(0.0);
         }
 
-        public Rotation2d getGyroscopeRotation() {
-                return Rotation2d.fromDegrees(m_pigeon.getYaw());
-        }
 
         public void drive(ChassisSpeeds chassisSpeeds) {
                 m_chassisSpeeds = chassisSpeeds;
@@ -224,5 +234,44 @@ public class DriveSubsystem extends SubsystemBase {
                 // Convert to chassis speeds
                 m_chassisSpeeds = m_kinematics.toChassisSpeeds(
                 frontLeftState, frontRightState, backLeftState, backRightState);
+        } 
+
+        public static DriveSubsystem getInstance() {
+                if (instance == null) {
+                        instance = new DriveSubsystem();
+                }
+
+                return instance;
         }
+        
+        public void resetOdometry(Pose2d pose){
+                m_odometry.resetPosition(pose, pose.getRotation());
+        }
+
+        public Rotation2d getGyroscopeRotation() {
+                return Rotation2d.fromDegrees(m_pigeon.getYaw());        
+            }
+        
+        public double getGyroPitch() {
+                return m_pigeon.getPitch();
+        }
+        
+        public Pose2d getCurrentPose(){
+                return m_odometry.getPoseMeters();
+        }
+
+        public SwerveDriveKinematics getKinematics(){
+                return m_kinematics;
+        }
+        public void actuateModulesAuto(SwerveModuleState[] states){
+                driveAuto(m_kinematics.toChassisSpeeds(states));
+        }   
+        public void driveAuto(ChassisSpeeds chassisSpeeds) {
+                m_chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vxMetersPerSecond * AUTO_DRIVE_SCALE;
+                m_chassisSpeeds.vyMetersPerSecond = chassisSpeeds.vyMetersPerSecond * AUTO_DRIVE_SCALE;
+                m_chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond;
+                
+        }
+            
 }
+
