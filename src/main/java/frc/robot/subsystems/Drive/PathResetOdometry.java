@@ -32,7 +32,7 @@ public class PathResetOdometry extends CommandBase {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        double offset_ = offset;
+        //double offset_ = offset;
     }
 
     @Override

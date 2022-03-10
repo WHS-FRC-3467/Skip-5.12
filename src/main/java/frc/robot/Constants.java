@@ -47,7 +47,6 @@ public final class Constants {
         public static final int ClimberRight = 18;
         public static final int IntakeMotor = 19;
         public static final int DRIVETRAIN_PIGEON_ID = 20; 
-
     }
 
     public static final class PWMConstants{
