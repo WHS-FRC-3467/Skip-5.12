@@ -15,7 +15,8 @@ import frc.robot.Constants.DIOConstants;
 import frc.robot.Constants.TowerConstants;
 
 public class TowerSubsystem extends SubsystemBase {
-  /** Creates a new TowerSubsystem. */
+
+  //Tower Subsystem
   TalonSRX m_lowerTower = new TalonSRX(CanConstants.LowerTowerMotor);
   TalonSRX m_upperTower = new TalonSRX(CanConstants.UpperTowerMotor); 
   DigitalInput m_entryBeamBreak = new DigitalInput(DIOConstants.EntryBeamBreak);
@@ -23,7 +24,6 @@ public class TowerSubsystem extends SubsystemBase {
   DigitalInput m_upperBeamBreak = new DigitalInput(DIOConstants.UpperTowerBeamBreak);
 
   public boolean m_entryState, m_middleState, m_upperState, m_middleTopState, m_entryTopState, m_entryMiddleState, m_noBallState;
-  public boolean entryBall, midBall, upperBall;
 
   @Override
   public void periodic() {

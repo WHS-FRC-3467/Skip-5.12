@@ -11,10 +11,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Autonomous.FourBallAuto;
 import frc.robot.Autonomous.SimpleOneBallAuto;
 import frc.robot.Autonomous.SimpleTwoBallAuto;
+import frc.robot.Autonomous.ThreeBallLAuto;
+import frc.robot.Autonomous.ThreeBallTerminalAuto;
+import frc.robot.Autonomous.ThreeBallTriangleAuto;
 import frc.robot.Constants.DriveConstants;
-//import frc.robot.Control.XBoxControllerDPad;
+import frc.robot.Control.XBoxControllerDPad;
 import frc.robot.Control.XBoxControllerButton;
 import frc.robot.Control.XBoxControllerEE;
 // import frc.robot.Feedback.Cameras.IntakeCam;
@@ -77,6 +81,11 @@ public class RobotContainer {
     m_chooser.addOption("Two Ball Auto", new SimpleTwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
     m_chooser.addOption("One Ball Auto", new SimpleOneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
     m_chooser.addOption("No Auto", null);
+    m_chooser.addOption("Three Ball L Auto", new ThreeBallLAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem));
+    m_chooser.addOption("Three Ball Triangle Auto ", new ThreeBallTriangleAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem));
+    m_chooser.addOption("Three Ball Terminal", new ThreeBallTerminalAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
+
+    m_chooser.addOption("FourBallAuto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
 
     SmartDashboard.putData("Auto Chooser", m_chooser);
 
@@ -152,19 +161,17 @@ public class RobotContainer {
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kStart)
       .whileActiveContinuous(new InstantCommand(m_shooterSubystem::retractHood, m_shooterSubystem));
 
-/*
     new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadUp)
-     .whileActiveContinuous(new InstantCommand(m_climberSubsystem::fixedClimberVertical));
-    
-    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadDown)
-      .whileActiveContinuous(new InstantCommand(m_climberSubsystem::fixedClimberAngled));
+      .whileActiveContinuous(new A1_PrepareToClimb(m_climberSubsystem));
 
-    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadLeft)
-      .whileActiveContinuous(new InstantCommand(m_climberSubsystem::extendingClimberAngled));
+    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadDown)
+      .whileActiveContinuous(new A9_DoItAll(m_climberSubsystem));
     
+    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadLeft)
+      .whileActiveContinuous(new AX_CancelClimb(m_climberSubsystem));
+
     new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadRight)
-      .whileActiveContinuous(new InstantCommand(m_climberSubsystem::extendingClimberVertical));
-*/
+      .whileActiveContinuous(new A0_CalibrateClimber(m_climberSubsystem));
  }
 
   /**

@@ -5,7 +5,6 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.TrajectoryFollow;
 import frc.robot.subsystems.Intake.AutoDriveIntake;
@@ -19,13 +18,11 @@ import frc.robot.subsystems.Tower.TowerSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ThreeBallTerminalAuto extends SequentialCommandGroup {
   /** Creates a new ThreeBallTerminal. */
-  DriveSubsystem m_drive;
   ShooterSubsystem m_shooter;
   TowerSubsystem m_tower;
   IntakeSubsystem m_intake;
 
-  public ThreeBallTerminalAuto(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower, IntakeSubsystem intake) {
-    m_drive = drive;
+  public ThreeBallTerminalAuto(ShooterSubsystem shooter, TowerSubsystem tower, IntakeSubsystem intake) {
     m_intake = intake;
     m_tower = tower;
     m_shooter = shooter;
