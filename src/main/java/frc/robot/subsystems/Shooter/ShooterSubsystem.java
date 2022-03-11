@@ -87,6 +87,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
         // Show the Current Velocity, Error, and Current Output Percent on the SDB
         SmartDashboard.putNumber("Current Velocity", currentVelocity);
+
+        System.out.println(currentVelocity);
         // SmartDashboard.putNumber("Error", m_speedControl.getError());
         // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
     }
@@ -102,6 +104,8 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Current Velocity", currentVelocity);
         // SmartDashboard.putNumber("Error", m_speedControl.getError());
         // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
+        System.out.println(currentVelocity);
+
     }
     
     public void shootUpperHub(){    
@@ -115,6 +119,8 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Current Velocity", currentVelocity);
         // SmartDashboard.putNumber("Error", m_speedControl.getError());
         // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
+        System.out.println(currentVelocity);
+
     }
     // public int currentVelocity(){
     //     m_falconVelocity

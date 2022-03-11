@@ -44,7 +44,11 @@ public class TowerSubsystem extends SubsystemBase {
   }
   
   public void sendToTop(){
-    if(m_entryBeamBreak.get()==false && m_midBeamBreak.get()==true && m_upperBeamBreak.get()==true){
+    if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){
+      //no balls
+      driveWholeTower(0.0);
+    }
+    else if(m_entryBeamBreak.get()==false && m_midBeamBreak.get()==true && m_upperBeamBreak.get()==true){
       //Ball entry
       driveWholeTower(TowerConstants.standardTowerSpeed);
     }
@@ -59,14 +63,15 @@ public class TowerSubsystem extends SubsystemBase {
     else if(m_entryBeamBreak.get()==true && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == false){
       //ball mid and upper
       driveWholeTower(0.0);
+
     }
     else if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == false){
       //ball entry and upper
-      driveLowerTower(TowerConstants.standardTowerSpeed);
+      driveWholeTower(0.0);
     }
     else if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == true){
       //ball entry and middle
-      driveWholeTower(TowerConstants.standardTowerSpeed);
+      driveLowerTower(TowerConstants.standardTowerSpeed);
     }
     else if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){
       //no balls

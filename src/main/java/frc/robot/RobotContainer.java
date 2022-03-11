@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Autonomous.FourBallAuto;
 import frc.robot.Autonomous.SimpleOneBallAuto;
 import frc.robot.Autonomous.SimpleTwoBallAuto;
@@ -18,7 +17,6 @@ import frc.robot.Autonomous.ThreeBallLAuto;
 import frc.robot.Autonomous.ThreeBallTerminalAuto;
 import frc.robot.Autonomous.ThreeBallTriangleAuto;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Control.XBoxControllerDPad;
 import frc.robot.Control.XBoxControllerButton;
 import frc.robot.Control.XBoxControllerEE;
 // import frc.robot.Feedback.Cameras.IntakeCam;
@@ -100,9 +98,9 @@ public class RobotContainer {
     
 	  // Set up the default commands for the various subsystems
     m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
-                                      () -> (m_driverController.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-                                      () -> -(m_driverController.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-                                      () -> -(m_driverController.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+                                      () -> -(m_driverController.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                                      () -> (m_driverController.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                                      () -> (m_driverController.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     
     m_intakeSubsystem.setDefaultCommand(new DriveIntake(m_intakeSubsystem,
                                         () -> (m_operatorController.getRightTriggerAxis()),  
@@ -155,23 +153,23 @@ public class RobotContainer {
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kB)
       .whenHeld(new ShootUpperHub(m_shooterSubystem, m_towerSubsystem));
 
+    // new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kBack)
+    //   .whileActiveContinuous(new InstantCommand(m_shooterSubystem::deployHood, m_shooterSubystem));
+    
+    // new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kStart)
+    //   .whileActiveContinuous(new InstantCommand(m_shooterSubystem::retractHood, m_shooterSubystem));
+
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kBack)
-      .whileActiveContinuous(new InstantCommand(m_shooterSubystem::deployHood, m_shooterSubystem));
-    
+      .whenPressed(new A1_PrepareToClimb(m_climberSubsystem));
+
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kStart)
-      .whileActiveContinuous(new InstantCommand(m_shooterSubystem::retractHood, m_shooterSubystem));
-
-    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadUp)
-      .whileActiveContinuous(new A1_PrepareToClimb(m_climberSubsystem));
-
-    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadDown)
-      .whileActiveContinuous(new A9_DoItAll(m_climberSubsystem));
+      .whenPressed(new A9_DoItAll(m_climberSubsystem));
     
-    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadLeft)
-      .whileActiveContinuous(new AX_CancelClimb(m_climberSubsystem));
+    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kX)
+      .whenPressed(new AX_CancelClimb(m_climberSubsystem));
 
-    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadRight)
-      .whileActiveContinuous(new A0_CalibrateClimber(m_climberSubsystem));
+    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
+      .whenPressed(new A0_CalibrateClimber(m_climberSubsystem));
  }
 
   /**
