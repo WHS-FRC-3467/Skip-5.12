@@ -175,12 +175,11 @@ public class DriveSubsystem extends SubsystemBase {
                 m_backRightSteerMotor.setNeutralMode(NeutralMode.Brake);
 
                 m_odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation());
-
         }
 
         @Override
         public void periodic() {
-                odometryEntry.setString(getCurrentPose().toString());
+                // odometryEntry.setString(getCurrentPose().toString());
 
                 SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
                 // normalize wheel speeds

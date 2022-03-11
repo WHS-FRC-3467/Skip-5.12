@@ -115,10 +115,10 @@ public final class Constants {
             new Translation2d(-RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
         );
 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(71.6);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(108.5);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(111.3); 
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(135.9);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(97.9);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(285.2);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(292.2); 
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(316.0);
 
         // Drivetrain Performance Mechanical limits
         
@@ -169,8 +169,10 @@ public final class Constants {
     }
 
     public static final class ShooterConstants {
-        public static final double lowerHubVelocity = 1400.0;
-	    public static final double upperHubVelocity = 3215.0;
+        //measured 950
+        public static final double lowerHubVelocity = 925.0;
+        //measured 1900
+	    public static final double upperHubVelocity = 1750.0;
 
         public static final int kShooterTolerance = 100;
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
@@ -178,18 +180,18 @@ public final class Constants {
         
         public static final double kP = 0.01;
         public static final double kI = 0.0;
-        public static final double kD = 1.3;
+        public static final double kD = 1.15;
         public static final double kF = 0.048;
 
         public static final double lowerKP = 0.01;
         public static final double lowerKI = 0.0;
-        public static final double lowerKD = 1.3;
-        public static final double lowerKF = 0.048;
+        public static final double lowerKD = 1.05;
+        public static final double lowerKF = 0.059;
 
         public static final double upperKP = 0.01; 
         public static final double upperKI = 0.0;
-        public static final double upperKD = 1.3;
-        public static final double upperKF = 0.0471;
+        public static final double upperKD = 1.1;
+        public static final double upperKF = 0.0536;
 	}
 
     public static final class TowerConstants {
