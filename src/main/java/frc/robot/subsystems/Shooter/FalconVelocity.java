@@ -121,6 +121,10 @@ public class FalconVelocity extends SubsystemBase
         return m_motorLeft.getSelectedSensorVelocity();
      }
 
-     
-  
+     public void runPercentOutput(double percent){
+        m_motorLeft.set(ControlMode.PercentOutput, percent);
+     }
+     public double getShooterVelocity(){
+        return (int)((double)m_motorLeft.getSelectedSensorVelocity() * 600 / 2048);
+     }
 }

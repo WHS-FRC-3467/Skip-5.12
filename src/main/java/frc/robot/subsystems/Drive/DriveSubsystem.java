@@ -52,7 +52,6 @@ public class DriveSubsystem extends SubsystemBase {
         TalonFX m_backLeftSteerMotor = new TalonFX(CanConstants.BACK_LEFT_MODULE_STEER_MOTOR);
         TalonFX m_backRightSteerMotor = new TalonFX(CanConstants.BACK_RIGHT_MODULE_STEER_MOTOR);
 
-
         CANCoder m_frontLeftCanCoder = new CANCoder(CanConstants.FRONT_LEFT_MODULE_STEER_ENCODER);
         CANCoder m_backLeftCanCoder = new CANCoder(CanConstants.BACK_LEFT_MODULE_STEER_ENCODER);
         CANCoder m_frontRightCanCoder = new CANCoder(CanConstants.FRONT_RIGHT_MODULE_STEER_ENCODER);

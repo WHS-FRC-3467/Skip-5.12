@@ -23,6 +23,9 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    public static final boolean tuningMode = false;
+
     public static final class CanConstants{
         //drivebase CAN IDs 
         public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 1;
@@ -115,10 +118,10 @@ public final class Constants {
             new Translation2d(-RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
         );
 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(97.9);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(285.2);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(292.2); 
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(316.0);
+        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(97.9);
+        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(285.2);
+        public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(292.2); 
+        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(316.0);
 
         // Drivetrain Performance Mechanical limits
         
@@ -188,14 +191,14 @@ public final class Constants {
         public static final double lowerKD = 1.05;
         public static final double lowerKF = 0.059;
 
-        public static final double upperKP = 0.01; 
+        public static final double upperKP = 0.03; 
         public static final double upperKI = 0.0;
-        public static final double upperKD = 1.1;
-        public static final double upperKF = 0.0536;
+        public static final double upperKD = 1.0;
+        public static final double upperKF = 0.0535;
 	}
 
     public static final class TowerConstants {
-        public static final double standardTowerSpeed = 0.7;
+        public static final double standardTowerSpeed = 0.75;
     }
     
     public static final class ClimberConstants {

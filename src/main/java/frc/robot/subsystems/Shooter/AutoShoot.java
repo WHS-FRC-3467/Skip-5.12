@@ -34,10 +34,11 @@ public class AutoShoot extends CommandBase {
     m_time = Timer.getFPGATimestamp() - m_startTime;
     m_shooter.shootUpperHub();  
     
-    if(m_shooter.isWheelAtSpeed()){
-      m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
-    }
-    else if(m_time > 1.0){
+    // if(m_shooter.isWheelAtSpeed()){
+    //   m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
+    // }
+    // else
+    if(m_time > 1.0){
       m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
     }
   }

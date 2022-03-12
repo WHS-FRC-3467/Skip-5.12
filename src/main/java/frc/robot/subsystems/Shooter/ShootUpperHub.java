@@ -21,6 +21,7 @@ public class ShootUpperHub extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooter);
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -37,10 +38,10 @@ public class ShootUpperHub extends CommandBase {
     // if(m_shooter.isWheelAtSpeed()){
     //   m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
     // }
-    // else if(m_time > 1.0){
+    // else
+    // if(m_time > 1.0){
     //   m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
     // }
-    
   }
 
   // Called once the command ends or is interrupted.

@@ -40,8 +40,8 @@ public class BasicAutoDrive extends CommandBase {
       m_drive.drive(
         
         ChassisSpeeds.fromFieldRelativeSpeeds(
-            m_XTranslation,
-            m_YTranslation,
+            -m_XTranslation,
+            -m_YTranslation,
             0.0,
             m_drive.getGyroscopeRotation()
         )

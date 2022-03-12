@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Gains;
 import frc.robot.Constants.PHConstants;
 import frc.robot.Constants.ShooterConstants;
@@ -21,13 +22,26 @@ public class ShooterSubsystem extends SubsystemBase {
     Gains m_speedGains;
     FalconVelocity m_speedControl;
     public ShooterSubsystem m_shooter;
-    
+
+
+    private static TunableNumber kP = new TunableNumber("Shooter/kP");
+    private static TunableNumber kI = new TunableNumber("Shooter/kI");
+    private static TunableNumber kD = new TunableNumber("Shooter/kD");
+    private static TunableNumber kF = new TunableNumber("Shooter/kF");
+    private static TunableNumber kShooterSetpointUpper = new TunableNumber("Shooter/SetpointUpper");
+
 
     public ShooterSubsystem() { 
 
         m_speedControl = new FalconVelocity();
         m_speedGains = ShooterConstants.kGains;
-        
+
+        kP.setDefault(Constants.ShooterConstants.upperKP);
+        kI.setDefault(Constants.ShooterConstants.upperKI);
+        kD.setDefault(Constants.ShooterConstants.upperKD);
+        kF.setDefault(Constants.ShooterConstants.upperKF);
+        kShooterSetpointUpper.setDefault(Constants.ShooterConstants.upperHubVelocity);
+
         //commented out for non-testing purposes 
         //Can be put back if shooter needs to be tested
         // /* Initialize Smart Dashboard display */
@@ -110,16 +124,17 @@ public class ShooterSubsystem extends SubsystemBase {
     
     public void shootUpperHub(){    
         // Update gains on the controller
-        m_speedControl.updateGains(ShooterConstants.upperKP, ShooterConstants.upperKI, ShooterConstants.upperKD, ShooterConstants.upperKF);
+        m_speedControl.updateGains(kP.get(), kI.get(), kD.get(), kF.get());
 
         // Update the target velocity and get back the current velocity
-        int currentVelocity = m_speedControl.runVelocityPIDF(ShooterConstants.upperHubVelocity);
+        int currentVelocity = m_speedControl.runVelocityPIDF(kShooterSetpointUpper.get());
     
         // Show the Current Velocity, Error, and Current Output Percent on the SDB
         SmartDashboard.putNumber("Current Velocity", currentVelocity);
         // SmartDashboard.putNumber("Error", m_speedControl.getError());
         // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
         System.out.println(currentVelocity);
+        SmartDashboard.putNumber("Shooter Setpoint", ShooterConstants.upperHubVelocity);
 
     }
     // public int currentVelocity(){
@@ -140,4 +155,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
     }
 
+    public void shootPercentOutput(double percent){
+        m_speedControl.runPercentOutput(percent);
+        double currentVelocity = m_speedControl.getShooterVelocity();
+        SmartDashboard.putNumber("Current Velocity", currentVelocity);
+    }
 }
