@@ -8,13 +8,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class BasicAutoDrive extends CommandBase {
   //Initialize Variables
   DriveSubsystem m_drive;
-  double m_angle, m_meter, m_XTranslation, m_YTranslation;
+  double m_angle, m_meter, m_XTranslation, m_YTranslation, m_rotation;
   double m_finalPosition;
   boolean m_forward;
   boolean m_end;
   boolean m_reverse;
+
   //Constructor for BasicAutoDrive
-  public BasicAutoDrive(DriveSubsystem drive, double angle, double meter, double xTranslation, double yTranslation) {
+  public BasicAutoDrive(DriveSubsystem drive, double angle, double meter, double xTranslation, double yTranslation, double rotation) {
     //Set constructer objects equal to member variables 
     m_angle = angle;
     m_meter = meter;
@@ -22,6 +23,7 @@ public class BasicAutoDrive extends CommandBase {
 
     m_YTranslation = yTranslation;
     m_XTranslation = xTranslation;
+    m_rotation = rotation;
     addRequirements(m_drive);
   }
 
@@ -42,7 +44,7 @@ public class BasicAutoDrive extends CommandBase {
         ChassisSpeeds.fromFieldRelativeSpeeds(
             -m_XTranslation,
             -m_YTranslation,
-            0.0,
+            m_rotation,
             m_drive.getGyroscopeRotation()
         )
     );      m_end = false;
