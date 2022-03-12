@@ -53,8 +53,8 @@ public final class Constants {
     }
 
     public static final class PWMConstants{
-        public static final int Blinkin1 = 3;
-        public static final int Blinkin2 = 4;
+        public static final int Blinkin1 = 4;
+        //public static final int Blinkin2 = 4;
     }
     
     public static final class PHConstants{
@@ -173,9 +173,9 @@ public final class Constants {
 
     public static final class ShooterConstants {
         //measured 950
-        public static final double lowerHubVelocity = 925.0;
+        public static final double lowerHubVelocity = 975.0;
         //measured 1900
-	    public static final double upperHubVelocity = 1750.0;
+	    public static final double upperHubVelocity = 1825.0;
 
         public static final int kShooterTolerance = 100;
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
@@ -191,7 +191,7 @@ public final class Constants {
         public static final double lowerKD = 1.05;
         public static final double lowerKF = 0.059;
 
-        public static final double upperKP = 0.03; 
+        public static final double upperKP = 0.035; 
         public static final double upperKI = 0.0;
         public static final double upperKD = 1.0;
         public static final double upperKF = 0.0535;

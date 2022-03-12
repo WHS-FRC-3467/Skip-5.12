@@ -30,6 +30,7 @@ public class SimpleTwoBallAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+
       new InstantCommand(m_drive::resetDriveEncoders),
       new InstantCommand(m_intake::intakeDeploy, m_intake),
       new AutoDriveIntake(m_intake, m_tower,  1.0).withTimeout(1.7),
@@ -41,7 +42,7 @@ public class SimpleTwoBallAuto extends SequentialCommandGroup {
                                 new AutoDriveIntake(m_intake, m_tower,  1.0).withTimeout(4)
                               ),
       new InstantCommand(m_drive::resetDriveEncoders),
-      new BasicAutoDrive(m_drive, 0.0, 3.0, 0.878, 1.12),
+      new BasicAutoDrive(m_drive, 0.0, 3.0, 0.9, 1.12),
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0)
     );
   }

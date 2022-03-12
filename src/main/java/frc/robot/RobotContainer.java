@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Autonomous.FourBallAuto;
+//import frc.robot.Autonomous.FourBallAuto;
 import frc.robot.Autonomous.RightSideOneBall;
 import frc.robot.Autonomous.SimpleOneBallAuto;
 import frc.robot.Autonomous.SimpleTwoBallAuto;
@@ -38,7 +38,7 @@ import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
 import frc.robot.subsystems.Intake.IntakeOverride;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
-import frc.robot.subsystems.Shooter.PercentOutput;
+//import frc.robot.subsystems.Shooter.PercentOutput;
 import frc.robot.subsystems.Shooter.ShootLowerHub;
 import frc.robot.subsystems.Shooter.ShootUpperHub;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
@@ -85,8 +85,7 @@ public class RobotContainer {
     m_chooser.addOption("Three Ball Triangle Auto ", new ThreeBallTriangleAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem));
     m_chooser.addOption("Three Ball Terminal", new ThreeBallTerminalAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
     m_chooser.addOption("Right Side One Ball", new RightSideOneBall(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
-
-    m_chooser.addOption("FourBallAuto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
+    //m_chooser.addOption("FourBallAuto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
 
     SmartDashboard.putData("Auto Chooser", m_chooser);
 
@@ -174,8 +173,8 @@ public class RobotContainer {
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
       .whenPressed(new A0_CalibrateClimber(m_climberSubsystem));
 
-      new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kY)
-      .whenPressed(new PercentOutput(m_shooterSubystem, 0.25));
+      // new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kY)
+      // .whenPressed(new PercentOutput(m_shooterSubystem, 0.25));
  }
 
   /**

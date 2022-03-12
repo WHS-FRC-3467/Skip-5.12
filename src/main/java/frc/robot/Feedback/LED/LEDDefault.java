@@ -11,6 +11,7 @@ public class LEDDefault extends CommandBase {
   /** Creates a new LEDDefault. */
   LED m_led;
   TowerSubsystem m_tower;
+  double startTime;
   public LEDDefault(LED led, TowerSubsystem tower) {
     m_tower = tower;
     m_led = led;
@@ -36,7 +37,6 @@ public class LEDDefault extends CommandBase {
     if(m_tower.ballCount() == 2){
       m_led.twoBallLight();
     }
-    
   }
 
   // Called once the command ends or is interrupted.

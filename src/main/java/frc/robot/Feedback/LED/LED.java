@@ -11,7 +11,7 @@ import frc.robot.Constants.PWMConstants;
 public class LED extends SubsystemBase {
   /** Creates a new LED. */
   Spark sponsorBlinkin = new Spark(PWMConstants.Blinkin1);
-  Spark bottomBlinkin = new Spark(PWMConstants.Blinkin2);
+  //Spark bottomBlinkin = new Spark(PWMConstants.Blinkin2);
 
   public LED() {  
   }
@@ -23,15 +23,15 @@ public class LED extends SubsystemBase {
 
   public void noBallLight(){
     //Solid s
-    sponsorBlinkin.set(0.91);
+    sponsorBlinkin.set(0.0);
   }
   public void oneBallLight(){
     //Solid Orange
-    sponsorBlinkin.set(0.65);
+    sponsorBlinkin.set(-0.05);
   }
   public void twoBallLight(){
     //Solid Green
-    sponsorBlinkin.set(0.77);
+    sponsorBlinkin.set(0.93);
   }
 
   // public void bottomLights(){
