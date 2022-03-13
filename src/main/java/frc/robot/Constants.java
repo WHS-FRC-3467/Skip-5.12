@@ -175,7 +175,7 @@ public final class Constants {
         //measured 950
         public static final double lowerHubVelocity = 975.0;
         //measured 1900
-	    public static final double upperHubVelocity = 1825.0;
+	    public static final double upperHubVelocity = 1850.0;
 
         public static final int kShooterTolerance = 100;
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput

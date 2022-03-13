@@ -23,7 +23,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.NetworkTableEntry;
+//import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -36,7 +36,7 @@ import static frc.robot.Constants.DriveConstants;
 public class DriveSubsystem extends SubsystemBase {
         private static DriveSubsystem instance = null;
         private SwerveDriveOdometry m_odometry;
-        private NetworkTableEntry odometryEntry;
+        //private NetworkTableEntry odometryEntry;
 
         // The maximum voltage that will be delivered to the drive motors.
         public static final double MAX_VOLTAGE = 12.0;

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -74,7 +75,7 @@ public class RobotContainer {
     DriverStation.silenceJoystickConnectionWarning(DriveConstants.PRACTICE);
     
 
-    //CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
+    CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
 
 
     Shuffleboard.getTab("Driver Dash").add("Auto Chooser", m_chooser);
