@@ -41,6 +41,7 @@ import frc.robot.subsystems.Intake.IntakeOverride;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 //import frc.robot.subsystems.Shooter.PercentOutput;
 import frc.robot.subsystems.Shooter.ShootLowerHub;
+import frc.robot.subsystems.Shooter.ShootTarmac;
 import frc.robot.subsystems.Shooter.ShootUpperHub;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.DriveTower;
@@ -106,8 +107,8 @@ public class RobotContainer {
                                       () -> (m_driverController.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     
     m_intakeSubsystem.setDefaultCommand(new DriveIntake(m_intakeSubsystem,
-                                        () -> (m_operatorController.getRightTriggerAxis()),  
-                                        () -> (m_operatorController.getLeftTriggerAxis())));
+                                        () -> (m_driverController.getRightTriggerAxis()),  
+                                        () -> (m_driverController.getLeftTriggerAxis())));
 
     m_towerSubsystem.setDefaultCommand(new DriveTower(m_towerSubsystem,  
                                       () -> -m_operatorController.getLeftY()));
@@ -156,6 +157,9 @@ public class RobotContainer {
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kB)
       .whenHeld(new ShootUpperHub(m_shooterSubystem, m_towerSubsystem));
 
+    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
+    .whenHeld(new ShootTarmac(m_shooterSubystem, m_towerSubsystem));
+
     // new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kBack)
     //   .whileActiveContinuous(new InstantCommand(m_shooterSubystem::deployHood, m_shooterSubystem));
     
@@ -171,8 +175,8 @@ public class RobotContainer {
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kX)
       .whenPressed(new AX_CancelClimb(m_climberSubsystem));
 
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
-      .whenPressed(new A0_CalibrateClimber(m_climberSubsystem));
+    // new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
+    //   .whenPressed(new A0_CalibrateClimber(m_climberSubsystem));
 
       // new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kY)
       // .whenPressed(new PercentOutput(m_shooterSubystem, 0.25));

@@ -177,6 +177,8 @@ public final class Constants {
         //measured 1900
 	    public static final double upperHubVelocity = 1850.0;
 
+        public static final double TarmacVelocity = 1700.0;
+
         public static final int kShooterTolerance = 100;
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
         public static final Gains kGains = new Gains(0.0, 0.0, 0.0, 0.0, 0,  1.00);

@@ -38,7 +38,7 @@ public class XBoxControllerTrigger extends Trigger
      */
     public boolean get()
     {
-        return (m_controller.getRawAxis(m_axis) > 0.2);
+        return (m_controller.getRawAxis(m_axis) > 0.4);
     }
 
 	
