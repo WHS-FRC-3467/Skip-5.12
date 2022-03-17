@@ -15,15 +15,15 @@ public class PathResetOdometry extends CommandBase {
     
     PathPlannerTrajectory trajectory = null;
     private double offset_;
-
-    public PathResetOdometry(String pathName) {
+    DriveSubsystem m_drive;
+    public PathResetOdometry(String pathName, DriveSubsystem drive) {
         try {
             trajectory = PathPlanner.loadPath(pathName, 8, 5);
         } catch (Exception e) {
             e.printStackTrace();
         }
         offset_ = 0;
-        
+        m_drive = drive;
     }
 
     public PathResetOdometry(String pathName, double offset) {
@@ -43,7 +43,7 @@ public class PathResetOdometry extends CommandBase {
             initialPose.getY(),
             new Rotation2d(initialPose.getRotation().getDegrees() + offset_)
         );
-        DriveSubsystem.getInstance().resetOdometry(offsetPose);
+        m_drive.resetOdometry(offsetPose);
         
     }
 

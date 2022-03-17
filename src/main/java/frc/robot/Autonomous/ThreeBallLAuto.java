@@ -24,17 +24,18 @@ public class ThreeBallLAuto extends SequentialCommandGroup {
   TowerSubsystem m_tower;
   IntakeSubsystem m_intake;
 
-  public ThreeBallLAuto(IntakeSubsystem intake, TowerSubsystem tower, ShooterSubsystem shooter) {
+  public ThreeBallLAuto(IntakeSubsystem intake, TowerSubsystem tower, ShooterSubsystem shooter, DriveSubsystem drive) {
     m_intake = intake;
     m_tower = tower;
     m_shooter = shooter;
+    m_drive = drive;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0),
-      new PathResetOdometry("3BallL"),
+      new PathResetOdometry("3BallL", m_drive),
       //Timeout Needs to be tuned
-      new TrajectoryFollow("3BallL").withTimeout(5.0).raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
+      new TrajectoryFollow("3BallL", m_drive).withTimeout(5.0).raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0)
 
     );

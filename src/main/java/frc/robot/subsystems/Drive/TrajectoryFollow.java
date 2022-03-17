@@ -14,7 +14,7 @@ public class TrajectoryFollow extends CommandBase {
 
     private String m_pathName;
     private PathPlannerTrajectory m_trajectory = null;
-
+    DriveSubsystem m_drive;
     /**
      * Executes a trajectory that makes it remain still
      */
@@ -22,12 +22,14 @@ public class TrajectoryFollow extends CommandBase {
         m_pathName = "Stay Still";
     }
 
-    public TrajectoryFollow(String pathName) {
+    public TrajectoryFollow(String pathName, DriveSubsystem drive) {
         m_pathName = pathName;
+        m_drive = drive;
     }
 
-    public TrajectoryFollow(Trajectory traj) {
+    public TrajectoryFollow(Trajectory traj, DriveSubsystem drive) {
         m_trajectory = (PathPlannerTrajectory) traj;
+        m_drive = drive;
     }
 
     @Override
@@ -49,14 +51,14 @@ public class TrajectoryFollow extends CommandBase {
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         new PPSwerveControllerCommand(m_trajectory,
-                DriveSubsystem.getInstance()::getCurrentPose,
-                DriveSubsystem.getInstance().getKinematics(),
+                m_drive::getCurrentPose,
+                m_drive.getKinematics(),
                 new PIDController(6, 0, 0),
                 new PIDController(6, 0, 0),
                 thetaController,
-                DriveSubsystem.getInstance()::actuateModulesAuto,
-                DriveSubsystem.getInstance())
-                        .andThen(() -> DriveSubsystem.getInstance().drive(new ChassisSpeeds(0.0, 0.0, 0.0)))
+                m_drive::actuateModulesAuto,
+                m_drive)
+                        .andThen(() -> m_drive.drive(new ChassisSpeeds(0.0, 0.0, 0.0)))
                         .schedule();
     }
 

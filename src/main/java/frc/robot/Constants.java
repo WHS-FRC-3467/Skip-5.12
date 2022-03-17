@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -118,10 +116,10 @@ public final class Constants {
             new Translation2d(-RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
         );
 
-        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(97.9);
-        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(285.2);
-        public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(292.2); 
-        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(316.0);
+        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(277.7);
+        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(104.9);
+        public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(110.21); 
+        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(133.6);
 
         // Drivetrain Performance Mechanical limits
         
@@ -129,46 +127,40 @@ public final class Constants {
         // The formula for calculating the theoretical maximum velocity is:
         // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> * PI
         // By default this value is setup for a MK4 module using Falcon500s to drive.
-        public static final double MAX_VELOCITY_METERS_PER_SECOND =
-            6380.0 /     // Falcon500 free speed (rpm)
-            60.0 *       // sec per min
-            SdsModuleConfigurations.MK4_L2.getDriveReduction() *
-            SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
+        // public static final double MAX_VELOCITY_METERS_PER_SECOND =
+        //     6380.0 /     // Falcon500 free speed (rpm)
+        //     60.0 *       // sec per min
+        //     SdsModuleConfigurations.MK4_L2.getDriveReduction() *
+        //     SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
 
-        // The maximum angular velocity of the robot in radians per second.
-        // This is a measure of how fast the robot can rotate in place.
-        // Here we calculate the theoretical maximum angular velocity. You can also
-        // replace this with a measured amount.
-        public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND =
-            MAX_VELOCITY_METERS_PER_SECOND /
-            Math.hypot(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-                        RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
+        // // The maximum angular velocity of the robot in radians per second.
+        // // This is a measure of how fast the robot can rotate in place.
+        // // Here we calculate the theoretical maximum angular velocity. You can also
+        // // replace this with a measured amount.
+        // public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND =
+        //     MAX_VELOCITY_METERS_PER_SECOND /
+        //     Math.hypot(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+        //                 RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
-        // These values will be passed to the swerve system, and can be tuned here with measured values if you wish.
-        static public final double MAX_FWD_REV_SPEED_MPS = MAX_VELOCITY_METERS_PER_SECOND * 0.75;
-        static public final double MAX_STRAFE_SPEED_MPS = MAX_VELOCITY_METERS_PER_SECOND * 0.75;
-        static public final double MAX_ROTATE_SPEED_RAD_PER_SEC = MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.5;
-        static public final double MAX_TRANSLATE_ACCEL_MPS2 = MAX_FWD_REV_SPEED_MPS/0.25; //0-full time of 0.25 second
-        static public final double MAX_ROTATE_ACCEL_RAD_PER_SEC_2 = MAX_ROTATE_SPEED_RAD_PER_SEC/0.25; //0-full time of 0.25 second
-        public static final double MAX_VOLTAGE = 12.0; // Maximum Voltage sent to the drive motors
+        // // These values will be passed to the swerve system, and can be tuned here with measured values if you wish.
+        // static public final double MAX_FWD_REV_SPEED_MPS = MAX_VELOCITY_METERS_PER_SECOND * 0.75;
+        // static public final double MAX_STRAFE_SPEED_MPS = MAX_VELOCITY_METERS_PER_SECOND * 0.75;
+        // static public final double MAX_ROTATE_SPEED_RAD_PER_SEC = MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.5;
+        // static public final double MAX_TRANSLATE_ACCEL_MPS2 = MAX_FWD_REV_SPEED_MPS/0.25; //0-full time of 0.25 second
+        // static public final double MAX_ROTATE_ACCEL_RAD_PER_SEC_2 = MAX_ROTATE_SPEED_RAD_PER_SEC/0.25; //0-full time of 0.25 second
+        // public static final double MAX_VOLTAGE = 12.0; // Maximum Voltage sent to the drive motors
 
-        // Sensor-related constants - pulled from datasheets for the sensors and gearboxes
-        static public final int ENC_PULSE_PER_REV = 2048; // TalonFX integrated sensor
-        static public final int WHEEL_ENC_COUNTS_PER_WHEEL_REV = ENC_PULSE_PER_REV;  //Assume 1-1 gearing for now
-        static public final int STEER_ENC_COUNTS_PER_MODULE_REV = 4096; // CANCoder
-        static public final double WHEEL_ENC_WHEEL_REVS_PER_COUNT  = 1.0/((double)(WHEEL_ENC_COUNTS_PER_WHEEL_REV));
-        static public final double steer_ENC_MODULE_REVS_PER_COUNT = 1.0/((double)(STEER_ENC_COUNTS_PER_MODULE_REV));
+        // // Sensor-related constants - pulled from datasheets for the sensors and gearboxes
+        // static public final int ENC_PULSE_PER_REV = 2048; // TalonFX integrated sensor
+        // static public final int WHEEL_ENC_COUNTS_PER_WHEEL_REV = ENC_PULSE_PER_REV;  //Assume 1-1 gearing for now
+        // static public final int STEER_ENC_COUNTS_PER_MODULE_REV = 4096; // CANCoder
+        // static public final double WHEEL_ENC_WHEEL_REVS_PER_COUNT  = 1.0/((double)(WHEEL_ENC_COUNTS_PER_WHEEL_REV));
+        // static public final double steer_ENC_MODULE_REVS_PER_COUNT = 1.0/((double)(STEER_ENC_COUNTS_PER_MODULE_REV));
+            
+        public static final double precisionSpeed = 0.25;
 
-	    // PID Drive Constants
-    public static final double kP = 0.01;
-    public static final double kI = 0.0;
-    public static final double kD = 0.0008;
-    public static final double driveTollerance = 100;
-        
-    public static final double precisionSpeed = 0.25;
-
-    //meters per second
-    public static final double SimpleAutoVelocity = 1.0;
+        //meters per second
+        public static final double SimpleAutoVelocity = 1.0;
     }
 
     public static final class ShooterConstants {

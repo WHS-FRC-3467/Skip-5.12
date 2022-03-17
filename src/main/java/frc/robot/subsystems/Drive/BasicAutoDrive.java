@@ -49,9 +49,14 @@ public class BasicAutoDrive extends CommandBase {
         )
     );      m_end = false;
     }
-    else{
-      m_drive.setState(0.0, 0.0);
-      m_end = true;
+    else{   
+      ChassisSpeeds.fromFieldRelativeSpeeds(
+        0.0,
+        0.0,
+        0.0,
+        m_drive.getGyroscopeRotation()
+      );
+       m_end = true;
     }
       
       System.out.println(m_finalPosition);
@@ -67,8 +72,13 @@ public class BasicAutoDrive extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     //When finished the drivebase is set to zero
-    m_drive.setState(0.0, 0.0);
-    System.out.println("end");
+    ChassisSpeeds.fromFieldRelativeSpeeds(
+      0.0,
+      0.0,
+      0.0,
+      m_drive.getGyroscopeRotation()
+    );
+  System.out.println("end");
   }
 
   @Override
