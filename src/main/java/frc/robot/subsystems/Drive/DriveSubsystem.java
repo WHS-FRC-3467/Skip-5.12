@@ -23,7 +23,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-//import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -33,14 +33,28 @@ import frc.robot.Constants.RobotConstants;
 
 import static frc.robot.Constants.DriveConstants;
 
+import java.util.Map;
+
 public class DriveSubsystem extends SubsystemBase {
         private static DriveSubsystem instance = null;
         private SwerveDriveOdometry m_odometry;
-        //private NetworkTableEntry odometryEntry;
+        private NetworkTableEntry odometryEntry;
+        private ShuffleboardTab m_driverTab;
 
         // The maximum voltage that will be delivered to the drive motors.
         public static final double MAX_VOLTAGE = 12.0;
-        public static final double AUTO_DRIVE_SCALE = 1;
+        public static final double AUTO_DRIVE_SCALE = 0.1;
+
+        private final Pigeon2 m_pigeon = new Pigeon2(CanConstants.DRIVETRAIN_PIGEON_ID);
+
+        // These are our modules. We initialize them in the constructor.
+        private final SwerveModule m_frontLeftModule;
+        private final SwerveModule m_frontRightModule;
+        private final SwerveModule m_backLeftModule;
+        private final SwerveModule m_backRightModule;
+
+        private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
+
 
         TalonFX m_frontLeftDriveMotor = new TalonFX(CanConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR);
         TalonFX m_frontRightDriveMotor = new TalonFX(CanConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR);
@@ -57,18 +71,13 @@ public class DriveSubsystem extends SubsystemBase {
         CANCoder m_frontRightCanCoder = new CANCoder(CanConstants.FRONT_RIGHT_MODULE_STEER_ENCODER);
         CANCoder m_backRightCanCoder = new CANCoder(CanConstants.BACK_RIGHT_MODULE_STEER_ENCODER);
 
-        // The formula for calculating the theoretical maximum velocity is:
-        // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
-        // pi
-        // By default this value is setup for a Mk3 standard module using Falcon500s to
-        // drive.
+        // The formula for calculating the theoretical maximum velocity is: <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *pi
         // The maximum velocity of the robot in meters per second.
         public static final double MAX_VELOCITY_METERS_PER_SECOND = 5800.0 / 60.0 * SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
 
         // The maximum angular velocity of the robot in radians per second.
         // This is a measure of how fast the robot can rotate in place.
-        // Here we calculate the theoretical maximum angular velocity. You can also
-        // replace this with a measured amount.
+        
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND
                         / Math.hypot(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
                                 RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
@@ -87,20 +96,7 @@ public class DriveSubsystem extends SubsystemBase {
                         new Translation2d(-RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
                                         -RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
-        // By default we use a Pigeon for our gyroscope. But if you use another
-        // gyroscope, like a NavX, you can change this.
-        // The important thing about how you configure your gyroscope is that rotating
-        // the robot counter-clockwise should
-        // cause the angle reading to increase until it wraps back over to zero.
-        private final Pigeon2 m_pigeon = new Pigeon2(CanConstants.DRIVETRAIN_PIGEON_ID);
-        // These are our modules. We initialize them in the constructor.
-        private final SwerveModule m_frontLeftModule;
-        private final SwerveModule m_frontRightModule;
-        private final SwerveModule m_backLeftModule;
-        private final SwerveModule m_backRightModule;
-
-        private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
-
+        
         public DriveSubsystem() {
                 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
@@ -174,11 +170,20 @@ public class DriveSubsystem extends SubsystemBase {
                 m_backRightSteerMotor.setNeutralMode(NeutralMode.Brake);
 
                 m_odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation());
+
+                m_driverTab = Shuffleboard.getTab("Driver");
+                m_driverTab
+                .getLayout("Drivetrain Info", BuiltInLayouts.kList)
+                .withSize(2, 2)
+                .withProperties(Map.of("Label position", "BOTTOM"))
+                .withPosition(4, 1);
+                odometryEntry = m_driverTab.add("Odometry", "not found").getEntry();
+        
         }
 
         @Override
         public void periodic() {
-                // odometryEntry.setString(getCurrentPose().toString());
+                odometryEntry.setString(getCurrentPose().toString());
 
                 SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
                 // normalize wheel speeds
@@ -197,27 +202,27 @@ public class DriveSubsystem extends SubsystemBase {
         }
 
         public void initilizeEncoders(){
-        m_frontLeftCanCoder.configFactoryDefault();
-        m_frontRightCanCoder.configFactoryDefault();
-        m_backLeftCanCoder.configFactoryDefault();
-        m_backRightCanCoder.configFactoryDefault();
+                m_frontLeftCanCoder.configFactoryDefault();
+                m_frontRightCanCoder.configFactoryDefault();
+                m_backLeftCanCoder.configFactoryDefault();
+                m_backRightCanCoder.configFactoryDefault();
 
-        m_frontLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-        m_frontRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-        m_backLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-        m_backRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+                m_frontLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+                m_frontRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+                m_backLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+                m_backRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
 
-        m_frontLeftCanCoder.configSensorDirection(true);
-        m_frontRightCanCoder.configSensorDirection(true);
-        m_backLeftCanCoder.configSensorDirection(true);
-        m_backRightCanCoder.configSensorDirection(true);
+                m_frontLeftCanCoder.configSensorDirection(true);
+                m_frontRightCanCoder.configSensorDirection(true);
+                m_backLeftCanCoder.configSensorDirection(true);
+                m_backRightCanCoder.configSensorDirection(true);
 
-        m_frontLeftCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
-        m_frontRightCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
-        m_backLeftCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
-        m_backRightCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
+                m_frontLeftCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
+                m_frontRightCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
+                m_backLeftCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
+                m_backRightCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
 
-        m_pigeon.clearStickyFaults();
+                m_pigeon.clearStickyFaults();
         }
         public void zeroGyroscope() {
                 m_pigeon.configMountPoseYaw(0.0);
@@ -293,7 +298,6 @@ public class DriveSubsystem extends SubsystemBase {
                 m_chassisSpeeds.vyMetersPerSecond = chassisSpeeds.vyMetersPerSecond * AUTO_DRIVE_SCALE;
                 m_chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond;
                 
-        }
-            
+        }        
 }
 

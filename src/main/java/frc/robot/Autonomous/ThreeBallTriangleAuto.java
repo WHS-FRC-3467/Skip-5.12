@@ -5,6 +5,7 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.TrajectoryFollow;
 import frc.robot.subsystems.Intake.AutoDriveIntake;
@@ -21,18 +22,20 @@ public class ThreeBallTriangleAuto extends SequentialCommandGroup {
   IntakeSubsystem m_intake;
   TowerSubsystem m_tower;
   ShooterSubsystem m_shooter;
-  public ThreeBallTriangleAuto(IntakeSubsystem intake, TowerSubsystem tower, ShooterSubsystem shooter) {
+  DriveSubsystem m_drive;
+  public ThreeBallTriangleAuto(IntakeSubsystem intake, TowerSubsystem tower, ShooterSubsystem shooter, DriveSubsystem drive) {
     m_intake = intake;
     m_tower = tower;
     m_shooter = shooter;
+    m_drive = drive;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutoShoot(m_shooter, m_tower).withTimeout(3.0),
-      new PathResetOdometry("3BallTriangle"),
+      // new AutoShoot(m_shooter, m_tower).withTimeout(3.0),
+      new PathResetOdometry("3BallTriangle", m_drive),
       //Timeout Needs to be tuned
-      new TrajectoryFollow("3BallTriangle").withTimeout(5.0).raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
-      new AutoShoot(m_shooter, m_tower).withTimeout(3.0)
+      new TrajectoryFollow("3BallTriangle", m_drive).withTimeout(5.0).raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0))
+      // new AutoShoot(m_shooter, m_tower).withTimeout(3.0)
       
     );
   }

@@ -83,9 +83,9 @@ public class RobotContainer {
     m_chooser.addOption("Two Ball Auto", new SimpleTwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
     m_chooser.addOption("One Ball Auto", new SimpleOneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
     m_chooser.addOption("No Auto", null);
-    m_chooser.addOption("Three Ball L Auto", new ThreeBallLAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem));
-    m_chooser.addOption("Three Ball Triangle Auto ", new ThreeBallTriangleAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem));
-    m_chooser.addOption("Three Ball Terminal", new ThreeBallTerminalAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("Three Ball L Auto", new ThreeBallLAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
+    m_chooser.addOption("Three Ball Triangle Auto ", new ThreeBallTriangleAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
+    m_chooser.addOption("Three Ball Terminal", new ThreeBallTerminalAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem));
     m_chooser.addOption("Right Side One Ball", new RightSideOneBall(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
     //m_chooser.addOption("FourBallAuto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
 
@@ -158,7 +158,7 @@ public class RobotContainer {
       .whenHeld(new ShootUpperHub(m_shooterSubystem, m_towerSubsystem));
 
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
-    .whenHeld(new ShootTarmac(m_shooterSubystem, m_towerSubsystem));
+      .whenHeld(new ShootTarmac(m_shooterSubystem, m_towerSubsystem));
 
     // new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kBack)
     //   .whileActiveContinuous(new InstantCommand(m_shooterSubystem::deployHood, m_shooterSubystem));
