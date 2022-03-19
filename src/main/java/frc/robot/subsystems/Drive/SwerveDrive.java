@@ -32,9 +32,9 @@ public class SwerveDrive extends CommandBase{
         if(m_driverController.getLeftBumper()){
             m_driveSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                    m_translationXSupplier.getAsDouble() * DriveConstants.precisionSpeed,
-                    m_translationYSupplier.getAsDouble() * DriveConstants.precisionSpeed,
-                    m_rotationSupplier.getAsDouble() *DriveConstants.precisionSpeed,
+                    m_driveSubsystem.modifyAxis(m_translationXSupplier.getAsDouble() * DriveConstants.precisionSpeed, 2),
+                    m_driveSubsystem.modifyAxis(m_translationYSupplier.getAsDouble() * DriveConstants.precisionSpeed, 2),
+                    m_driveSubsystem.modifyAxis(m_rotationSupplier.getAsDouble() *DriveConstants.precisionSpeed, 2),
                     m_driveSubsystem.getGyroscopeRotation()
 
                 )
@@ -43,9 +43,9 @@ public class SwerveDrive extends CommandBase{
         else if(m_driverController.getRightBumper()){
             m_driveSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                    m_translationXSupplier.getAsDouble() * 0.5,
-                    m_translationYSupplier.getAsDouble() * 0.5,
-                    m_rotationSupplier.getAsDouble() * 0.5,
+                    m_driveSubsystem.modifyAxis(m_translationXSupplier.getAsDouble() * 0.5, 2),
+                    m_driveSubsystem.modifyAxis(m_translationYSupplier.getAsDouble() * 0.5, 2),
+                    m_driveSubsystem.modifyAxis(m_rotationSupplier.getAsDouble() * 0.5, 2),
                     m_driveSubsystem.getGyroscopeRotation()
 
                 )
@@ -54,9 +54,9 @@ public class SwerveDrive extends CommandBase{
         else{
             m_driveSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                    m_translationXSupplier.getAsDouble(),
-                    m_translationYSupplier.getAsDouble(),
-                    m_rotationSupplier.getAsDouble(),
+                    m_driveSubsystem.modifyAxis(m_translationXSupplier.getAsDouble(),2),
+                    m_driveSubsystem.modifyAxis(m_translationYSupplier.getAsDouble(),2),
+                    m_driveSubsystem.modifyAxis(m_rotationSupplier.getAsDouble(), 2),
                     m_driveSubsystem.getGyroscopeRotation()
                 )
             ); 

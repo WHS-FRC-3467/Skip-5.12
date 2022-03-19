@@ -16,6 +16,7 @@ import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -198,7 +199,7 @@ public class DriveSubsystem extends SubsystemBase {
                 m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[3].angle.getRadians());
 
-                //SmartDashboard.putNumber("front right", m_frontRightDriveMotor.getSelectedSensorPosition());
+               m_odometry.update(getGyroscopeRotation(), states);
         }
 
         public void initilizeEncoders(){
@@ -251,18 +252,6 @@ public class DriveSubsystem extends SubsystemBase {
                 return encoderTicks/  (2048/(SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI));
         }
 
-        public void setState(double speed, double angle){
-                // Example module states
-                var frontLeftState = new SwerveModuleState(speed, Rotation2d.fromDegrees(angle));
-                var frontRightState = new SwerveModuleState(speed, Rotation2d.fromDegrees(angle));
-                var backLeftState = new SwerveModuleState(speed, Rotation2d.fromDegrees(angle));
-                var backRightState = new SwerveModuleState(speed, Rotation2d.fromDegrees(angle));
-
-                // Convert to chassis speeds
-                m_chassisSpeeds = m_kinematics.toChassisSpeeds(
-                frontLeftState, frontRightState, backLeftState, backRightState);
-        } 
-
         public static DriveSubsystem getInstance() {
                 if (instance == null) {
                         instance = new DriveSubsystem();
@@ -299,5 +288,10 @@ public class DriveSubsystem extends SubsystemBase {
                 m_chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond;
                 
         }        
+        public double modifyAxis(double value, int exponent){
+                value = MathUtil.applyDeadband(value, DriveConstants.kDeadband);
+                value = Math.copySign(Math.pow(value, exponent), value);
+                return value;
+        }
 }
 

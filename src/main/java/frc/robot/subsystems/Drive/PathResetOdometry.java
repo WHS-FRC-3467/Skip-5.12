@@ -6,15 +6,14 @@ package frc.robot.subsystems.Drive;
 
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class PathResetOdometry extends CommandBase {
     
     PathPlannerTrajectory trajectory = null;
-    private double offset_;
     DriveSubsystem m_drive;
     public PathResetOdometry(String pathName, DriveSubsystem drive) {
         try {
@@ -22,7 +21,6 @@ public class PathResetOdometry extends CommandBase {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        offset_ = 0;
         m_drive = drive;
     }
 
@@ -37,14 +35,9 @@ public class PathResetOdometry extends CommandBase {
 
     @Override
     public void initialize() {
-        Pose2d initialPose = trajectory.getInitialPose();
-        Pose2d offsetPose = new Pose2d(
-            initialPose.getX(),
-            initialPose.getY(),
-            new Rotation2d(initialPose.getRotation().getDegrees() + offset_)
-        );
-        m_drive.resetOdometry(offsetPose);
-        
+        PathPlannerState initialState = trajectory.getInitialState();
+        Pose2d startingPose = new Pose2d(initialState.poseMeters.getTranslation(), initialState.holonomicRotation);
+        m_drive.resetOdometry(startingPose);      
     }
 
     @Override

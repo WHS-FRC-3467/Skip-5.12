@@ -7,21 +7,17 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-//import frc.robot.Autonomous.FourBallAuto;
 import frc.robot.Autonomous.RightSideOneBall;
+import frc.robot.Autonomous.RightSideTwoBall;
 import frc.robot.Autonomous.SimpleOneBallAuto;
 import frc.robot.Autonomous.SimpleTwoBallAuto;
-import frc.robot.Autonomous.ThreeBallLAuto;
-import frc.robot.Autonomous.ThreeBallTerminalAuto;
 import frc.robot.Autonomous.ThreeBallTriangleAuto;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Control.XBoxControllerButton;
 import frc.robot.Control.XBoxControllerEE;
-// import frc.robot.Feedback.Cameras.IntakeCam;
 import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.Feedback.LED.LED;
 import frc.robot.Feedback.LED.LEDDefault;
@@ -34,12 +30,12 @@ import frc.robot.subsystems.Climber.A9_DoItAll;
 import frc.robot.subsystems.Climber.AX_CancelClimb;
 import frc.robot.subsystems.Climber.ClimberSubsystem;
 import frc.robot.subsystems.Climber.ManualClimbByStick;
+import frc.robot.subsystems.Climber.MatchDefault;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
 import frc.robot.subsystems.Intake.IntakeOverride;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
-//import frc.robot.subsystems.Shooter.PercentOutput;
 import frc.robot.subsystems.Shooter.ShootLowerHub;
 import frc.robot.subsystems.Shooter.ShootTarmac;
 import frc.robot.subsystems.Shooter.ShootUpperHub;
@@ -79,14 +75,12 @@ public class RobotContainer {
     CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
 
 
-    Shuffleboard.getTab("Driver Dash").add("Auto Chooser", m_chooser);
     m_chooser.addOption("Two Ball Auto", new SimpleTwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
     m_chooser.addOption("One Ball Auto", new SimpleOneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
     m_chooser.addOption("No Auto", null);
-    m_chooser.addOption("Three Ball L Auto", new ThreeBallLAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
     m_chooser.addOption("Three Ball Triangle Auto ", new ThreeBallTriangleAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
-    m_chooser.addOption("Three Ball Terminal", new ThreeBallTerminalAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem));
     m_chooser.addOption("Right Side One Ball", new RightSideOneBall(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
+    m_chooser.addOption("Right Side Two Ball", new RightSideTwoBall(m_intakeSubsystem,  m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
     //m_chooser.addOption("FourBallAuto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
 
     SmartDashboard.putData("Auto Chooser", m_chooser);
@@ -96,9 +90,6 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
-
-    // For simulation
-
     
 	  // Set up the default commands for the various subsystems
     m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
@@ -114,6 +105,9 @@ public class RobotContainer {
                                       () -> -m_operatorController.getLeftY()));
 
     m_led.setDefaultCommand(new LEDDefault(m_led, m_towerSubsystem));
+
+    //Comment out line below if leds stop working
+    m_climberSubsystem.setDefaultCommand(new MatchDefault(m_climberSubsystem));
 
     // Make the Climb Sequence commands available on SmartDash
     SmartDashboard.putData(new A0_CalibrateClimber(m_climberSubsystem));

@@ -6,6 +6,7 @@ package frc.robot.subsystems.Tower;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveTower extends CommandBase {
@@ -28,7 +29,7 @@ public class DriveTower extends CommandBase {
   @Override
   public void execute() {
     if(m_speed.getAsDouble() > 0.2 || m_speed.getAsDouble() < -0.2){
-      m_tower.driveWholeTower(m_speed.getAsDouble());
+      m_tower.driveWholeTower(MathUtil.applyDeadband(m_speed.getAsDouble(), 0.1));
     }
     else{
       m_tower.sendToTop();
