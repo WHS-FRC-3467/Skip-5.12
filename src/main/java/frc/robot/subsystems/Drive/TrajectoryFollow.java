@@ -39,13 +39,13 @@ public class TrajectoryFollow extends CommandBase {
 
         if (m_trajectory == null) {
             try {
-                m_trajectory = PathPlanner.loadPath(m_pathName, 8, 5); //2.9, 3
+                m_trajectory = PathPlanner.loadPath(m_pathName, 1, 1); //2.9, 3
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        ProfiledPIDController thetaController = new ProfiledPIDController(5, 0, 0,
+        ProfiledPIDController thetaController = new ProfiledPIDController(1, 0, 0,
                 new TrapezoidProfile.Constraints(DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
                         Math.pow(DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 2)));
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
@@ -53,8 +53,8 @@ public class TrajectoryFollow extends CommandBase {
         new PPSwerveControllerCommand(m_trajectory,
                 m_drive::getCurrentPose,
                 m_drive.getKinematics(),
-                new PIDController(6, 0, 0),
-                new PIDController(6, 0, 0),
+                new PIDController(50, 0, 0),
+                new PIDController(50, 0, 0),
                 thetaController,
                 m_drive::actuateModulesAuto,
                 m_drive)

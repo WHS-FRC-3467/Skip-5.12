@@ -13,6 +13,7 @@ public class A2_LiftAndReach extends SequentialCommandGroup {
   public A2_LiftAndReach(ClimberSubsystem climber) {
   
     m_climberSubsystem = climber;
+    addRequirements(m_climberSubsystem);
 
     addCommands(
       new X2_LiftToBar(m_climberSubsystem),
