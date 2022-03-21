@@ -44,7 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         // The maximum voltage that will be delivered to the drive motors.
         public static final double MAX_VOLTAGE = 12.0;
-        public static final double AUTO_DRIVE_SCALE = 0.1;
+        public static final double AUTO_DRIVE_SCALE = 1.0;
 
         private final Pigeon2 m_pigeon = new Pigeon2(CanConstants.DRIVETRAIN_PIGEON_ID);
 
@@ -289,9 +289,9 @@ public class DriveSubsystem extends SubsystemBase {
                 
         }        
         public double modifyAxis(double value, int exponent){
-                value = MathUtil.applyDeadband(value, DriveConstants.kDeadband);
-                value = Math.copySign(Math.pow(value, exponent), value);
-                return value;
+                double deadValue = MathUtil.applyDeadband(value, DriveConstants.kDeadband);
+                double quarticValue = Math.copySign(Math.pow(deadValue, exponent), deadValue);
+                return quarticValue;
         }
 }
 

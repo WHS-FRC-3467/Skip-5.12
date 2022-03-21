@@ -116,10 +116,10 @@ public final class Constants {
             new Translation2d(-RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
         );
 
-        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(279.1);
-        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(107.9);
-        public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(110.3); 
-        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(132.4);
+        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(277.4);
+        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(104.5);
+        public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(110.0); 
+        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(133.5);
 
         // Drivetrain Performance Mechanical limits
         

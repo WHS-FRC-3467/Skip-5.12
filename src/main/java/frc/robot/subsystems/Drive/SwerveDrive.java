@@ -34,7 +34,7 @@ public class SwerveDrive extends CommandBase{
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                     m_driveSubsystem.modifyAxis(m_translationXSupplier.getAsDouble() * DriveConstants.precisionSpeed, 2),
                     m_driveSubsystem.modifyAxis(m_translationYSupplier.getAsDouble() * DriveConstants.precisionSpeed, 2),
-                    m_driveSubsystem.modifyAxis(m_rotationSupplier.getAsDouble() *DriveConstants.precisionSpeed, 2),
+                    m_driveSubsystem.modifyAxis(m_rotationSupplier.getAsDouble() * DriveConstants.precisionSpeed, 2),
                     m_driveSubsystem.getGyroscopeRotation()
 
                 )
