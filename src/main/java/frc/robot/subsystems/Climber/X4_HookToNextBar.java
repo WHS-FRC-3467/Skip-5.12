@@ -54,7 +54,7 @@ public class X4_HookToNextBar extends CommandBase {
     case 2:
       //Wait for fixed arms to return to vertical
       m_timer.start();
-      if (m_timer.hasElapsed(0.5)) {
+      if (m_timer.hasElapsed(0.1)) {
           m_climbPhase = 3;
           m_timer.stop();
           m_timer.reset();

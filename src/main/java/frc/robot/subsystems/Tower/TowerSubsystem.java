@@ -121,5 +121,7 @@ public class TowerSubsystem extends SubsystemBase {
       return false;
     }
   }
-  
+  public void autoRunTower(){
+    driveLowerTower(1.0);
+  }
 }

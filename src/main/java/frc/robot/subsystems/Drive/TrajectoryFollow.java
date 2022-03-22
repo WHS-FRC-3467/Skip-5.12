@@ -39,7 +39,7 @@ public class TrajectoryFollow extends CommandBase {
 
         if (m_trajectory == null) {
             try {
-                m_trajectory = PathPlanner.loadPath(m_pathName, 1, 1); //2.9, 3
+                m_trajectory = PathPlanner.loadPath(m_pathName, 2, 2); //2.9, 3
             } catch (Exception e) {
                 e.printStackTrace();
             }

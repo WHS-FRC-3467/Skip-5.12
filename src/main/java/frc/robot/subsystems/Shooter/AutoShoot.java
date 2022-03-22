@@ -18,7 +18,7 @@ public class AutoShoot extends CommandBase {
     m_shooter = shooter;
     m_tower = tower;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_shooter);
+    addRequirements(m_shooter, m_tower);
   }
 
   // Called when the command is initially scheduled.
@@ -34,10 +34,10 @@ public class AutoShoot extends CommandBase {
     m_time = Timer.getFPGATimestamp() - m_startTime;
     m_shooter.shootUpperHub();  
     
-    if(m_shooter.isWheelAtSpeed()){
-      m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
-    }
-    else if(m_time > 1.0){
+    // if(m_shooter.isWheelAtSpeed()){
+    //   m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
+    // }
+     if(m_time > 1.0){
       m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
     }
   }

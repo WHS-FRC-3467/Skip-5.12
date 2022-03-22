@@ -37,12 +37,13 @@ public class SimpleTwoBallAuto extends SequentialCommandGroup {
       new AutoDriveIntake(m_intake, m_tower,  1.0).withTimeout(1.0),
 
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0),
-
       new ParallelCommandGroup(
-                                new BasicAutoDrive(m_drive, 0.0, 3.0, -0.878, -1.12, 0.0),
-                                new AutoDriveIntake(m_intake, m_tower,  1.0).withTimeout(4)
-                              ),
+        new BasicAutoDrive(m_drive, 0.0, 3.0, -0.878, -1.12, 0.0),
+        new AutoDriveIntake(m_intake, m_tower, 1.0)
+      ).withTimeout(4.0),
+                                
       new InstantCommand(m_drive::resetDriveEncoders),
+      new WaitCommand(0.05),
       new BasicAutoDrive(m_drive, 0.0, 3.0, 0.9, 1.12, 0.0),
       new InstantCommand(m_drive::resetDriveEncoders),
       new WaitCommand(0.25),

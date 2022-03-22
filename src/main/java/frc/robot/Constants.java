@@ -194,7 +194,7 @@ public final class Constants {
 	}
 
     public static final class TowerConstants {
-        public static final double standardTowerSpeed = 0.75;
+        public static final double standardTowerSpeed = 0.9;
     }
     
     public static final class ClimberConstants {
@@ -221,8 +221,9 @@ public final class Constants {
 
         // Motion Magic constants
         public static final int kMotionCruiseVelocity = 25000;
-        public static final int kMotionAcceleration = 30000;
-        public static final int kSlowMotionAccel = 15000;
+        public static final int kMotionAcceleration = 35000;
+        public static final int kSlowMotionAccel = 18000;
+        
         public final static int kCurveSmoothing = 0;  /* Valid values: 0 -> 8 */
         public static final int kTolerance = 500;
 

@@ -8,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 // // the WPILib BSD license file in the root directory of this project.
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
@@ -174,10 +173,11 @@ public class DriveSubsystem extends SubsystemBase {
 
                 m_driverTab = Shuffleboard.getTab("Driver");
                 m_driverTab
-                .getLayout("Drivetrain Info", BuiltInLayouts.kList)
-                .withSize(2, 2)
-                .withProperties(Map.of("Label position", "BOTTOM"))
-                .withPosition(4, 1);
+                        .getLayout("Drivetrain Info", BuiltInLayouts.kList)
+                        .withSize(2, 2)
+                        .withProperties(Map.of("Label position", "BOTTOM"))
+                        .withPosition(4, 1);
+
                 odometryEntry = m_driverTab.add("Odometry", "not found").getEntry();
         
         }
@@ -202,29 +202,6 @@ public class DriveSubsystem extends SubsystemBase {
                m_odometry.update(getGyroscopeRotation(), states);
         }
 
-        public void initilizeEncoders(){
-                m_frontLeftCanCoder.configFactoryDefault();
-                m_frontRightCanCoder.configFactoryDefault();
-                m_backLeftCanCoder.configFactoryDefault();
-                m_backRightCanCoder.configFactoryDefault();
-
-                m_frontLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-                m_frontRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-                m_backLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-                m_backRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-
-                m_frontLeftCanCoder.configSensorDirection(true);
-                m_frontRightCanCoder.configSensorDirection(true);
-                m_backLeftCanCoder.configSensorDirection(true);
-                m_backRightCanCoder.configSensorDirection(true);
-
-                m_frontLeftCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
-                m_frontRightCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
-                m_backLeftCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
-                m_backRightCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
-
-                m_pigeon.clearStickyFaults();
-        }
         public void zeroGyroscope() {
                 m_pigeon.configMountPoseYaw(0.0);
         }
@@ -293,5 +270,6 @@ public class DriveSubsystem extends SubsystemBase {
                 double quarticValue = Math.copySign(Math.pow(deadValue, exponent), deadValue);
                 return quarticValue;
         }
+        
 }
 

@@ -56,7 +56,7 @@ public class X3_ReachToNextBar extends CommandBase {
         m_climber.extendingClimberVertical();
 
         m_timer.start();
-        if (m_timer.hasElapsed(.25)) {
+        if (m_timer.hasElapsed(.5)) {
           m_climbPhase = 0; //Finished
           m_timer.stop();
           m_timer.reset();

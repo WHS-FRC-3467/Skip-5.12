@@ -39,15 +39,15 @@ public class BasicAutoDrive extends CommandBase {
   public void execute() {
 
     if(Math.abs(m_drive.getAverageEncoder()) <= Math.abs(m_finalPosition)){
-      m_drive.drive(
-        
+      m_drive.drive(  
         ChassisSpeeds.fromFieldRelativeSpeeds(
-            -m_XTranslation,
-            -m_YTranslation,
+            m_XTranslation,
+            m_YTranslation,
             m_rotation,
             m_drive.getGyroscopeRotation()
         )
-    );      m_end = false;
+      );      
+      m_end = false;
     }
     else{   
       ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -78,7 +78,7 @@ public class BasicAutoDrive extends CommandBase {
       0.0,
       m_drive.getGyroscopeRotation()
     );
-  System.out.println("end");
+    System.out.println("end");
   }
 
   @Override
