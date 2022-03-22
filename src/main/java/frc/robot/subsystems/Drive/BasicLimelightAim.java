@@ -45,11 +45,12 @@ public class BasicLimelightAim extends CommandBase {
     // get current X-axis target delta from center of image, in degrees.
     double deltaX = tx.getDouble(0.0);
 
+    // calculate rotational velocity. 
+    m_rotation = Math.toRadians(deltaX)*DriveConstants.LIMELIGHT_X_P;
+    
     // limit minimum and maximum rotational velocity.
-    m_rotation = Math.min(Math.toRadians(deltaX) * DriveConstants.LIMELIGHT_X_P,
-        DriveConstants.LIMELIGHT_X_VELOCITY_LIMIT);
-    m_rotation = Math.max(Math.toRadians(deltaX) * DriveConstants.LIMELIGHT_X_P,
-        -DriveConstants.LIMELIGHT_X_VELOCITY_LIMIT);
+    m_rotation = Math.min(m_rotation, DriveConstants.LIMELIGHT_X_VELOCITY_LIMIT);
+    m_rotation = Math.max(m_rotation, -DriveConstants.LIMELIGHT_X_VELOCITY_LIMIT);
 
     // If we are still outside our desired target range, rotate the robot.
     if (Math.abs(deltaX) >= DriveConstants.LIMELIGHT_X_TOLERANCE) {
