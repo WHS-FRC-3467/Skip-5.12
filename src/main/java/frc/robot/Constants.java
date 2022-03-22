@@ -121,6 +121,17 @@ public final class Constants {
         public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(110.0); 
         public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(133.5);
 
+        // Limelight auto aim X-axis target tolerance. This is the number of degrees
+        // from perfect center that the robot will consider the BasicLimelightAim
+        // command "finished".
+        public static final double LIMELIGHT_X_TOLERANCE = 1.0;
+
+        // Maximum Limelight auto-aim rotation velocity in radians per second.
+        public static final double LIMELIGHT_X_VELOCITY_LIMIT = 0.5;
+
+        // Limelight auto-aim X-axis P-gain.
+        public static final double LIMELIGHT_X_P = 1.0;
+
         // Drivetrain Performance Mechanical limits
         
         // The maximum velocity of the robot in meters per second.

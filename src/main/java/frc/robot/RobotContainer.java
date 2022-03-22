@@ -31,6 +31,7 @@ import frc.robot.subsystems.Climber.AX_CancelClimb;
 import frc.robot.subsystems.Climber.ClimberSubsystem;
 import frc.robot.subsystems.Climber.ManualClimbByStick;
 import frc.robot.subsystems.Climber.MatchDefault;
+import frc.robot.subsystems.Drive.BasicLimelightAim;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
@@ -118,6 +119,10 @@ public class RobotContainer {
     SmartDashboard.putData(new A9_DoItAll(m_climberSubsystem));
     SmartDashboard.putData(new AX_CancelClimb(m_climberSubsystem));
         
+
+    // Make Limelight Auto-Aim command available on the SmartDashboard
+    SmartDashboard.putData(new BasicLimelightAim(m_driveSubsystem));
+
     // Climber Arm Driving Command
     // Leave this here in case it's needed for manual control
     // It will need to be activated from the Dashboard.
