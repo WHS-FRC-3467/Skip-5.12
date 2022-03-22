@@ -80,7 +80,7 @@ public class RobotContainer {
     m_chooser.addOption("No Auto", null);
     m_chooser.addOption("Three Ball Triangle Auto ", new ThreeBallTriangleAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
     m_chooser.addOption("Right Side One Ball", new RightSideOneBall(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
-    m_chooser.addOption("Right Side Two Ball", new RightSideTwoBall(m_intakeSubsystem,  m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
+    m_chooser.addOption("Right Side Two Ball", new RightSideTwoBall(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
     //m_chooser.addOption("FourBallAuto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
 
     SmartDashboard.putData("Auto Chooser", m_chooser);
