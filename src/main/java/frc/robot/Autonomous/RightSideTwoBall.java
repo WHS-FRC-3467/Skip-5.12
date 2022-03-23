@@ -5,7 +5,7 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Drive.BasicAutoDrive;
@@ -38,7 +38,11 @@ public class RightSideTwoBall extends SequentialCommandGroup {
     addCommands(
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0),
       new PathResetOdometry("RightSide2Ball", m_drive),
-      new BasicAutoDrive(m_drive, 0.0, 0.1, 1.009, -0.17, 0.5).raceWith(new RunCommand(m_intake::autoIntake, intake)).raceWith(new RunCommand(m_tower::autoRunTower, m_tower)),
+
+       new ParallelCommandGroup( 
+
+              new BasicAutoDrive(m_drive, 0.0, 0.1, 1.009, -0.17, 0.5),
+              new AutoDriveIntake(m_intake, m_tower,  1.0)).withTimeout(5.0),
 
       new InstantCommand(m_drive::resetDriveEncoders),
       new WaitCommand(0.25),

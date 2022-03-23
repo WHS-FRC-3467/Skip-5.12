@@ -270,6 +270,5 @@ public class DriveSubsystem extends SubsystemBase {
                 double quarticValue = Math.copySign(Math.pow(deadValue, exponent), deadValue);
                 return quarticValue;
         }
-        
 }
 
