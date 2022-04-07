@@ -39,24 +39,19 @@ public class BasicAutoDrive extends CommandBase {
   public void execute() {
 
     if(Math.abs(m_drive.getAverageEncoder()) <= Math.abs(m_finalPosition)){
-      m_drive.drive(  
+      m_drive.drive(
+        
         ChassisSpeeds.fromFieldRelativeSpeeds(
-            m_XTranslation,
-            m_YTranslation,
+            -m_XTranslation,
+            -m_YTranslation,
             m_rotation,
             m_drive.getGyroscopeRotation()
         )
-      );      
-      m_end = false;
+    );      m_end = false;
     }
-    else{   
-      ChassisSpeeds.fromFieldRelativeSpeeds(
-        0.0,
-        0.0,
-        0.0,
-        m_drive.getGyroscopeRotation()
-      );
-       m_end = true;
+    else{
+      m_drive.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
+      m_end = true;
     }
       
       System.out.println(m_finalPosition);
@@ -72,12 +67,7 @@ public class BasicAutoDrive extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     //When finished the drivebase is set to zero
-    ChassisSpeeds.fromFieldRelativeSpeeds(
-      0.0,
-      0.0,
-      0.0,
-      m_drive.getGyroscopeRotation()
-    );
+    m_drive.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     System.out.println("end");
   }
 

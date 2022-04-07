@@ -27,6 +27,5 @@ public class Pneumactics extends SubsystemBase{
   public void periodic() {
     phCompressor.enableAnalog(119, 120);
     SmartDashboard.putNumber("Pressure", phCompressor.getPressure());
-    // This method will be called once per scheduler run
   }
 }

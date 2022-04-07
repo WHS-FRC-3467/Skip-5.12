@@ -6,9 +6,9 @@ package frc.robot.subsystems.Drive;
 
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class PathResetOdometry extends CommandBase {
@@ -17,27 +17,29 @@ public class PathResetOdometry extends CommandBase {
     DriveSubsystem m_drive;
     public PathResetOdometry(String pathName, DriveSubsystem drive) {
         try {
-            trajectory = PathPlanner.loadPath(pathName, 8, 5);
+            trajectory = PathPlanner.loadPath(pathName, 1, 1);
+            System.out.println(pathName);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }        
         m_drive = drive;
-    }
-
-    public PathResetOdometry(String pathName, double offset) {
-        try {
-            trajectory = PathPlanner.loadPath(pathName, 8, 5);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //double offset_ = offset;
     }
 
     @Override
     public void initialize() {
-        PathPlannerState initialState = trajectory.getInitialState();
-        Pose2d startingPose = new Pose2d(initialState.poseMeters.getTranslation(), initialState.holonomicRotation);
-        m_drive.resetOdometry(startingPose);      
+        Pose2d currentPose = m_drive.getCurrentPose();
+        Pose2d initialPose = trajectory.getInitialPose();
+        Rotation2d offsetRot = initialPose.getRotation().minus(currentPose.getRotation());
+
+        Pose2d offsetPose = new Pose2d(
+            initialPose.getX(),
+            initialPose.getY(),
+            offsetRot
+        );
+
+        m_drive.setGyroscope(offsetRot.getDegrees());
+        
+        m_drive.resetOdometry(offsetPose);
     }
 
     @Override

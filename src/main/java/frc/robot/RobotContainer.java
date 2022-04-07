@@ -7,14 +7,15 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Autonomous.RightSideOneBall;
-import frc.robot.Autonomous.RightSideTwoBall;
 import frc.robot.Autonomous.SimpleOneBallAuto;
 import frc.robot.Autonomous.SimpleTwoBallAuto;
-import frc.robot.Autonomous.ThreeBallTriangleAuto;
+import frc.robot.Autonomous.ThreeBallAuto;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Control.XBoxControllerButton;
 import frc.robot.Control.XBoxControllerEE;
@@ -29,15 +30,14 @@ import frc.robot.subsystems.Climber.A4_HookAndStop;
 import frc.robot.subsystems.Climber.A9_DoItAll;
 import frc.robot.subsystems.Climber.AX_CancelClimb;
 import frc.robot.subsystems.Climber.ClimberSubsystem;
-import frc.robot.subsystems.Climber.ManualClimbByStick;
 import frc.robot.subsystems.Climber.MatchDefault;
 import frc.robot.subsystems.Drive.DriveSubsystem;
+import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
 import frc.robot.subsystems.Intake.IntakeOverride;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.Shooter.ShootLowerHub;
-import frc.robot.subsystems.Shooter.ShootTarmac;
 import frc.robot.subsystems.Shooter.ShootUpperHub;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.DriveTower;
@@ -78,10 +78,8 @@ public class RobotContainer {
     m_chooser.addOption("Two Ball Auto", new SimpleTwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
     m_chooser.addOption("One Ball Auto", new SimpleOneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
     m_chooser.addOption("No Auto", null);
-    m_chooser.addOption("Three Ball Triangle Auto ", new ThreeBallTriangleAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
+    m_chooser.addOption("Three Ball Auto", new ThreeBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
     m_chooser.addOption("Right Side One Ball", new RightSideOneBall(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
-    m_chooser.addOption("Right Side Two Ball", new RightSideTwoBall(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
-    //m_chooser.addOption("FourBallAuto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
 
     SmartDashboard.putData("Auto Chooser", m_chooser);
 
@@ -93,7 +91,7 @@ public class RobotContainer {
     
 	  // Set up the default commands for the various subsystems
     m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
-                                      () -> (m_driverController.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                                      () -> -(m_driverController.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
                                       () -> -(m_driverController.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
                                       () -> -(m_driverController.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     
@@ -105,8 +103,7 @@ public class RobotContainer {
                                       () -> -m_operatorController.getLeftY()));
 
     m_led.setDefaultCommand(new LEDDefault(m_led, m_towerSubsystem));
-
-    //Comment out line below if leds stop working
+    
     m_climberSubsystem.setDefaultCommand(new MatchDefault(m_climberSubsystem));
 
     // Make the Climb Sequence commands available on SmartDash
@@ -118,10 +115,13 @@ public class RobotContainer {
     SmartDashboard.putData(new A9_DoItAll(m_climberSubsystem));
     SmartDashboard.putData(new AX_CancelClimb(m_climberSubsystem));
         
+    SmartDashboard.putData(new PathResetOdometry("3Ball", m_driveSubsystem));
+
     // Climber Arm Driving Command
     // Leave this here in case it's needed for manual control
     // It will need to be activated from the Dashboard.
-    SmartDashboard.putData(new ManualClimbByStick(m_climberSubsystem, () -> (-1.0)*m_operatorController.getRightY()));
+    ShuffleboardTab tab = Shuffleboard.getTab("tab");
+    tab.add(new PathResetOdometry("3Ball", m_driveSubsystem));
 
   }
 
@@ -151,16 +151,7 @@ public class RobotContainer {
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kB)
       .whenHeld(new ShootUpperHub(m_shooterSubystem, m_towerSubsystem));
 
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
-      .whenHeld(new ShootTarmac(m_shooterSubystem, m_towerSubsystem));
-
-    // new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kBack)
-    //   .whileActiveContinuous(new InstantCommand(m_shooterSubystem::deployHood, m_shooterSubystem));
-    
-    // new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kStart)
-    //   .whileActiveContinuous(new InstantCommand(m_shooterSubystem::retractHood, m_shooterSubystem));
-
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kBack)
+      new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kBack)
       .whenPressed(new A1_PrepareToClimb(m_climberSubsystem));
 
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kStart)
@@ -169,12 +160,16 @@ public class RobotContainer {
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kX)
       .whenPressed(new AX_CancelClimb(m_climberSubsystem));
 
-    // new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
-    //   .whenPressed(new A0_CalibrateClimber(m_climberSubsystem));
-
-      // new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kY)
-      // .whenPressed(new PercentOutput(m_shooterSubystem, 0.25));
+    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
+      .whenPressed(new A0_CalibrateClimber(m_climberSubsystem));
  }
+
+  public DriveSubsystem getDriveDriveSubsystem(){
+    return m_driveSubsystem;
+  }
+  public ClimberSubsystem getClimberSubsystem(){
+    return m_climberSubsystem;
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

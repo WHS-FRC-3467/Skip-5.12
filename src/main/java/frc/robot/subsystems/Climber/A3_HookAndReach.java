@@ -13,7 +13,7 @@ public class A3_HookAndReach extends SequentialCommandGroup {
   public A3_HookAndReach(ClimberSubsystem climber) {
   
     m_climberSubsystem = climber;
-    addRequirements(m_climberSubsystem);
+
     addCommands(
       new X4_HookToNextBar(m_climberSubsystem),
       new X3_ReachToNextBar(m_climberSubsystem)

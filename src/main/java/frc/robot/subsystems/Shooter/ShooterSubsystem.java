@@ -49,7 +49,7 @@ public class ShooterSubsystem extends SubsystemBase {
         // SmartDashboard.putNumber("Feed Forward", m_speedGains.kF);
         // SmartDashboard.putNumber("D Gain", m_speedGains.kD);
         // SmartDashboard.putNumber("Target Velocity", 0.0);
-        SmartDashboard.putNumber("Current Shooter Velocity", 0);
+        SmartDashboard.putNumber("Current Velocity", 0);
         // SmartDashboard.putNumber("Current Output Percent", 0);
         // SmartDashboard.putNumber("Velocity Error", 0);
         
@@ -80,7 +80,7 @@ public class ShooterSubsystem extends SubsystemBase {
         if (targetVelocity == 0.0)
         {
             stopShooter();
-            SmartDashboard.putNumber("Current Shooter Velocity", 0.0);
+            SmartDashboard.putNumber("Current Velocity", 0.0);
             return;
         }    
         
@@ -96,13 +96,13 @@ public class ShooterSubsystem extends SubsystemBase {
         // Update gains on the controller
         m_speedControl.updateGains(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, ShooterConstants.kF);
 
-        // Update the target velocity and get back the Current Shooter Velocity
-        int currentShooterVelocity = m_speedControl.runVelocityPIDF(targetVelocity);
+        // Update the target velocity and get back the current velocity
+        int currentVelocity = m_speedControl.runVelocityPIDF(targetVelocity);
 
-        // Show the Current Shooter Velocity, Error, and Current Output Percent on the SDB
-        SmartDashboard.putNumber("Current Shooter Velocity", currentShooterVelocity);
+        // Show the Current Velocity, Error, and Current Output Percent on the SDB
+        SmartDashboard.putNumber("Current Velocity", currentVelocity);
 
-        System.out.println(currentShooterVelocity);
+        System.out.println(currentVelocity);
         // SmartDashboard.putNumber("Error", m_speedControl.getError());
         // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
     }
@@ -111,14 +111,14 @@ public class ShooterSubsystem extends SubsystemBase {
         // Update gains on the controller
         m_speedControl.updateGains(ShooterConstants.lowerKP, ShooterConstants.lowerKI, ShooterConstants.lowerKD, ShooterConstants.lowerKF);
 
-        // Update the target velocity and get back the Current Shooter Velocity
-        int currentShooterVelocity = m_speedControl.runVelocityPIDF(ShooterConstants.lowerHubVelocity);
+        // Update the target velocity and get back the current velocity
+        int currentVelocity = m_speedControl.runVelocityPIDF(ShooterConstants.lowerHubVelocity);
 
-        // Show the Current Shooter Velocity, Error, and Current Output Percent on the SDB
-        SmartDashboard.putNumber("Current Shooter Velocity", currentShooterVelocity);
+        // Show the Current Velocity, Error, and Current Output Percent on the SDB
+        SmartDashboard.putNumber("Current Velocity", currentVelocity);
         // SmartDashboard.putNumber("Error", m_speedControl.getError());
         // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
-        System.out.println(currentShooterVelocity);
+        System.out.println(currentVelocity);
 
     }
     
@@ -126,31 +126,20 @@ public class ShooterSubsystem extends SubsystemBase {
         // Update gains on the controller
         m_speedControl.updateGains(kP.get(), kI.get(), kD.get(), kF.get());
 
-        // Update the target velocity and get back the Current Shooter Velocity
-        int currentShooterVelocity = m_speedControl.runVelocityPIDF(kShooterSetpointUpper.get());
+        // Update the target velocity and get back the current velocity
+        int currentVelocity = m_speedControl.runVelocityPIDF(kShooterSetpointUpper.get());
     
-        // Show the Current Shooter Velocity, Error, and Current Output Percent on the SDB
-        SmartDashboard.putNumber("Current Shooter Velocity", currentShooterVelocity);
+        // Show the Current Velocity, Error, and Current Output Percent on the SDB
+        SmartDashboard.putNumber("Current Velocity", currentVelocity);
         // SmartDashboard.putNumber("Error", m_speedControl.getError());
         // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
-        System.out.println(currentShooterVelocity);
+        System.out.println(currentVelocity);
         SmartDashboard.putNumber("Shooter Setpoint", ShooterConstants.upperHubVelocity);
 
     }
-    public void shootTarmac(){
-        // Update gains on the controller
-        m_speedControl.updateGains(ShooterConstants.lowerKP, ShooterConstants.lowerKI, ShooterConstants.lowerKD, ShooterConstants.lowerKF);
-
-        // Update the target velocity and get back the Current Shooter Velocity
-        int currentShooterVelocity = m_speedControl.runVelocityPIDF(ShooterConstants.TarmacVelocity);
-
-        // Show the Current Shooter Velocity, Error, and Current Output Percent on the SDB
-        SmartDashboard.putNumber("Current Shooter Velocity", currentShooterVelocity);
-        // SmartDashboard.putNumber("Error", m_speedControl.getError());
-        // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
-        System.out.println(currentShooterVelocity);
-
-    }
+    // public int currentVelocity(){
+    //     m_falconVelocity
+    // }
 /**
  * void stopShooter() - Stop the Shooter by simply turning off the motors instead of commanding Velocity PID to 0.0
  */
@@ -168,7 +157,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void shootPercentOutput(double percent){
         m_speedControl.runPercentOutput(percent);
-        double currentShooterVelocity = m_speedControl.getShooterVelocity();
-        SmartDashboard.putNumber("Current Shooter Velocity", currentShooterVelocity);
+        double currentVelocity = m_speedControl.getShooterVelocity();
+        SmartDashboard.putNumber("Current Velocity", currentVelocity);
     }
 }

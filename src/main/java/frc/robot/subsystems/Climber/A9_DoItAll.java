@@ -13,7 +13,6 @@ public class A9_DoItAll extends SequentialCommandGroup {
   public A9_DoItAll(ClimberSubsystem climber) {
   
     m_climberSubsystem = climber;
-    addRequirements(m_climberSubsystem);
 
     addCommands(
       new X2_LiftToBar(m_climberSubsystem),

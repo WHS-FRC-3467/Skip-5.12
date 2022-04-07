@@ -5,7 +5,6 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.PathResetOdometry;
@@ -15,29 +14,26 @@ import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.Shooter.AutoShoot;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.TowerSubsystem;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+public class ThreeBallAuto extends SequentialCommandGroup {
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ThreeBallTriangleAuto extends SequentialCommandGroup {
-  /** Creates a new ThreeBallTriangle. */
   IntakeSubsystem m_intake;
   TowerSubsystem m_tower;
   ShooterSubsystem m_shooter;
   DriveSubsystem m_drive;
-  public ThreeBallTriangleAuto(IntakeSubsystem intake, TowerSubsystem tower, ShooterSubsystem shooter, DriveSubsystem drive) {
-    m_intake = intake;
+  public  ThreeBallAuto(IntakeSubsystem intake, TowerSubsystem tower, ShooterSubsystem shooter, DriveSubsystem drive){
+
+    m_drive = drive; 
+    m_shooter = shooter; 
     m_tower = tower;
-    m_shooter = shooter;
-    m_drive = drive;
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+    m_intake = intake;
+    addRequirements(m_drive, m_shooter, m_tower, m_intake);
     addCommands(
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0),
       new InstantCommand(m_intake::intakeDeploy, m_intake),
-      new PathResetOdometry("3BallTriangle", m_drive),
+      new PathResetOdometry("3Ball", m_drive),
       new ParallelCommandGroup(      
-        new TrajectoryFollow("3BallTriangle", m_drive),
+        new TrajectoryFollow("3Ball", m_drive),
         new AutoDriveIntake(m_intake, m_tower, 1.0)
       ).withTimeout(7.5),
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0)

@@ -27,8 +27,6 @@ public class A0_CalibrateClimber extends CommandBase {
     m_rightDone = false;
     m_finished = false;
     m_timer.reset();
-    m_climber.fixedClimberVertical();
-    m_climber.extendingClimberVertical();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

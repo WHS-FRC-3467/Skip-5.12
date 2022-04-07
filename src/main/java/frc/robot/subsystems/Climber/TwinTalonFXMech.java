@@ -178,7 +178,7 @@ public class TwinTalonFXMech {
 		current = talon.getStatorCurrent();
 		// SmartDashboard.putNumber("Calib Curr " + (left ? "L: " : "R: "), current);
 		if (current < ClimberConstants.kCalibCurrentLimit) {
-			talon.set(ControlMode.PercentOutput, -0.10);
+			talon.set(ControlMode.PercentOutput, -0.20);
 			isFinished = false;
 		} else {
 			talon.set(ControlMode.PercentOutput, 0.0);

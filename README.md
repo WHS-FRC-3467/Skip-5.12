@@ -1,11 +1,3 @@
-### Note:
- This code came from Team 6391 - Ursaline Bearbotics and Jason Daming. It is their Beta code for 2022 and incorporates:
- * WPILib swerve kinematics and odometry
- * "Beta" swerve simulation support from Chris Gerth (and others)
- * A modified and expanded swervelib library from SDS
- * The Phoenix library from CTRE
- * Paths generated and followed by the PathPlanner application and library from Michael Jansen. 
-
 ### Configuring the code for your robot
 
 1. Set your team number.
@@ -39,3 +31,25 @@ our encoder values displayed to the dashboard.
 5. Re-deploy and try to drive the robot forwards. All wheels should stay parallel to each other.
 6. Make sure all the wheels are spinning in the correct direction. If not, add 180 degrees to the offset of each wheel 
 that is spinning in the incorrect direction. (I.e. `-Math.toRadians(<angle> + 180.0))`)
+
+Can IDs 
+    1 Front Left Drive Motor
+    2 Front Left Steer Motor
+    3 Back Left Drive Motor
+    4 Back Left Steer Motor
+    5 Front Right Drive Motor
+    6 Front Right Steer Motor 
+    7 Back Right Drive Motor 
+    8 Back Right Steer Motor
+    9 Front Left Steer Encoder
+    10 Front Right Steer Encoder
+    11 Back Left Steer Encoder
+    12 Back Right Steer Encoder
+    13 Lower Tower Motor
+    14 Upper Tower Motor
+    15 Shooter Left
+    16 Shooter Right
+    17 Climber Left 
+    18 Climber Right 
+    19 Intake Motor
+    20 Pigeon

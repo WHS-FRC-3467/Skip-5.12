@@ -4,26 +4,31 @@
 
 package frc.robot.Feedback.Cameras;
 
+import java.util.Map;
+
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
   /** Creates a new Limelight. */
 //   private static HttpCamera limelightFeed;
   public static NetworkTableInstance table = NetworkTableInstance.getDefault();
+  private static HttpCamera limelightFeed;
 
 
   public Limelight() {
   }
 
   public static void initialize(){
-    // ShuffleboardTab dashboardTab = Shuffleboard.getTab("Driver Dash");
-    // limelightFeed = new HttpCamera("limelight", "http://limelight.local:5809/stream.mjpg");
-	// // SmartDashboard.putData(limelightFeed);
-    // dashboardTab.add("LL", limelightFeed).withPosition(1,0).withSize(12, 6).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
-    // setDriverMode();
-    // setStreamMode(StreamMode.ePIPMain);
+    ShuffleboardTab dashboardTab = Shuffleboard.getTab("Driver Dash");
+    limelightFeed = new HttpCamera("limelight", "http://limelight.local:5809/stream.mjpg");
+    dashboardTab.add("LL", limelightFeed).withPosition(1,0).withSize(12, 6).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
+    setDriverMode();
+    setStreamMode(StreamMode.ePIPMain);
   }
   @Override
   public void periodic() {
