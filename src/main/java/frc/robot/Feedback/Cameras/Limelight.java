@@ -14,27 +14,26 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
-  /** Creates a new Limelight. */
-//   private static HttpCamera limelightFeed;
-  public static NetworkTableInstance table = NetworkTableInstance.getDefault();
-  private static HttpCamera limelightFeed;
+  	/** Creates a new Limelight. */
+	//   private static HttpCamera limelightFeed;
+	public static NetworkTableInstance table = NetworkTableInstance.getDefault();
+	public static HttpCamera limelightFeed;
 
+	public Limelight() {
+	}
 
-  public Limelight() {
-  }
-
-  public static void initialize(){
-    ShuffleboardTab dashboardTab = Shuffleboard.getTab("Driver Dash");
-    limelightFeed = new HttpCamera("limelight", "http://limelight.local:5809/stream.mjpg");
-    dashboardTab.add("LL", limelightFeed).withPosition(1,0).withSize(12, 6).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
-    setDriverMode();
-    setStreamMode(StreamMode.ePIPMain);
-  }
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-  public static enum CameraMode {
+  	public static void initialize(){
+		ShuffleboardTab dashboardTab = Shuffleboard.getTab("Driver Dash");
+		limelightFeed = new HttpCamera("limelight", "http://limelight.local:5809/stream.mjpg");
+		dashboardTab.add("LL", limelightFeed).withPosition(1,0).withSize(12, 6).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
+		setDriverMode();
+		setStreamMode(StreamMode.ePIPMain);
+  	}
+	@Override
+	public void periodic() {
+    	// This method will be called once per scheduler run
+  	}
+ 	 public static enum CameraMode {
 		eVision, eDriver
 	}
 
@@ -96,7 +95,7 @@ public class Limelight extends SubsystemBase {
 	public static void setDriverMode() {
         setCameraMode(CameraMode.eDriver);
         setPipeline(0);
-        setLedMode(LightMode.eOff);
+        setLedMode(LightMode.ePipeline);
 	}
 
 	/**
@@ -124,7 +123,7 @@ public class Limelight extends SubsystemBase {
             setLedMode(LightMode.eOff);
 	}
 
-  private static NetworkTableEntry getValue(String key){
-      return table.getTable("limelight").getEntry(key);
-  }
+	private static NetworkTableEntry getValue(String key){
+		return table.getTable("limelight").getEntry(key);
+	}
 }

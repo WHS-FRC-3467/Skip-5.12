@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Autonomous.FourBallAuto;
 import frc.robot.Autonomous.RightSideOneBall;
 import frc.robot.Autonomous.SimpleOneBallAuto;
 import frc.robot.Autonomous.SimpleTwoBallAuto;
@@ -24,13 +25,11 @@ import frc.robot.Feedback.LED.LED;
 import frc.robot.Feedback.LED.LEDDefault;
 import frc.robot.subsystems.Climber.A0_CalibrateClimber;
 import frc.robot.subsystems.Climber.A1_PrepareToClimb;
-import frc.robot.subsystems.Climber.A2_LiftAndReach;
-import frc.robot.subsystems.Climber.A3_HookAndReach;
-import frc.robot.subsystems.Climber.A4_HookAndStop;
 import frc.robot.subsystems.Climber.A9_DoItAll;
 import frc.robot.subsystems.Climber.AX_CancelClimb;
 import frc.robot.subsystems.Climber.ClimberSubsystem;
 import frc.robot.subsystems.Climber.MatchDefault;
+import frc.robot.subsystems.Drive.BasicLimelightAim;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.SwerveDrive;
@@ -59,6 +58,8 @@ public class RobotContainer {
   private final ShooterSubsystem m_shooterSubystem = new ShooterSubsystem();
   private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
   private final LED m_led = new LED();
+  private final Limelight m_limelight = new Limelight();
+
   private final XBoxControllerEE m_driverController = new XBoxControllerEE(0);
   private final XBoxControllerEE m_operatorController = new XBoxControllerEE(1);
 
@@ -80,7 +81,7 @@ public class RobotContainer {
     m_chooser.addOption("No Auto", null);
     m_chooser.addOption("Three Ball Auto", new ThreeBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
     m_chooser.addOption("Right Side One Ball", new RightSideOneBall(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
-
+    m_chooser.addOption("Four Ball Auto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
     SmartDashboard.putData("Auto Chooser", m_chooser);
 
     Limelight.initialize();
@@ -108,14 +109,12 @@ public class RobotContainer {
 
     // Make the Climb Sequence commands available on SmartDash
     SmartDashboard.putData(new A0_CalibrateClimber(m_climberSubsystem));
-    SmartDashboard.putData(new A1_PrepareToClimb(m_climberSubsystem));
-    SmartDashboard.putData(new A2_LiftAndReach(m_climberSubsystem));
-    SmartDashboard.putData(new A3_HookAndReach(m_climberSubsystem));
-    SmartDashboard.putData(new A4_HookAndStop(m_climberSubsystem));
-    SmartDashboard.putData(new A9_DoItAll(m_climberSubsystem));
-    SmartDashboard.putData(new AX_CancelClimb(m_climberSubsystem));
-        
-    SmartDashboard.putData(new PathResetOdometry("3Ball", m_driveSubsystem));
+    // SmartDashboard.putData(new A1_PrepareToClimb(m_climberSubsystem));
+    // SmartDashboard.putData(new A2_LiftAndReach(m_climberSubsystem));
+    // SmartDashboard.putData(new A3_HookAndReach(m_climberSubsystem));
+    // SmartDashboard.putData(new A4_HookAndStop(m_climberSubsystem));
+    // SmartDashboard.putData(new A9_DoItAll(m_climberSubsystem));
+    // SmartDashboard.putData(new AX_CancelClimb(m_climberSubsystem));
 
     // Climber Arm Driving Command
     // Leave this here in case it's needed for manual control
@@ -143,6 +142,10 @@ public class RobotContainer {
     // Back button zeros the gyroscope
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kBack)
         .whenPressed(m_driveSubsystem::zeroGyroscope);
+
+    // Auto Aim Limelight\
+    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kA)
+        .whileHeld(new BasicLimelightAim(m_driveSubsystem, m_limelight));
 
     //Operator controller    
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kA)

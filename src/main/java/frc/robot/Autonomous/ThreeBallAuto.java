@@ -5,6 +5,7 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.PathResetOdometry;
@@ -14,7 +15,7 @@ import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.Shooter.AutoShoot;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.TowerSubsystem;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+
 public class ThreeBallAuto extends SequentialCommandGroup {
 
   IntakeSubsystem m_intake;
@@ -27,7 +28,7 @@ public class ThreeBallAuto extends SequentialCommandGroup {
     m_shooter = shooter; 
     m_tower = tower;
     m_intake = intake;
-    addRequirements(m_drive, m_shooter, m_tower, m_intake);
+
     addCommands(
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0),
       new InstantCommand(m_intake::intakeDeploy, m_intake),
@@ -35,7 +36,7 @@ public class ThreeBallAuto extends SequentialCommandGroup {
       new ParallelCommandGroup(      
         new TrajectoryFollow("3Ball", m_drive),
         new AutoDriveIntake(m_intake, m_tower, 1.0)
-      ).withTimeout(7.5),
+      ).withTimeout(8.5),
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0)
     );
   }

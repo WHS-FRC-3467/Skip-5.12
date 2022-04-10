@@ -137,6 +137,21 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Shooter Setpoint", ShooterConstants.upperHubVelocity);
 
     }
+    public void shootTarmac(){    
+        // Update gains on the controller
+        m_speedControl.updateGains(kP.get(), kI.get(), kD.get(), kF.get());
+
+        // Update the target velocity and get back the current velocity
+        int currentVelocity = m_speedControl.runVelocityPIDF(ShooterConstants.TarmacVelocity);
+    
+        // Show the Current Velocity, Error, and Current Output Percent on the SDB
+        SmartDashboard.putNumber("Current Velocity", currentVelocity);
+        // SmartDashboard.putNumber("Error", m_speedControl.getError());
+        // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
+        System.out.println(currentVelocity);
+        SmartDashboard.putNumber("Shooter Setpoint", ShooterConstants.upperHubVelocity);
+
+    }
     // public int currentVelocity(){
     //     m_falconVelocity
     // }

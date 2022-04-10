@@ -4,12 +4,9 @@
 
 package frc.robot;
 
-import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -25,7 +22,7 @@ public final class Constants {
 
     public static final class CanConstants{
         //drivebase CAN IDs 
-        public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 1;
+        public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 22;
         public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 2;
         public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 3; 
         public static final int BACK_LEFT_MODULE_STEER_MOTOR = 4;
@@ -55,11 +52,6 @@ public final class Constants {
     }
     
     public static final class PHConstants{
-        //PH is pneumatic Hub new PCM
-        public static final boolean UseREVPH = false;  // true for REV PH, false for CTRE PCM
-        //public static final PneumaticsModuleType PMType = PneumaticsModuleType.REVPH;
-        public static final PneumaticsModuleType PMType = PneumaticsModuleType.REVPH;
-        ;
 
         public static final int IntakeForwardSolenoid = 0;
         public static final int IntakeReverseSolenoid = 1;
@@ -92,7 +84,7 @@ public final class Constants {
     }
 
     public static final class DriveConstants{
-        public static final double kDeadBand = 0.1;
+        public static final double kDeadBand = 0.2;
         public static final boolean PRACTICE = true;
     
         public static final SwerveDriveKinematics DRIVETRAIN_KINEMATICS = new SwerveDriveKinematics(
@@ -107,47 +99,17 @@ public final class Constants {
         public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(110.5); 
         public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(132.6);
 
-        // Drivetrain Performance Mechanical limits
-        
-        // The maximum velocity of the robot in meters per second.
-        // The formula for calculating the theoretical maximum velocity is:
-        // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> * PI
-        // By default this value is setup for a MK4 module using Falcon500s to drive.
-        public static final double MAX_VELOCITY_METERS_PER_SECOND =
-            6380.0 /     // Falcon500 free speed (rpm)
-            60.0 *       // sec per min
-            SdsModuleConfigurations.MK4_L2.getDriveReduction() *
-            SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
+        // Limelight auto aim X-axis target tolerance. This is the number of degrees
+        // from perfect center that the robot will consider the BasicLimelightAim
+        // command "finished".
+        public static final double LIMELIGHT_X_TOLERANCE = 1.0;
 
-        // The maximum angular velocity of the robot in radians per second.
-        // This is a measure of how fast the robot can rotate in place.
-        // Here we calculate the theoretical maximum angular velocity. You can also
-        // replace this with a measured amount.
-        public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND =
-            MAX_VELOCITY_METERS_PER_SECOND /
-            Math.hypot(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-                        RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
+        // Maximum Limelight auto-aim rotation velocity in radians per second.
+        public static final double LIMELIGHT_X_VELOCITY_LIMIT = 0.5;
 
-        // These values will be passed to the swerve system, and can be tuned here with measured values if you wish.
-        static public final double MAX_FWD_REV_SPEED_MPS = MAX_VELOCITY_METERS_PER_SECOND * 0.75;
-        static public final double MAX_STRAFE_SPEED_MPS = MAX_VELOCITY_METERS_PER_SECOND * 0.75;
-        static public final double MAX_ROTATE_SPEED_RAD_PER_SEC = MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.5;
-        static public final double MAX_TRANSLATE_ACCEL_MPS2 = MAX_FWD_REV_SPEED_MPS/0.25; //0-full time of 0.25 second
-        static public final double MAX_ROTATE_ACCEL_RAD_PER_SEC_2 = MAX_ROTATE_SPEED_RAD_PER_SEC/0.25; //0-full time of 0.25 second
-        public static final double MAX_VOLTAGE = 12.0; // Maximum Voltage sent to the drive motors
+        // Limelight auto-aim X-axis P-gain.
+        public static final double LIMELIGHT_X_P = 10.0;
 
-        // Sensor-related constants - pulled from datasheets for the sensors and gearboxes
-        static public final int ENC_PULSE_PER_REV = 2048; // TalonFX integrated sensor
-        static public final int WHEEL_ENC_COUNTS_PER_WHEEL_REV = ENC_PULSE_PER_REV;  //Assume 1-1 gearing for now
-        static public final int STEER_ENC_COUNTS_PER_MODULE_REV = 4096; // CANCoder
-        static public final double WHEEL_ENC_WHEEL_REVS_PER_COUNT  = 1.0/((double)(WHEEL_ENC_COUNTS_PER_WHEEL_REV));
-        static public final double steer_ENC_MODULE_REVS_PER_COUNT = 1.0/((double)(STEER_ENC_COUNTS_PER_MODULE_REV));
-
-	    // PID Drive Constants
-        public static final double kP = 0.01;
-        public static final double kI = 0.0;
-        public static final double kD = 0.0008;
-        public static final double driveTollerance = 100;
             
         public static final double precisionSpeed = 0.25;
 

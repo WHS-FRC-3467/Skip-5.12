@@ -5,6 +5,7 @@
 package frc.robot.subsystems.Intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -21,6 +22,14 @@ public class IntakeSubsystem extends SubsystemBase {
   public boolean intakeRetracted = true;
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
+    m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 255);
+    m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 255);
+    m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 255);
+    m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 255);
+    m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 255);
+    m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 255);
+    m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 255);
+
   }
 
   @Override

@@ -5,6 +5,8 @@
 package frc.robot.subsystems.Tower;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -23,8 +25,24 @@ public class TowerSubsystem extends SubsystemBase {
   DigitalInput m_midBeamBreak = new DigitalInput(DIOConstants.MidTowerBeamBreak);
   DigitalInput m_upperBeamBreak = new DigitalInput(DIOConstants.UpperTowerBeamBreak);
 
-  public boolean m_entryState, m_middleState, m_upperState, m_middleTopState, m_entryTopState, m_entryMiddleState, m_noBallState;
+  public TowerSubsystem(){
+    m_lowerTower.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 255);
+    m_lowerTower.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 255);
+    m_lowerTower.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 255);
+    m_lowerTower.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 255);
+    m_lowerTower.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 255);
+    m_lowerTower.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 255);
 
+    m_upperTower.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 255);
+    m_upperTower.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 255);
+    m_upperTower.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 255);
+    m_upperTower.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 255);
+    m_upperTower.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 255);
+    m_upperTower.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 255);
+  }
+
+  public boolean m_entryState, m_middleState, m_upperState, m_middleTopState, m_entryTopState, m_entryMiddleState, m_noBallState;
+  
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Entry Beam Break", m_entryBeamBreak.get());

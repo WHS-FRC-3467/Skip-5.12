@@ -3,6 +3,7 @@ package frc.robot.subsystems.Shooter;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
@@ -79,6 +80,15 @@ public class FalconVelocity extends SubsystemBase
          m_motorRight.follow(m_motorLeft);
          m_motorRight.setInverted(false);
          m_motorLeft.setInverted(true);
+
+         m_motorLeft.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 255);
+         m_motorLeft.setStatusFramePeriod(StatusFrame.Status_10_Targets, 255);
+         m_motorLeft.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 255);
+
+         m_motorRight.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 255);
+         m_motorRight.setStatusFramePeriod(StatusFrame.Status_10_Targets, 255);
+         m_motorRight.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 255);
+
      }
  
      public void updateGains(double kP, double kI, double kD, double kF)
