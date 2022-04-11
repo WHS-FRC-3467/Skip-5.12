@@ -3,12 +3,13 @@ package frc.robot.subsystems.Drive;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Feedback.Cameras.Limelight;
 
 public class BasicLimelightAim extends CommandBase {
   // Initialize Variables
   DriveSubsystem m_drive;
-  double m_rotation, m_targetThreshold;
+  double m_rotation, m_targetThreshold, deltaX;
   boolean m_end;
   NetworkTableEntry tx, ty, ta;
   NetworkTable table;
@@ -47,7 +48,7 @@ public class BasicLimelightAim extends CommandBase {
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
     // get current X-axis target delta from center of image, in degrees.
-    double deltaX = tx.getDouble(0.0);
+    deltaX = tx.getDouble(0.0);
     System.out.println(deltaX);
     // if(Math.abs(deltaX) >= 2)
     // {
@@ -58,12 +59,12 @@ public class BasicLimelightAim extends CommandBase {
       m_end = false;
       m_drive.drive(new ChassisSpeeds(0, 0, -0.5));
     } 
-    else if (deltaX >= -2.0){
+    else if (deltaX <= 2.0){
       m_end = false;
       m_drive.drive(new ChassisSpeeds(0, 0, 0.5));
     }
-    else if(Math.abs(deltaX) >= 2)
-    {
+    else{
+      CommandScheduler.getInstance().cancel();
       System.out.println("End command");
       m_end = true;
       m_drive.drive(new ChassisSpeeds(0, 0, 0));
@@ -82,6 +83,12 @@ public class BasicLimelightAim extends CommandBase {
 
   @Override
   public boolean isFinished() {
-     return m_end;
+     double error = Math.abs(deltaX);
+     if(error<= 2){
+       return true;
+     }
+     else{
+       return false;
+     }
   }
 }
