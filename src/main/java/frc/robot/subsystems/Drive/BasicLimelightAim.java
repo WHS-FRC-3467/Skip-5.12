@@ -3,7 +3,6 @@ package frc.robot.subsystems.Drive;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Feedback.Cameras.Limelight;
 
 public class BasicLimelightAim extends CommandBase {
@@ -53,22 +52,17 @@ public class BasicLimelightAim extends CommandBase {
     deltaX = tx.getDouble(0.0);
     System.out.println(deltaX);
     error = Math.abs(deltaX);
+    m_rotation = deltaX/2;
+    m_rotation = Math.max(m_rotation, 1.0);
+    m_rotation = Math.min(m_rotation, -1.0);
 
-    m_rotation = Math.max(deltaX, 0.75);
-    m_rotation = Math.max(deltaX, -0.75);
-
-    // if(Math.abs(deltaX) >= 2)
-    // {
-    //   m_end = true;
-    // }
-    // If we are still outside our desired target range, rotate the robot.
     if (deltaX >= 2.0) {
       m_end = false;
-      m_drive.drive(new ChassisSpeeds(0, 0, -m_rotation));
+      m_drive.drive(new ChassisSpeeds(0, 0, m_rotation));
     } 
     else if (deltaX <= -2.0){
       m_end = false;
-      m_drive.drive(new ChassisSpeeds(0, 0, m_rotation));
+      m_drive.drive(new ChassisSpeeds(0, 0, -m_rotation));
     }
     else{
       System.out.println("End command");
