@@ -54,6 +54,9 @@ public class BasicLimelightAim extends CommandBase {
     System.out.println(deltaX);
     error = Math.abs(deltaX);
 
+    m_rotation = Math.max(deltaX, 0.75);
+    m_rotation = Math.max(deltaX, -0.75);
+
     // if(Math.abs(deltaX) >= 2)
     // {
     //   m_end = true;
@@ -61,11 +64,11 @@ public class BasicLimelightAim extends CommandBase {
     // If we are still outside our desired target range, rotate the robot.
     if (deltaX >= 2.0) {
       m_end = false;
-      m_drive.drive(new ChassisSpeeds(0, 0, -deltaX));
+      m_drive.drive(new ChassisSpeeds(0, 0, -m_rotation));
     } 
     else if (deltaX <= -2.0){
       m_end = false;
-      m_drive.drive(new ChassisSpeeds(0, 0, deltaX));
+      m_drive.drive(new ChassisSpeeds(0, 0, m_rotation));
     }
     else{
       System.out.println("End command");
