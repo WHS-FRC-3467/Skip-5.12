@@ -9,7 +9,7 @@ import frc.robot.Feedback.Cameras.Limelight;
 public class BasicLimelightAim extends CommandBase {
   // Initialize Variables
   DriveSubsystem m_drive;
-  double m_rotation, m_targetThreshold, deltaX, error;
+  double m_rotation, m_targetThreshold, deltaX, error, count;
   boolean m_end;
   NetworkTableEntry tx, ty, ta;
   NetworkTable table;
@@ -37,9 +37,10 @@ public class BasicLimelightAim extends CommandBase {
 
     Limelight.setVisionMode();
 
-    // tx = table.getEntry("tx");
-    // ty = table.getEntry("ty");
-    // ta = table.getEntry("ta");
+    tx = table.getEntry("tx");
+    ty = table.getEntry("ty");
+    ta = table.getEntry("ta");
+    count = 0;
   }
 
   @Override
@@ -67,9 +68,9 @@ public class BasicLimelightAim extends CommandBase {
       m_drive.drive(new ChassisSpeeds(0, 0, deltaX));
     }
     else{
-      CommandScheduler.getInstance().cancel();
       System.out.println("End command");
       m_end = true;
+
       m_drive.drive(new ChassisSpeeds(0, 0, 0));
     }
   }
@@ -86,11 +87,13 @@ public class BasicLimelightAim extends CommandBase {
 
   @Override
   public boolean isFinished() {
-     if(error < 2){
-       return true;
-     }
-     else{
-       return false;
-     }
+    System.out.println(error);
+    count++;
+    if(count > 100){
+      return m_end;
+    }
+    else{
+      return false;
+    }
   }
 }
