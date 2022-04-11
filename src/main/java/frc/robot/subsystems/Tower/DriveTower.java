@@ -6,12 +6,16 @@ package frc.robot.subsystems.Tower;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandBase; 
+
+import frc.robot.Feedback.LED.LimelightFlash;
 
 public class DriveTower extends CommandBase {
   /** Creates a new DriveTower. */
   TowerSubsystem m_tower;
   DoubleSupplier m_speed;
+  LimelightFlash m_flashCommand;
+
   public DriveTower(TowerSubsystem tower, DoubleSupplier speed) { 
     m_speed = speed;
     m_tower = tower;
@@ -22,11 +26,15 @@ public class DriveTower extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_flashCommand = new LimelightFlash();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(m_tower.getEntryBeamBreak() && !m_flashCommand.isScheduled()){
+      m_flashCommand.withTimeout(2.0).schedule();
+    }
     if(m_speed.getAsDouble() > 0.2 || m_speed.getAsDouble() < -0.2){
       m_tower.driveWholeTower(m_speed.getAsDouble());
     }
