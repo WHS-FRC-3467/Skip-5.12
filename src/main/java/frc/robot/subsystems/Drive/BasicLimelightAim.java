@@ -38,34 +38,38 @@ public class BasicLimelightAim extends CommandBase {
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
-    m_end = false;
   }
 
   @Override
   public void execute() {
 
-    // initialize NetworkTableEntries. If these values do not update, try
-    // moving them to execute().
+    tx = table.getEntry("tx");
+    ty = table.getEntry("ty");
+    ta = table.getEntry("ta");
     // get current X-axis target delta from center of image, in degrees.
     double deltaX = tx.getDouble(0.0);
     System.out.println(deltaX);
-
+    // if(Math.abs(deltaX) >= 2)
+    // {
+    //   m_end = true;
+    // }
     // If we are still outside our desired target range, rotate the robot.
     if (deltaX >= 2.0) {
       m_end = false;
       m_drive.drive(new ChassisSpeeds(0, 0, -0.5));
     } 
-    else if (deltaX <= 2.0){
+    else if (deltaX >= -2.0){
       m_end = false;
       m_drive.drive(new ChassisSpeeds(0, 0, 0.5));
     }
-    else{
+    else if(Math.abs(deltaX) >= 2)
+    {
       System.out.println("End command");
       m_end = true;
       m_drive.drive(new ChassisSpeeds(0, 0, 0));
     }
   }
-  
+
 
   @Override
   public void end(boolean interrupted) {
@@ -78,8 +82,6 @@ public class BasicLimelightAim extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return m_end;
-
-
+     return m_end;
   }
 }

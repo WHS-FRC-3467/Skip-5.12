@@ -144,6 +144,11 @@ public final class Constants {
         public static final double upperKI = 0.0;
         public static final double upperKD = 1.0;
         public static final double upperKF = 0.0535;
+
+        public static final double tarmacKP = 0.035; 
+        public static final double tarmacKI = 0.0;
+        public static final double tarmacKD = 1.6;
+        public static final double tarmacKF = 0.0535;
 	}
 
     public static final class TowerConstants {

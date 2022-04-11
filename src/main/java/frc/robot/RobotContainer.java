@@ -37,6 +37,7 @@ import frc.robot.subsystems.Intake.DriveIntake;
 import frc.robot.subsystems.Intake.IntakeOverride;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.Shooter.ShootLowerHub;
+import frc.robot.subsystems.Shooter.ShootTarmac;
 import frc.robot.subsystems.Shooter.ShootUpperHub;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.DriveTower;
@@ -153,6 +154,10 @@ public class RobotContainer {
 
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kB)
       .whenHeld(new ShootUpperHub(m_shooterSubystem, m_towerSubsystem));
+
+    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
+      .whenHeld(new ShootTarmac(m_shooterSubystem, m_towerSubsystem));
+
 
       new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kBack)
       .whenPressed(new A1_PrepareToClimb(m_climberSubsystem));
