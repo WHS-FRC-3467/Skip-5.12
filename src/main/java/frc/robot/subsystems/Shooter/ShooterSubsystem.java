@@ -135,7 +135,6 @@ public class ShooterSubsystem extends SubsystemBase {
         // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
         System.out.println(currentVelocity);
         SmartDashboard.putNumber("Shooter Setpoint", ShooterConstants.upperHubVelocity);
-
     }
     public void shootTarmac(){    
         // Update gains on the controller

@@ -145,7 +145,7 @@ public class RobotContainer {
 
     // Auto Aim Limelight\
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kA)
-        .whileHeld(new BasicLimelightAim(m_driveSubsystem, m_limelight));
+        .whenPressed(new BasicLimelightAim(m_driveSubsystem, m_limelight));
 
     //Operator controller    
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kA)
@@ -162,9 +162,6 @@ public class RobotContainer {
     
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kX)
       .whenPressed(new AX_CancelClimb(m_climberSubsystem));
-
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
-      .whenPressed(new A0_CalibrateClimber(m_climberSubsystem));
  }
 
   public DriveSubsystem getDriveDriveSubsystem(){

@@ -1,33 +1,33 @@
 package frc.robot.Feedback.LED;
 
-import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.PWMConstants;
+import frc.robot.Feedback.LED.BlinkinLedDriver.BlinkinLedMode;
 
 public class LED extends SubsystemBase {
   /** Creates a new LED. */
-  PWM blinkin = new PWM(PWMConstants.Blinkin1);
+  private final BlinkinLedDriver blinkin;
 
-  public LED() {  
-    blinkin.setBounds(2.003, 1.50, 1.50, 1.50, 0.999);
-    blinkin.setPeriodMultiplier(PWM.PeriodMultiplier.k1X);
+  public LED() {
+    blinkin = new BlinkinLedDriver(0);
   }
 
+  
   @Override
   public void periodic() {
+    twoBallLight();
     // This method will be called once per scheduler run
   }
 
   public void noBallLight(){
     //off 
-    blinkin.setSpeed(0.0);
+    blinkin.setMode(BlinkinLedMode.SOLID_BLACK);
   }
   public void oneBallLight(){
     //Flashing Green
-    blinkin.setSpeed(-0.05);
+    blinkin.setMode(BlinkinLedMode.FIXED_STROBE_BLUE);
   }
   public void twoBallLight(){
     //Solid Green
-    blinkin.setSpeed(0.93);
+    blinkin.setMode(BlinkinLedMode.SOLID_BLUE);
   }
 }
