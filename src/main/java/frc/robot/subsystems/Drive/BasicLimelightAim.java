@@ -9,7 +9,7 @@ import frc.robot.Feedback.Cameras.Limelight;
 public class BasicLimelightAim extends CommandBase {
   // Initialize Variables
   DriveSubsystem m_drive;
-  double m_rotation, m_targetThreshold, deltaX;
+  double m_rotation, m_targetThreshold, deltaX, error;
   boolean m_end;
   NetworkTableEntry tx, ty, ta;
   NetworkTable table;
@@ -34,11 +34,12 @@ public class BasicLimelightAim extends CommandBase {
     // enable limelight LEDs
     // table.getEntry("ledMode").setNumber(3);
 
+
     Limelight.setVisionMode();
 
-    tx = table.getEntry("tx");
-    ty = table.getEntry("ty");
-    ta = table.getEntry("ta");
+    // tx = table.getEntry("tx");
+    // ty = table.getEntry("ty");
+    // ta = table.getEntry("ta");
   }
 
   @Override
@@ -50,6 +51,8 @@ public class BasicLimelightAim extends CommandBase {
     // get current X-axis target delta from center of image, in degrees.
     deltaX = tx.getDouble(0.0);
     System.out.println(deltaX);
+    error = Math.abs(deltaX);
+
     // if(Math.abs(deltaX) >= 2)
     // {
     //   m_end = true;
@@ -57,11 +60,11 @@ public class BasicLimelightAim extends CommandBase {
     // If we are still outside our desired target range, rotate the robot.
     if (deltaX >= 2.0) {
       m_end = false;
-      m_drive.drive(new ChassisSpeeds(0, 0, -0.5));
+      m_drive.drive(new ChassisSpeeds(0, 0, -deltaX));
     } 
-    else if (deltaX <= 2.0){
+    else if (deltaX <= -2.0){
       m_end = false;
-      m_drive.drive(new ChassisSpeeds(0, 0, 0.5));
+      m_drive.drive(new ChassisSpeeds(0, 0, deltaX));
     }
     else{
       CommandScheduler.getInstance().cancel();
@@ -83,8 +86,7 @@ public class BasicLimelightAim extends CommandBase {
 
   @Override
   public boolean isFinished() {
-     double error = Math.abs(deltaX);
-     if(error<= 2){
+     if(error < 2){
        return true;
      }
      else{
