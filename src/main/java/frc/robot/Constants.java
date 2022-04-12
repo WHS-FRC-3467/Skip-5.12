@@ -124,7 +124,7 @@ public final class Constants {
         //measured 1900
 	    public static final double upperHubVelocity = 1800.0;
 
-        public static final double TarmacVelocity = 1700.0;
+        public static final double TarmacVelocity = 1950.0;
 
         public static final int kShooterTolerance = 100;
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
@@ -185,11 +185,11 @@ public final class Constants {
         public static final int kTolerance = 500;
 
         // Setpoints (in encoder ticks) (not tuned)
-        public static final double kClimbingRetractedPostion = 750.0;
-        public static final double kRestingRetractedPostion = 3000.0;
-        public static final double kExtendedAboveBar = 37500.0;
-        public static final double kFixedArmsFree = 52500.0;
-        public static final double kFullExtendedPosition = 160000.0;
+        public static final double kClimbingRetractedPostion = 800.0;
+        public static final double kRestingRetractedPostion = 4000.0;
+        public static final double kExtendedAboveBar = 50000.0;
+        public static final double kFixedArmsFree = 70000.0;
+        public static final double kFullExtendedPosition = 205000.0;
 
     }
 
