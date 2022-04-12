@@ -138,7 +138,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
     public void shootTarmac(){    
         // Update gains on the controller
-        m_speedControl.updateGains(kP.get(), kI.get(), kD.get(), kF.get());
+        m_speedControl.updateGains(ShooterConstants.tarmacKP, ShooterConstants.tarmacKI, ShooterConstants.tarmacKD, ShooterConstants.tarmacKF);
 
         // Update the target velocity and get back the current velocity
         int currentVelocity = m_speedControl.runVelocityPIDF(ShooterConstants.TarmacVelocity);

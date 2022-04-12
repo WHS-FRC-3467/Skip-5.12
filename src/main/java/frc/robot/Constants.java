@@ -124,9 +124,10 @@ public final class Constants {
         //measured 1900
 	    public static final double upperHubVelocity = 1800.0;
 
-        public static final double TarmacVelocity = 1950.0;
+        public static final double TarmacVelocity = 1940.0;
 
         public static final int kShooterTolerance = 100;
+        
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
         public static final Gains kGains = new Gains(0.0, 0.0, 0.0, 0.0, 0,  1.00);
         
@@ -145,9 +146,9 @@ public final class Constants {
         public static final double upperKD = 1.0;
         public static final double upperKF = 0.0535;
 
-        public static final double tarmacKP = 0.035; 
+        public static final double tarmacKP = 0.04; 
         public static final double tarmacKI = 0.0;
-        public static final double tarmacKD = 1.6;
+        public static final double tarmacKD = 2.0;
         public static final double tarmacKF = 0.0535;
 	}
 
