@@ -58,6 +58,7 @@ public class TrajectoryFollow extends CommandBase {
                 thetaController,
                 m_drive::actuateModulesAuto,
                 m_drive)
+                        .withTimeout(0.1)
                         .andThen(() -> m_drive.drive(new ChassisSpeeds(0.0, 0.0, 0.0)))
                         .schedule();    }
 

@@ -7,6 +7,7 @@ package frc.robot.Autonomous;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.TrajectoryFollow;
@@ -22,12 +23,14 @@ public class ThreeBallAuto extends SequentialCommandGroup {
   TowerSubsystem m_tower;
   ShooterSubsystem m_shooter;
   DriveSubsystem m_drive;
-  public  ThreeBallAuto(IntakeSubsystem intake, TowerSubsystem tower, ShooterSubsystem shooter, DriveSubsystem drive){
+  Limelight m_limelight;
+  public  ThreeBallAuto(IntakeSubsystem intake, TowerSubsystem tower, ShooterSubsystem shooter, DriveSubsystem drive, Limelight limelight){
 
     m_drive = drive; 
     m_shooter = shooter; 
     m_tower = tower;
     m_intake = intake;
+    m_limelight = limelight;
 
     addCommands(
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0),
@@ -37,6 +40,7 @@ public class ThreeBallAuto extends SequentialCommandGroup {
         new TrajectoryFollow("3Ball", m_drive),
         new AutoDriveIntake(m_intake, m_tower, 1.0)
       ).withTimeout(8.5),
+
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0)
     );
   }
