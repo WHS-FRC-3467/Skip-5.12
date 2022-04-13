@@ -94,10 +94,10 @@ public final class Constants {
             new Translation2d(-RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
         );
 
-        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(278.1);
-        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(104.7);
-        public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(110.5); 
-        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(132.6);
+        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(276.5);
+        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(104.9);
+        public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(111.4); 
+        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(133.1);
 
         // Limelight auto aim X-axis target tolerance. This is the number of degrees
         // from perfect center that the robot will consider the BasicLimelightAim
@@ -124,7 +124,7 @@ public final class Constants {
         //measured 1900
 	    public static final double upperHubVelocity = 1800.0;
 
-        public static final double TarmacVelocity = 1940.0;
+        public static final double TarmacVelocity = 1975.0;
 
         public static final int kShooterTolerance = 100;
         
@@ -146,7 +146,7 @@ public final class Constants {
         public static final double upperKD = 1.0;
         public static final double upperKF = 0.0535;
 
-        public static final double tarmacKP = 0.04; 
+        public static final double tarmacKP = 0.03; 
         public static final double tarmacKI = 0.0;
         public static final double tarmacKD = 2.0;
         public static final double tarmacKF = 0.0535;

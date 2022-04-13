@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.subsystems.Drive.DriveSubsystem;
+import frc.robot.subsystems.Drive.LimelightAim;
 import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.TrajectoryFollow;
 import frc.robot.subsystems.Intake.AutoDriveIntake;
@@ -34,11 +35,9 @@ public class FourBallAuto extends SequentialCommandGroup {
       new InstantCommand(m_intake::intakeDeploy, m_intake),
 
       new PathResetOdometry("3Ball", m_drive),
-      new ParallelCommandGroup(      
-        new TrajectoryFollow("3Ball", m_drive),
-        new AutoDriveIntake(m_intake, m_tower, 1.0)
-      ).withTimeout(8.5),
-       
+      new TrajectoryFollow("3Ball", m_drive).withTimeout(8.5).raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0))
+
+      .andThen(new LimelightAim(m_drive, m_limelight)),
       new AutoShootTarmac(m_shooter, m_tower).withTimeout(3.0),
 
       new ParallelCommandGroup(      

@@ -13,11 +13,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Autonomous.FourBallAuto;
-import frc.robot.Autonomous.LimelightTest;
+import frc.robot.Autonomous.LimelightOneBall;
 import frc.robot.Autonomous.RightSideOneBall;
 import frc.robot.Autonomous.SimpleOneBallAuto;
 import frc.robot.Autonomous.SimpleTwoBallAuto;
 import frc.robot.Autonomous.ThreeBallAuto;
+import frc.robot.Autonomous.TwoBallAuto;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Control.XBoxControllerButton;
 import frc.robot.Control.XBoxControllerEE;
@@ -79,13 +80,16 @@ public class RobotContainer {
     CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
 
 
-    m_chooser.addOption("Two Ball Auto", new SimpleTwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
-    m_chooser.addOption("One Ball Auto", new SimpleOneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
+    m_chooser.addOption("Simple Two Ball Auto", new SimpleTwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("Simple One Ball Auto", new SimpleOneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
     m_chooser.addOption("No Auto", null);
     m_chooser.addOption("Three Ball Auto", new ThreeBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem, m_limelight));
     m_chooser.addOption("Right Side One Ball", new RightSideOneBall(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
     m_chooser.addOption("Four Ball Auto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
-    m_chooser.addOption("Limelight Test", new LimelightTest(m_limelight, m_driveSubsystem));
+    m_chooser.addOption("Limelight One Ball", new LimelightOneBall(m_shooterSubystem, m_towerSubsystem, m_limelight, m_driveSubsystem));
+    m_chooser.addOption("Two Ball Auto", new TwoBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
+
+    
     SmartDashboard.putData("Auto Chooser", m_chooser);
 
     Limelight.initialize();

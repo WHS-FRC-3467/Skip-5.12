@@ -49,7 +49,7 @@ public class LimelightAim extends CommandBase {
 
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
-	//removed ta since it's unused and slows the loop
+	  //removed ta since it's unused and slows the loop
 	
     // get current X-axis target delta from center of image, in degrees.
     deltaX = tx.getDouble(0.0);
