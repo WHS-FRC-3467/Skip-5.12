@@ -15,7 +15,6 @@ public class LimelightAim extends CommandBase {
   Limelight m_limelight;
 
 
-
   // Constructor for BasicLimelightAim
   public LimelightAim(DriveSubsystem drive, Limelight limelight) {
     m_limelight = limelight;
@@ -40,6 +39,9 @@ public class LimelightAim extends CommandBase {
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
     count = 0;
+
+    deltaYTargetTarmac = 0;
+
   }
 
   @Override
@@ -65,9 +67,9 @@ public class LimelightAim extends CommandBase {
 
 	//invert the driving direction with -deltaY, since: 
 	//target at top of frame = deltaY positive = drive back (negative)
-	  m_translationY = Math.max(-0.75, Math.min(0.75, (-deltaY)/4.0)); 
+	  m_translationY = Math.max(-1.5, Math.min(1.5, (-deltaY)/4.0)); 
 
-    m_drive.drive(new ChassisSpeeds(0, m_translationY, m_rotation));
+    m_drive.drive(new ChassisSpeeds(-m_translationY, 0, -m_rotation));
 	
 	//tightened tolerances to +/- 1 degree now that we are 
 	//slowing down as the robot is approaching the target
