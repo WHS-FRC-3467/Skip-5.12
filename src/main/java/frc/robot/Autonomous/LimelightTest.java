@@ -7,8 +7,12 @@ package frc.robot.Autonomous;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.subsystems.Drive.DriveSubsystem;
+import frc.robot.subsystems.Drive.LimelightAim;
 import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.TrajectoryFollow;
+import frc.robot.subsystems.Intake.AutoDriveIntake;
+import frc.robot.subsystems.Intake.IntakeSubsystem;
+import frc.robot.subsystems.Tower.TowerSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -17,14 +21,18 @@ public class LimelightTest extends SequentialCommandGroup {
   /** Creates a new LimelightTest. */
   Limelight m_limelight;
   DriveSubsystem m_drive;
-  public LimelightTest(Limelight limelight, DriveSubsystem drive) {
+  IntakeSubsystem m_intake;
+  TowerSubsystem m_tower;
+  public LimelightTest(Limelight limelight, DriveSubsystem drive, IntakeSubsystem intake, TowerSubsystem tower) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    m_intake = intake;
     m_drive = drive;
     m_limelight = limelight;
+    m_tower = tower;
     addCommands(
       new PathResetOdometry("4BallPart1", m_drive),
-      new TrajectoryFollow("4BallPart1", m_drive).withTimeout(3.0) .andThen(()-> System.out.println("Trajectory follow finished"))
+      new TrajectoryFollow("4BallPart1", m_drive).withTimeout(3.0).raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).andThen(new LimelightAim(m_drive, m_limelight))
     );
   }
 }
