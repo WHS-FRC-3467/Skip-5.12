@@ -32,7 +32,8 @@ public class LimelightTest extends SequentialCommandGroup {
     m_tower = tower;
     addCommands(
       new PathResetOdometry("4BallPart1", m_drive),
-      new TrajectoryFollow("4BallPart1", m_drive).withTimeout(3.0).raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).andThen(new LimelightAim(m_drive, m_limelight))
+      new TrajectoryFollow("4BallPart1", m_drive),
+      new LimelightAim(m_drive, m_limelight)
     );
   }
 }
