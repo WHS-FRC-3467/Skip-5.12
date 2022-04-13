@@ -32,6 +32,7 @@ import frc.robot.subsystems.Climber.ClimberSubsystem;
 import frc.robot.subsystems.Climber.MatchDefault;
 import frc.robot.subsystems.Drive.BasicLimelightAim;
 import frc.robot.subsystems.Drive.DriveSubsystem;
+import frc.robot.subsystems.Drive.LimelightAim;
 import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
@@ -148,7 +149,10 @@ public class RobotContainer {
 
     // Auto Aim Limelight\
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kA)
-        .whileHeld(new BasicLimelightAim(m_driveSubsystem, m_limelight));
+      .whileHeld(new BasicLimelightAim(m_driveSubsystem, m_limelight));
+
+    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kB)
+      .whileHeld(new LimelightAim(m_driveSubsystem, m_limelight));
 
     //Operator controller    
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kA)

@@ -4,10 +4,8 @@
 
 package frc.robot.Autonomous;
 
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Feedback.Cameras.Limelight;
-import frc.robot.subsystems.Drive.BasicLimelightAim;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.TrajectoryFollow;
@@ -26,8 +24,7 @@ public class LimelightTest extends SequentialCommandGroup {
     m_limelight = limelight;
     addCommands(
       new PathResetOdometry("4BallPart1", m_drive),
-      new TrajectoryFollow("4BallPart1", m_drive),
-      new BasicLimelightAim(m_drive, m_limelight)
+      new TrajectoryFollow("4BallPart1", m_drive).withTimeout(3.0) .andThen(()-> System.out.println("Trajectory follow finished"))
     );
   }
 }
