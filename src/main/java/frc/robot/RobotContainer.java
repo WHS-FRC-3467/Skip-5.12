@@ -7,11 +7,13 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Autonomous.FourBallAuto;
 import frc.robot.Autonomous.LimelightOneBall;
 import frc.robot.Autonomous.LimelightTest;
@@ -71,7 +73,12 @@ public class RobotContainer {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {    
+  public RobotContainer() {  
+    
+    CommandScheduler.getInstance().onCommandInitialize(command -> Shuffleboard.addEventMarker("CommandInitialized", command.getName(), EventImportance.kNormal));
+    CommandScheduler.getInstance().onCommandInterrupt(command -> Shuffleboard.addEventMarker("CommandInitialized", command.getName(), EventImportance.kNormal));
+    CommandScheduler.getInstance().onCommandFinish(command -> Shuffleboard.addEventMarker("CommandInitialized", command.getName(), EventImportance.kNormal));
+
     new Pneumactics();
   
     // Detect if controllers are missing / Stop multiple warnings

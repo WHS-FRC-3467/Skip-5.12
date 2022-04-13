@@ -10,7 +10,6 @@ import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.LimelightAim;
 import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.TrajectoryFollow;
-import frc.robot.subsystems.Intake.AutoDriveIntake;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.Tower.TowerSubsystem;
 
