@@ -44,10 +44,10 @@ public class Offset4BallAuto extends SequentialCommandGroup {
       new TrajectoryFollow2("Offset4BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
       new AutoShootTarmac(m_shooter, m_tower).withTimeout(2.5),
 
-      new TrajectoryFollow2("4BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
+      new TrajectoryFollow2("Offset4BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
       new AutoDriveIntake(m_intake, m_tower, 1.0).withTimeout(1.5),
 
-      new TrajectoryFollow2("4BallPart3", m_drive).get(),
+      new TrajectoryFollow2("Offset4BallPart3", m_drive).get(),
       
       new LimelightAutoShootTarmac(m_drive, m_shooter, m_tower, m_limelight)
     );

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Autonomous.FourBallAuto;
 import frc.robot.Autonomous.LimelightOneBall;
 import frc.robot.Autonomous.LimelightTest;
+import frc.robot.Autonomous.Offset4BallAuto;
 import frc.robot.Autonomous.RightSideOneBall;
 import frc.robot.Autonomous.SimpleOneBallAuto;
 import frc.robot.Autonomous.SimpleTwoBallAuto;
@@ -96,9 +97,11 @@ public class RobotContainer {
     m_chooser.addOption("Four Ball Auto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
     m_chooser.addOption("Limelight One Ball", new LimelightOneBall(m_shooterSubystem, m_towerSubsystem, m_limelight, m_driveSubsystem));
     m_chooser.addOption("Two Ball Auto", new TwoBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
-    m_chooser.addOption("Limelight Test", new LimelightTest(m_limelight, m_driveSubsystem, m_intakeSubsystem, m_towerSubsystem));
+    m_chooser.addOption("Offset Four Ball", new Offset4BallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
+        
+    //m_chooser.addOption("Limelight Test", new LimelightTest(m_limelight, m_driveSubsystem, m_intakeSubsystem, m_towerSubsystem));
 
-    
+
     SmartDashboard.putData("Auto Chooser", m_chooser);
 
     Limelight.initialize();
