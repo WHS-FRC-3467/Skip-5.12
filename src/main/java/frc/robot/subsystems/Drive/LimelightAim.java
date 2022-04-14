@@ -63,7 +63,7 @@ public class LimelightAim extends CommandBase {
   //fixed clamp logic here
 	//increased limits to 1.5 now that we are slowing down approaching target
 	//feel free to lower these, or divide by a bigger number if oscillations occur
-    m_rotation = Math.max(-1.5, Math.min(1.5, deltaX/4.0));
+    m_rotation = Math.max(-1.5, Math.min(1.5, deltaX/6.0));
 
 	//invert the driving direction with -deltaY, since: 
 	//target at top of frame = deltaY positive = drive back (negative)
@@ -71,9 +71,9 @@ public class LimelightAim extends CommandBase {
 
     m_drive.drive(new ChassisSpeeds(-m_translationY, 0, -m_rotation));
 	
-	//tightened tolerances to +/- 1 degree now that we are 
-	//slowing down as the robot is approaching the target
-    if(errorX < 1.0 && errorY < 1.0){
+    //tightened tolerances to +/- 1 degree now that we are 
+    //slowing down as the robot is approaching the target
+    if(errorX < 0.5 && errorY < 1.0){
       System.out.println("End command");
       m_end = true;
 
@@ -94,7 +94,7 @@ public class LimelightAim extends CommandBase {
   @Override
   public boolean isFinished() {
     count++;
-    if(count > 100){
+    if(count > 50){
       return m_end;
     }
     else{

@@ -7,13 +7,11 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Autonomous.FourBallAuto;
 import frc.robot.Autonomous.LimelightOneBall;
 import frc.robot.Autonomous.LimelightTest;
@@ -42,6 +40,7 @@ import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
 import frc.robot.subsystems.Intake.IntakeOverride;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
+import frc.robot.subsystems.Shooter.LimelightAutoShootTarmac;
 import frc.robot.subsystems.Shooter.ShootLowerHub;
 import frc.robot.subsystems.Shooter.ShootTarmac;
 import frc.robot.subsystems.Shooter.ShootUpperHub;
@@ -162,11 +161,17 @@ public class RobotContainer {
         .whenPressed(m_driveSubsystem::zeroGyroscope);
 
     // Auto Aim Limelight\
-    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kA)
+    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kB)
       .whileHeld(new BasicLimelightAim(m_driveSubsystem, m_limelight));
 
-    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kB)
+    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kA)
       .whileHeld(new LimelightAim(m_driveSubsystem, m_limelight));
+
+    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kX)
+      .whileHeld(new LimelightAutoShootTarmac(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_limelight));
+
+
+
 
     //Operator controller    
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kA)

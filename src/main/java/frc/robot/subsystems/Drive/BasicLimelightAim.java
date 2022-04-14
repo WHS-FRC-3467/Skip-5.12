@@ -56,11 +56,11 @@ public class BasicLimelightAim extends CommandBase {
     m_rotation = Math.max(m_rotation, 1.0);
     m_rotation = Math.min(m_rotation, -1.0);
 
-    if (deltaX >= 2.0) {
+    if (deltaX >= 1.0) {
       m_end = false;
       m_drive.drive(new ChassisSpeeds(0, 0, m_rotation));
     } 
-    else if (deltaX <= -2.0){
+    else if (deltaX <= -1.0){
       m_end = false;
       m_drive.drive(new ChassisSpeeds(0, 0, -m_rotation));
     }
@@ -86,7 +86,7 @@ public class BasicLimelightAim extends CommandBase {
   public boolean isFinished() {
     System.out.println(error);
     count++;
-    if(count > 100){
+    if(count > 50){
       return m_end;
     }
     else{

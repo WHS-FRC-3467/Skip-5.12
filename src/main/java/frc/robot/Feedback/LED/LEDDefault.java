@@ -27,16 +27,16 @@ public class LEDDefault extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // m_led.bottomLights();
-    // if(m_tower.ballCount() == 0){
-    //   m_led.noBallLight();
-    // }
-    // if(m_tower.ballCount() == 1){
-    //   m_led.oneBallLight();
-    // }
-    // if(m_tower.ballCount() == 2){
+
+    if(m_tower.ballCount() == 0){
+      m_led.noBallLight();
+    }
+    if(m_tower.ballCount() == 1){
+      m_led.oneBallLight();
+    }
+    if(m_tower.ballCount() == 2){
       m_led.twoBallLight();
-    //}
+    }
   }
 
   // Called once the command ends or is interrupted.
