@@ -8,7 +8,6 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TrajectoryFollow extends CommandBase {
@@ -16,7 +15,6 @@ public class TrajectoryFollow extends CommandBase {
     private String m_pathName;
     private PathPlannerTrajectory m_trajectory = null;
     DriveSubsystem m_drive;
-    private Command m_pathPlannerCommand;
     /**
      * Executes a trajectory that makes it remain still
      */
@@ -40,7 +38,7 @@ public class TrajectoryFollow extends CommandBase {
 
         if (m_trajectory == null) {
             try {
-                m_trajectory = PathPlanner.loadPath(m_pathName, 2, 2); //2.9, 3
+                m_trajectory = PathPlanner.loadPath(m_pathName, 3, 4); 
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -52,21 +50,20 @@ public class TrajectoryFollow extends CommandBase {
                         Math.pow(DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 2)));
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        m_pathPlannerCommand = new PPSwerveControllerCommand(m_trajectory,
+        new PPSwerveControllerCommand(m_trajectory,
                 m_drive::getCurrentPose,
                 m_drive.getKinematics(),
                 new PIDController(10, 0, 0),
                 new PIDController(10, 0, 0),
                 thetaController,
                 m_drive::actuateModulesAuto,
-                m_drive);
-        }
+                m_drive)
+                        .andThen(() -> m_drive.drive(new ChassisSpeeds(0.0, 0.0, 0.0)))
+                        .schedule();    }
 
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-        m_pathPlannerCommand.andThen(() -> m_drive.drive(new ChassisSpeeds(0.0, 0.0, 0.0))).schedule();    
-
     }
 
 }
