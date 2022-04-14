@@ -42,6 +42,7 @@ import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
 import frc.robot.subsystems.Intake.IntakeOverride;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
+import frc.robot.subsystems.Shooter.LimelightAutoShootTarmac;
 import frc.robot.subsystems.Shooter.ShootLowerHub;
 import frc.robot.subsystems.Shooter.ShootTarmac;
 import frc.robot.subsystems.Shooter.ShootUpperHub;
@@ -167,7 +168,11 @@ public class RobotContainer {
 
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kB)
       .whileHeld(new LimelightAim(m_driveSubsystem, m_limelight));
+      
+    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kX)
+      .whileHeld(new LimelightAutoShootTarmac(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_limelight));
 
+  
     //Operator controller    
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kA)
       .whenHeld(new ShootLowerHub(m_shooterSubystem, m_towerSubsystem));
