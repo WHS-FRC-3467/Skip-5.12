@@ -75,9 +75,9 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {  
     
-    CommandScheduler.getInstance().onCommandInitialize(command -> Shuffleboard.addEventMarker("CommandInitialized", command.getName(), EventImportance.kNormal));
-    CommandScheduler.getInstance().onCommandInterrupt(command -> Shuffleboard.addEventMarker("CommandInitialized", command.getName(), EventImportance.kNormal));
-    CommandScheduler.getInstance().onCommandFinish(command -> Shuffleboard.addEventMarker("CommandInitialized", command.getName(), EventImportance.kNormal));
+    CommandScheduler.getInstance().onCommandInitialize(command -> System.out.println("CommandInitialized" + command.getName()));
+    CommandScheduler.getInstance().onCommandInterrupt(command -> System.out.println("CommandInitialized" + command.getName()));
+    CommandScheduler.getInstance().onCommandFinish(command -> System.out.println("CommandInitialized" + command.getName()));
 
     new Pneumactics();
   
@@ -85,7 +85,8 @@ public class RobotContainer {
     DriverStation.silenceJoystickConnectionWarning(DriveConstants.PRACTICE);
     
 
-    CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
+    // Comment out for simulation
+    // CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
 
 
     m_chooser.addOption("Simple Two Ball Auto", new SimpleTwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
