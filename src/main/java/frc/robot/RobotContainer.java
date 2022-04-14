@@ -42,6 +42,7 @@ import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
 import frc.robot.subsystems.Intake.IntakeOverride;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
+import frc.robot.subsystems.Shooter.LimelightAutoShootTarmac;
 import frc.robot.subsystems.Shooter.ShootLowerHub;
 import frc.robot.subsystems.Shooter.ShootTarmac;
 import frc.robot.subsystems.Shooter.ShootUpperHub;
@@ -75,9 +76,9 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {  
     
-    CommandScheduler.getInstance().onCommandInitialize(command -> Shuffleboard.addEventMarker("CommandInitialized", command.getName(), EventImportance.kNormal));
-    CommandScheduler.getInstance().onCommandInterrupt(command -> Shuffleboard.addEventMarker("CommandInitialized", command.getName(), EventImportance.kNormal));
-    CommandScheduler.getInstance().onCommandFinish(command -> Shuffleboard.addEventMarker("CommandInitialized", command.getName(), EventImportance.kNormal));
+    // CommandScheduler.getInstance().onCommandInitialize(command -> System.out.println("CommandInitialized" + command.getName()));
+    // CommandScheduler.getInstance().onCommandInterrupt(command -> System.out.println("CommandInitialized" + command.getName()));
+    // CommandScheduler.getInstance().onCommandFinish(command -> System.out.println("CommandInitialized" + command.getName()));
 
     new Pneumactics();
   
@@ -85,6 +86,7 @@ public class RobotContainer {
     DriverStation.silenceJoystickConnectionWarning(DriveConstants.PRACTICE);
     
 
+    // Comment out for simulation
     CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
 
 
@@ -166,7 +168,11 @@ public class RobotContainer {
 
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kB)
       .whileHeld(new LimelightAim(m_driveSubsystem, m_limelight));
+      
+    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kX)
+      .whileHeld(new LimelightAutoShootTarmac(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_limelight));
 
+  
     //Operator controller    
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kA)
       .whenHeld(new ShootLowerHub(m_shooterSubystem, m_towerSubsystem));
