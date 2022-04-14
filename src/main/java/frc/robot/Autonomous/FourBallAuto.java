@@ -39,7 +39,7 @@ public class FourBallAuto extends SequentialCommandGroup {
         new AutoDriveIntake(m_intake, m_tower, 1.0)
       ).withTimeout(2.55),
 
-      new AutoShootTarmac(m_shooter, m_tower).withTimeout(3.0),
+      new AutoShootTarmac(m_shooter, m_tower).withTimeout(2.5),
 
       new ParallelCommandGroup(      
         new TrajectoryFollow("4BallPart2", m_drive),
@@ -47,9 +47,9 @@ public class FourBallAuto extends SequentialCommandGroup {
       ).withTimeout(2.2),
 
       new AutoDriveIntake(m_intake, m_tower, 1.0).withTimeout(1.5),
-      new TrajectoryFollow("4BallPart3", m_drive).withTimeout(3.3),
+      new TrajectoryFollow("4BallPart3", m_drive).withTimeout(2.2),
       
-      new AutoShootTarmac(m_shooter, m_tower).withTimeout(3.0)
+      new AutoShootTarmac(m_shooter, m_tower).withTimeout(2.5)
     );
   }
 }

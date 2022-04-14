@@ -170,7 +170,7 @@ public final class Constants {
 	    public final static double kNeutralDeadband = 0.001;
 
 	    /* Current Limit for arm calibration */
-        public final static double kCalibCurrentLimit = 15.0;
+        public final static double kCalibCurrentLimit = 10.0;
 
         /**
     	 * Set to zero to skip waiting for confirmation.
@@ -186,7 +186,7 @@ public final class Constants {
         public static final int kTolerance = 500;
 
         // Setpoints (in encoder ticks) (not tuned)
-        public static final double kClimbingRetractedPostion = 800.0;
+        public static final double kClimbingRetractedPostion = 1000.0;
         public static final double kRestingRetractedPostion = 4000.0;
         public static final double kExtendedAboveBar = 50000.0;
         public static final double kFixedArmsFree = 70000.0;
