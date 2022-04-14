@@ -32,7 +32,7 @@ public class LimelightTest extends SequentialCommandGroup {
     addCommands(
       new PathResetOdometry("4BallPart1", m_drive),
       new TrajectoryFollow("4BallPart1", m_drive),
-      new LimelightAim(m_drive, m_limelight),
+      new LimelightAim(m_drive, m_limelight)
     );
   }
 }
