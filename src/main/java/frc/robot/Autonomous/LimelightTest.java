@@ -10,7 +10,6 @@ import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.LimelightAim;
 import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.TrajectoryFollow;
-import frc.robot.subsystems.Drive.TrajectoryFollow2;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.Tower.TowerSubsystem;
 
@@ -32,9 +31,8 @@ public class LimelightTest extends SequentialCommandGroup {
     m_tower = tower;
     addCommands(
       new PathResetOdometry("4BallPart1", m_drive),
-      new TrajectoryFollow2("4BallPart1", m_drive).get(),
+      new TrajectoryFollow("4BallPart1", m_drive),
       new LimelightAim(m_drive, m_limelight),
-      new TrajectoryFollow2("4BallPart2", m_drive).get()
     );
   }
 }
