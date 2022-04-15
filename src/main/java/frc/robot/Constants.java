@@ -124,7 +124,7 @@ public final class Constants {
         //measured 1900
 	    public static final double upperHubVelocity = 1800.0;
 
-        public static final double TarmacVelocity = 1975.0;
+        public static final double TarmacVelocity = 2025.0;
 
         public static final int kShooterTolerance = 100;
         

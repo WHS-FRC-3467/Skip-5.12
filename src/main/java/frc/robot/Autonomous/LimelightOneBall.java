@@ -30,7 +30,7 @@ public class LimelightOneBall extends SequentialCommandGroup {
     m_tower = tower;
     addCommands(
       new LimelightAim(m_drive, m_limelight),
-      new AutoShootTarmac(m_shooter, m_tower)
+      new AutoShootTarmac(m_shooter, m_tower).withTimeout(3.0)
     );
   }
 }

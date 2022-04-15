@@ -13,20 +13,17 @@ public class LED extends SubsystemBase {
 
   
   @Override
-  public void periodic() {
-    twoBallLight();
-    // This method will be called once per scheduler run
-  }
+  public void periodic() {}
 
   public void noBallLight(){
     //off 
-    blinkin.setMode(BlinkinLedMode.SOLID_WHITE);
+    blinkin.setMode(BlinkinLedMode.SOLID_BLACK);
   }
-  public void oneBallLight(){
+  public void twoBallLight(){
     //Flashing Green
     blinkin.setMode(BlinkinLedMode.FIXED_STROBE_GOLD);
   }
-  public void twoBallLight(){
+  public void oneBallLight(){
     //Solid Green
     blinkin.setMode(BlinkinLedMode.SOLID_GOLD);
   }
