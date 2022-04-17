@@ -27,7 +27,7 @@ public class LimelightAutoShootTarmac extends SequentialCommandGroup {
         new ParallelRaceGroup(
             new ShootTarmac(m_shooter, m_tower),
             new SequentialCommandGroup(
-                new LimelightAim(m_drive, m_limelight),
+                new LimelightAim(m_drive, m_limelight, true, true),
                 new DriveTower(m_tower, (() -> TowerConstants.standardTowerSpeed * 0.8)).withTimeout(1.5) //slower to gate balls
             )
         )
