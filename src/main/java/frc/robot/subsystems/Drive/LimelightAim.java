@@ -71,8 +71,13 @@ public class LimelightAim extends CommandBase {
 	  deltaY = ty.getDouble(0.0) - deltaYTargetTarmac; 
 	
 	  errorX = Math.abs(deltaX);
-	  errorY = Math.abs(deltaY);
-
+	  
+    if(m_ranging == true) {
+      errorY = Math.abs(deltaY);
+    }
+    else {
+      errorY = 0.0;
+    }
     //fixed clamp logic here
     //increased limits to 1.5 now that we are slowing down approaching target
     //feel free to lower these, or divide by a bigger number if oscillations occur
