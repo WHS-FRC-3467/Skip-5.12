@@ -130,6 +130,19 @@ public class TowerSubsystem extends SubsystemBase {
       return 0;
     }
   }
+
+  public boolean getEntryBeamBreak(){
+    return m_entryBeamBreak.get();
+  }
+
+  public boolean getMidBeamBreak(){
+    return m_midBeamBreak.get();
+  }
+
+  public boolean getUpperBeamBreak(){
+    return m_upperBeamBreak.get();
+  }
+
   public boolean doesBallExist (){
     if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){
       //no balls
