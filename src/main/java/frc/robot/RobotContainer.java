@@ -160,12 +160,12 @@ public class RobotContainer {
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kBack)
         .whenPressed(m_driveSubsystem::zeroGyroscope);
 
-    // Auto Aim Limelight\
+    // Auto Aim Limelight without ranging, with ranging, and with auto-shoot
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kB)
-      .whileHeld(new BasicLimelightAim(m_driveSubsystem, m_limelight));
+      .whileHeld(new LimelightAim(m_driveSubsystem, m_limelight, true, false));
 
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kA)
-      .whileHeld(new LimelightAim(m_driveSubsystem, m_limelight));
+      .whileHeld(new LimelightAim(m_driveSubsystem, m_limelight, true, true));
 
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kX)
       .whileHeld(new LimelightAutoShootTarmac(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_limelight));
