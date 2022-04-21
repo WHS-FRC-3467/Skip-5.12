@@ -7,8 +7,7 @@ package frc.robot.Autonomous;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.subsystems.Drive.DriveSubsystem;
-import frc.robot.subsystems.Drive.LimelightAim;
-import frc.robot.subsystems.Shooter.AutoShootTarmac;
+import frc.robot.subsystems.Shooter.LimelightAutoShootTarmac;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.TowerSubsystem;
 
@@ -29,8 +28,7 @@ public class LimelightOneBall extends SequentialCommandGroup {
     m_shooter = shooter;
     m_tower = tower;
     addCommands(
-      new LimelightAim(m_drive, m_limelight),
-      new AutoShootTarmac(m_shooter, m_tower).withTimeout(3.0)
+      new LimelightAutoShootTarmac(m_drive, m_shooter, m_tower, m_limelight)
     );
   }
 }

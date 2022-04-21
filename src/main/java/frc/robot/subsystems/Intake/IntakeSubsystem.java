@@ -39,6 +39,9 @@ public class IntakeSubsystem extends SubsystemBase {
 public void driveIntake(double speed){
   m_intakeMotor.set(ControlMode.PercentOutput, speed);
 }
+public void fullRunIntake (){
+  driveIntake(1.0);
+}
 public void intakeDeploy(){
   m_intakePiston.set(Value.kForward);
 }

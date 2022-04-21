@@ -19,12 +19,12 @@ public class LED extends SubsystemBase {
     //off 
     blinkin.setMode(BlinkinLedMode.SOLID_BLACK);
   }
-  public void twoBallLight(){
-    //Flashing Green
-    blinkin.setMode(BlinkinLedMode.FIXED_STROBE_RED);
-  }
   public void oneBallLight(){
-    //Solid Green
+    //Flashing Green
     blinkin.setMode(BlinkinLedMode.SOLID_RED);
+  }
+  public void twoBallLight(){
+    //Solid Green
+    blinkin.setMode(BlinkinLedMode.SOLID_BLUE);
   }
 }

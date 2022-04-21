@@ -4,10 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-// import edu.wpi.first.cscore.CvSink;
-// import edu.wpi.first.cscore.CvSource;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -22,6 +18,9 @@ import frc.robot.Autonomous.SimpleOneBallAuto;
 import frc.robot.Autonomous.SimpleTwoBallAuto;
 import frc.robot.Autonomous.ThreeBallAuto;
 import frc.robot.Autonomous.TwoBallAuto;
+import frc.robot.Autonomous.TwoBallAutoRightClose;
+import frc.robot.Autonomous.TwoBallAutoRightFar;
+import frc.robot.Autonomous.TwoBallWithTarmac;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Control.XBoxControllerButton;
 import frc.robot.Control.XBoxControllerEE;
@@ -34,7 +33,6 @@ import frc.robot.subsystems.Climber.A9_DoItAll;
 import frc.robot.subsystems.Climber.AX_CancelClimb;
 import frc.robot.subsystems.Climber.ClimberSubsystem;
 import frc.robot.subsystems.Climber.MatchDefault;
-import frc.robot.subsystems.Drive.BasicLimelightAim;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.LimelightAim;
 import frc.robot.subsystems.Drive.LimelightAim2;
@@ -85,9 +83,9 @@ public class RobotContainer {
     
 
     // Comment out for simulation
-    UsbCamera camera = CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
-    camera.setResolution(160, 90);
-    camera.setFPS(15);
+    // UsbCamera camera = CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
+    // camera.setResolution(160, 90);
+    // camera.setFPS(15);
     // CvSink cvSink = CameraServer.getVideo();
     // CvSource outputStream = CameraServer.putVideo("Intake Cam", 320, 240);
 
@@ -97,9 +95,13 @@ public class RobotContainer {
     m_chooser.addOption("Three Ball Auto", new ThreeBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem, m_limelight));
     m_chooser.addOption("Four Ball Auto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
     m_chooser.addOption("Limelight One Ball", new LimelightOneBall(m_shooterSubystem, m_towerSubsystem, m_limelight, m_driveSubsystem));
-    m_chooser.addOption("Two Ball Auto", new TwoBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
+    m_chooser.addOption("Two Ball Auto Left ", new TwoBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
+    m_chooser.addOption("Two Ball Auto Left With Tarmac", new TwoBallWithTarmac(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem, m_limelight));
+
     m_chooser.addOption("Offset Four Ball", new Offset4BallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
-        
+    m_chooser.addOption("Right Two Ball Close", new TwoBallAutoRightClose(m_driveSubsystem, m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_limelight));
+    m_chooser.addOption("Right Two Ball Far", new TwoBallAutoRightFar(m_driveSubsystem, m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_limelight));
+
     //m_chooser.addOption("Limelight Test", new LimelightTest(m_limelight, m_driveSubsystem, m_intakeSubsystem, m_towerSubsystem));
 
 
