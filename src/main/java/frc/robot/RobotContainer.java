@@ -5,6 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+// import edu.wpi.first.cscore.CvSink;
+// import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -34,12 +37,14 @@ import frc.robot.subsystems.Climber.MatchDefault;
 import frc.robot.subsystems.Drive.BasicLimelightAim;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.LimelightAim;
+import frc.robot.subsystems.Drive.LimelightAim2;
 import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.SwerveDrive;
 import frc.robot.subsystems.Intake.DriveIntake;
 import frc.robot.subsystems.Intake.IntakeOverride;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.Shooter.LimelightAutoShootTarmac;
+import frc.robot.subsystems.Shooter.ShootLaunchpad;
 import frc.robot.subsystems.Shooter.ShootLowerHub;
 import frc.robot.subsystems.Shooter.ShootTarmac;
 import frc.robot.subsystems.Shooter.ShootUpperHub;
@@ -73,10 +78,6 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {  
     
-    // CommandScheduler.getInstance().onCommandInitialize(command -> System.out.println("CommandInitialized" + command.getName()));
-    // CommandScheduler.getInstance().onCommandInterrupt(command -> System.out.println("CommandInitialized" + command.getName()));
-    // CommandScheduler.getInstance().onCommandFinish(command -> System.out.println("CommandInitialized" + command.getName()));
-
     new Pneumactics();
   
     // Detect if controllers are missing / Stop multiple warnings
@@ -84,8 +85,11 @@ public class RobotContainer {
     
 
     // Comment out for simulation
-    CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
-
+    UsbCamera camera = CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
+    camera.setResolution(160, 90);
+    camera.setFPS(15);
+    // CvSink cvSink = CameraServer.getVideo();
+    // CvSource outputStream = CameraServer.putVideo("Intake Cam", 320, 240);
 
     m_chooser.addOption("Simple Two Ball Auto", new SimpleTwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
     m_chooser.addOption("Simple One Ball Auto", new SimpleOneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
@@ -162,7 +166,7 @@ public class RobotContainer {
 
     // Auto Aim Limelight\
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kB)
-      .whileHeld(new BasicLimelightAim(m_driveSubsystem, m_limelight));
+      .whileHeld(new LimelightAim2(m_driveSubsystem, m_limelight, true, false));
 
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kA)
       .whileHeld(new LimelightAim(m_driveSubsystem, m_limelight));
@@ -183,6 +187,10 @@ public class RobotContainer {
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
       .whenHeld(new ShootTarmac(m_shooterSubystem, m_towerSubsystem));
 
+    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kX)
+      .whenHeld(new ShootLaunchpad(m_shooterSubystem, m_towerSubsystem));
+
+
 
       new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kBack)
       .whenPressed(new A1_PrepareToClimb(m_climberSubsystem));
@@ -190,8 +198,12 @@ public class RobotContainer {
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kStart)
       .whenPressed(new A9_DoItAll(m_climberSubsystem));
     
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kX)
+    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kRightBumper)
       .whenPressed(new AX_CancelClimb(m_climberSubsystem));
+
+    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kLeftBumper)
+      .whenPressed(new AX_CancelClimb(m_climberSubsystem));
+
  }
 
   public DriveSubsystem getDriveDriveSubsystem(){

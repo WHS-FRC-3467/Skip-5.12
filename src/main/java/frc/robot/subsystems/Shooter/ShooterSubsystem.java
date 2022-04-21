@@ -24,10 +24,10 @@ public class ShooterSubsystem extends SubsystemBase {
     public ShooterSubsystem m_shooter;
 
 
-    private static TunableNumber kP = new TunableNumber("Shooter/kP");
-    private static TunableNumber kI = new TunableNumber("Shooter/kI");
-    private static TunableNumber kD = new TunableNumber("Shooter/kD");
-    private static TunableNumber kF = new TunableNumber("Shooter/kF");
+    private static TunableNumber kP = new TunableNumber("Tarmac kP");
+    private static TunableNumber kI = new TunableNumber("Tarmac kI");
+    private static TunableNumber kD = new TunableNumber("Tarmac kD");
+    private static TunableNumber kF = new TunableNumber("Tarmac kF");
     private static TunableNumber kShooterSetpointUpper = new TunableNumber("Shooter/SetpointUpper");
 
 
@@ -36,11 +36,11 @@ public class ShooterSubsystem extends SubsystemBase {
         m_speedControl = new FalconVelocity();
         m_speedGains = ShooterConstants.kGains;
 
-        kP.setDefault(Constants.ShooterConstants.upperKP);
-        kI.setDefault(Constants.ShooterConstants.upperKI);
-        kD.setDefault(Constants.ShooterConstants.upperKD);
-        kF.setDefault(Constants.ShooterConstants.upperKF);
-        kShooterSetpointUpper.setDefault(Constants.ShooterConstants.upperHubVelocity);
+        kP.setDefault(Constants.ShooterConstants.launchpadKP);
+        kI.setDefault(Constants.ShooterConstants.launchpadKI);
+        kD.setDefault(Constants.ShooterConstants.launchpadKD);
+        kF.setDefault(Constants.ShooterConstants.launchpadKF);
+        kShooterSetpointUpper.setDefault(Constants.ShooterConstants.launchpadVelocity);
 
         //commented out for non-testing purposes 
         //Can be put back if shooter needs to be tested
@@ -124,10 +124,10 @@ public class ShooterSubsystem extends SubsystemBase {
     
     public void shootUpperHub(){    
         // Update gains on the controller
-        m_speedControl.updateGains(kP.get(), kI.get(), kD.get(), kF.get());
+        m_speedControl.updateGains(ShooterConstants.upperKP, ShooterConstants.upperKI, ShooterConstants.upperKD, ShooterConstants.upperKF);
 
         // Update the target velocity and get back the current velocity
-        int currentVelocity = m_speedControl.runVelocityPIDF(kShooterSetpointUpper.get());
+        int currentVelocity = m_speedControl.runVelocityPIDF(ShooterConstants.upperHubVelocity);
     
         // Show the Current Velocity, Error, and Current Output Percent on the SDB
         SmartDashboard.putNumber("Current Velocity", currentVelocity);
@@ -148,9 +148,26 @@ public class ShooterSubsystem extends SubsystemBase {
         // SmartDashboard.putNumber("Error", m_speedControl.getError());
         // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
         System.out.println(currentVelocity);
-        SmartDashboard.putNumber("Shooter Setpoint", ShooterConstants.upperHubVelocity);
+        SmartDashboard.putNumber("Shooter Setpoint", ShooterConstants.TarmacVelocity);
 
     }
+
+    public void shootLaunchpad(){    
+        // Update gains on the controller
+        m_speedControl.updateGains(kP.get(), kI.get(), kD.get(), kF.get());
+
+        // Update the target velocity and get back the current velocity
+        int currentVelocity = m_speedControl.runVelocityPIDF(kShooterSetpointUpper.get());
+    
+        // Show the Current Velocity, Error, and Current Output Percent on the SDB
+        SmartDashboard.putNumber("Current Velocity", currentVelocity);
+        // SmartDashboard.putNumber("Error", m_speedControl.getError());
+        // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
+        System.out.println(currentVelocity);
+        SmartDashboard.putNumber("Shooter Setpoint", ShooterConstants.launchpadVelocity);
+
+    }
+
     // public int currentVelocity(){
     //     m_falconVelocity
     // }

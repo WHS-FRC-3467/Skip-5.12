@@ -37,7 +37,9 @@ public class LEDDefault extends CommandBase {
     if(m_tower.ballCount() == 2){
       m_led.twoBallLight();
     }
+    
   }
+
 
   // Called once the command ends or is interrupted.
   @Override

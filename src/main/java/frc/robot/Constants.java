@@ -18,7 +18,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  */
 public final class Constants {
 
-    public static final boolean tuningMode = false;
+    public static final boolean tuningMode = true;
 
     public static final class CanConstants{
         //drivebase CAN IDs 
@@ -125,7 +125,9 @@ public final class Constants {
 	    public static final double upperHubVelocity = 1800.0;
 
         public static final double TarmacVelocity = 2025.0;
-
+        
+        public static final double launchpadVelocity = 2200;
+        
         public static final int kShooterTolerance = 100;
         
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
@@ -143,13 +145,19 @@ public final class Constants {
 
         public static final double upperKP = 0.035; 
         public static final double upperKI = 0.0;
-        public static final double upperKD = 1.0;
+        public static final double upperKD = 0.9;
         public static final double upperKF = 0.0535;
 
         public static final double tarmacKP = 0.03; 
         public static final double tarmacKI = 0.0;
         public static final double tarmacKD = 2.0;
         public static final double tarmacKF = 0.0535;
+
+        public static final double launchpadKP = 0.03; 
+        public static final double launchpadKI = 0.0;
+        public static final double launchpadKD = 2.0;
+        public static final double launchpadKF = 0.0535;
+
 	}
 
     public static final class TowerConstants {

@@ -139,5 +139,14 @@ public class TowerSubsystem extends SubsystemBase {
       return false;
     }
   }
+
+  public boolean getLowerBeamBrake(){
+    if(m_entryBeamBreak.get() == false){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
   
 }

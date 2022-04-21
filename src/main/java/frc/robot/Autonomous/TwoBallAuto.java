@@ -8,13 +8,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Drive.DriveSubsystem;
 import frc.robot.subsystems.Drive.PathResetOdometry;
-import frc.robot.subsystems.Drive.TrajectoryFollow;
+import frc.robot.subsystems.Drive.TrajectoryFollow2;
 import frc.robot.subsystems.Intake.AutoDriveIntake;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.Shooter.AutoShoot;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.TowerSubsystem;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -36,10 +35,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0),
       new InstantCommand(m_intake::intakeDeploy, m_intake),
       new PathResetOdometry("2Ball", m_drive),
-      new ParallelCommandGroup(      
-        new TrajectoryFollow("2Ball", m_drive),
-        new AutoDriveIntake(m_intake, m_tower, 1.0)
-      ).withTimeout(4.5),
+      new TrajectoryFollow2("2Ball", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0)
     );
   }
