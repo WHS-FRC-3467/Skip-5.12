@@ -6,13 +6,16 @@ package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.subsystems.Drive.DriveSubsystem;
+import frc.robot.subsystems.Drive.LimelightAim2;
 import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.TrajectoryFollow2;
 import frc.robot.subsystems.Intake.AutoDriveIntake;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.Shooter.AutoShoot;
+import frc.robot.subsystems.Shooter.AutoShootTarmac;
 import frc.robot.subsystems.Shooter.LimelightAutoShootTarmac;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.TowerSubsystem;
@@ -35,10 +38,15 @@ public class TwoBallWithTarmac extends SequentialCommandGroup {
     m_intake = intake;
     m_limelight = limelight;
     addCommands(
-      new InstantCommand(m_intake::intakeDeploy, m_intake),
       new PathResetOdometry("2BallTarmac", m_drive),
+
+      new AutoShoot(m_shooter, m_tower).withTimeout(2.0),
       new TrajectoryFollow2("2BallTarmac", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
-      new LimelightAutoShootTarmac(drive, m_shooter, m_tower, m_limelight).withTimeout(3.0)
-    );
+      new WaitCommand(0.5),
+
+      new LimelightAutoShootTarmac(m_drive, m_shooter, m_tower, m_limelight)
+        // new LimelightAim2(m_drive, m_limelight, false, true),
+        // new AutoShootTarmac(m_shooter, m_tower)
+      );
   }
 }

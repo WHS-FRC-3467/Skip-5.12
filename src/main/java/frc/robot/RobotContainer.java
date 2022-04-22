@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -113,12 +114,22 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     
-	  // Set up the default commands for the various subsystems
-    m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
-                                      () -> -(m_driverController.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-                                      () -> -(m_driverController.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-                                      () -> -(m_driverController.getRightX()) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+
+    // SlewRateLimiter yFilter = new SlewRateLimiter(4.0);
+    // SlewRateLimiter xFilter = new SlewRateLimiter(4.0);
+    // SlewRateLimiter rotFilter = new SlewRateLimiter(4.0);
+
+  // Set up the default commands for the various subsystems
+    // m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
+    //                                   () -> -(xFilter.calculate(m_driverController.getLeftX())) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+    //                                   () -> -(yFilter.calculate(m_driverController.getLeftY())) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+    //                                   () -> -(rotFilter.calculate(m_driverController.getRightX())) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     
+        m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
+                                      () -> -((m_driverController.getLeftX())) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                                      () -> -((m_driverController.getLeftY())) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                                      () -> -((m_driverController.getRightX())) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+
     m_intakeSubsystem.setDefaultCommand(new DriveIntake(m_intakeSubsystem,
                                         () -> (m_driverController.getRightTriggerAxis()),  
                                         () -> (m_driverController.getLeftTriggerAxis())));
@@ -175,6 +186,7 @@ public class RobotContainer {
 
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kX)
       .whileHeld(new LimelightAutoShootTarmac(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_limelight));
+
 
 
 

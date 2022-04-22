@@ -18,7 +18,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  */
 public final class Constants {
 
-    public static final boolean tuningMode = true;
+    public static final boolean tuningMode = false;
 
     public static final class CanConstants{
         //drivebase CAN IDs 
@@ -94,8 +94,8 @@ public final class Constants {
             new Translation2d(-RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
         );
 
-        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(277.3);
-        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(109.9);
+        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(276.2);
+        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(103.9);
         public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(143.6); 
         public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(132.5);
 
@@ -118,11 +118,10 @@ public final class Constants {
     }
 
     public static final class ShooterConstants {
-        //measured 950
 
         public static final double lowerHubVelocity = 975.0;
-        //measured 1900
-	    public static final double upperHubVelocity = 1800.0;
+
+        public static final double upperHubVelocity = 1800.0;
 
         public static final double TarmacVelocity = 2025.0;
         

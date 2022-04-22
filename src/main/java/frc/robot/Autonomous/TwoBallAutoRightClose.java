@@ -8,11 +8,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.subsystems.Drive.DriveSubsystem;
+import frc.robot.subsystems.Drive.LimelightAim2;
 import frc.robot.subsystems.Drive.PathResetOdometry;
 import frc.robot.subsystems.Drive.TrajectoryFollow2;
 import frc.robot.subsystems.Intake.AutoDriveIntake;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
-import frc.robot.subsystems.Shooter.LimelightAutoShootTarmac;
+import frc.robot.subsystems.Shooter.AutoShoot;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import frc.robot.subsystems.Tower.TowerSubsystem;
 
@@ -38,10 +39,12 @@ public class TwoBallAutoRightClose extends SequentialCommandGroup {
     addCommands(
 
       new PathResetOdometry("4BallPart1", m_drive),
-      new InstantCommand(m_intake::intakeDeploy, m_intake),
 
       new TrajectoryFollow2("4BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
-      new LimelightAutoShootTarmac(m_drive, m_shooter, m_tower, m_limelight)
+      new InstantCommand(m_intake::intakeRetract, m_intake),
+
+      new LimelightAim2(m_drive, m_limelight, false, true),
+      new AutoShoot(m_shooter, m_tower)
 
 
 

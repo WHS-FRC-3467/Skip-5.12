@@ -33,7 +33,6 @@ public class ThreeBallAuto extends SequentialCommandGroup {
 
     addCommands(
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0),
-      new InstantCommand(m_intake::intakeDeploy, m_intake),
       new PathResetOdometry("3Ball", m_drive),
       new TrajectoryFollow2("3Ball", m_drive).get().raceWith(new AutoDriveIntake(m_intake,m_tower, 1.0)),
       new AutoShoot(m_shooter, m_tower).withTimeout(3.0)
