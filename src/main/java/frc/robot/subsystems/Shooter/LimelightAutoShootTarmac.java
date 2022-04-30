@@ -1,13 +1,15 @@
-package frc.robot.subsystems.Shooter;
+package frc.robot.Subsystems.Shooter;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TowerConstants;
 import frc.robot.Feedback.Cameras.Limelight;
-import frc.robot.subsystems.Drive.DriveSubsystem;
-import frc.robot.subsystems.Drive.LimelightAim;
-import frc.robot.subsystems.Tower.DriveTower;
-import frc.robot.subsystems.Tower.TowerSubsystem;
+import frc.robot.Subsystems.Drive.DriveSubsystem;
+import frc.robot.Subsystems.Drive.LimelightAim;
+import frc.robot.Subsystems.Tower.DriveTower;
+import frc.robot.Subsystems.Tower.TowerSubsystem;
 
 public class LimelightAutoShootTarmac extends SequentialCommandGroup {
 
@@ -25,7 +27,7 @@ public class LimelightAutoShootTarmac extends SequentialCommandGroup {
 
     addCommands(
         new ParallelRaceGroup(
-            new ShootTarmac(m_shooter, m_tower),
+            new Shoot(m_shooter, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward),
             new SequentialCommandGroup(
                 new LimelightAim(m_drive, m_limelight),
                 new DriveTower(m_tower, (() -> TowerConstants.standardTowerSpeed * 0.8)).withTimeout(2) //slower to gate balls

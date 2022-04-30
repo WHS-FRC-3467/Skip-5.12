@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Drive;
+package frc.robot.Subsystems.Drive;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
@@ -8,9 +8,9 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class TrajectoryFollow extends CommandBase {
+public class TrajectoryFollow {
 
     private String m_pathName;
     private PathPlannerTrajectory m_trajectory = null;
@@ -32,8 +32,7 @@ public class TrajectoryFollow extends CommandBase {
         m_drive = drive;
     }
 
-    @Override
-    public void initialize() {
+    public SequentialCommandGroup get() {
         System.out.println("Trajectory begun");
 
         if (m_trajectory == null) {
@@ -50,7 +49,7 @@ public class TrajectoryFollow extends CommandBase {
                         Math.pow(DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 2)));
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        new PPSwerveControllerCommand(m_trajectory,
+        return new PPSwerveControllerCommand(m_trajectory,
                 m_drive::getCurrentPose,
                 m_drive.getKinematics(),
                 new PIDController(10, 0, 0),
@@ -58,12 +57,7 @@ public class TrajectoryFollow extends CommandBase {
                 thetaController,
                 m_drive::actuateModulesAuto,
                 m_drive)
-                        .andThen(() -> m_drive.drive(new ChassisSpeeds(0.0, 0.0, 0.0)))
-                        .schedule();    }
-
-    @Override
-    public void end(boolean interrupted) {
-        super.end(interrupted);
+                        .andThen(() -> m_drive.drive(new ChassisSpeeds(0.0, 0.0, 0.0)));
     }
 
 }

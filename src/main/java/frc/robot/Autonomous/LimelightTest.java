@@ -6,12 +6,12 @@ package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Feedback.Cameras.Limelight;
-import frc.robot.subsystems.Drive.DriveSubsystem;
-import frc.robot.subsystems.Drive.LimelightAim;
-import frc.robot.subsystems.Drive.PathResetOdometry;
-import frc.robot.subsystems.Drive.TrajectoryFollow2;
-import frc.robot.subsystems.Intake.IntakeSubsystem;
-import frc.robot.subsystems.Tower.TowerSubsystem;
+import frc.robot.Subsystems.Drive.DriveSubsystem;
+import frc.robot.Subsystems.Drive.LimelightAim;
+import frc.robot.Subsystems.Drive.PathResetOdometry;
+import frc.robot.Subsystems.Drive.TrajectoryFollow;
+import frc.robot.Subsystems.Intake.IntakeSubsystem;
+import frc.robot.Subsystems.Tower.TowerSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -31,9 +31,9 @@ public class LimelightTest extends SequentialCommandGroup {
     m_tower = tower;
     addCommands(
       new PathResetOdometry("4BallPart1", m_drive),
-      new TrajectoryFollow2("4BallPart1", m_drive).get(),
+      new TrajectoryFollow("4BallPart1", m_drive).get(),
       new LimelightAim(m_drive, m_limelight),
-      new TrajectoryFollow2("4BallPart2", m_drive).get()
+      new TrajectoryFollow("4BallPart2", m_drive).get()
     );
   }
 }

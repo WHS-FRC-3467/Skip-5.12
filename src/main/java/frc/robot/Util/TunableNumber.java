@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Shooter;
+package frc.robot.Util;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;

@@ -1,20 +1,22 @@
 package frc.robot.Autonomous;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Feedback.Cameras.Limelight;
-import frc.robot.subsystems.Drive.DriveSubsystem;
-import frc.robot.subsystems.Drive.LimelightAim2;
-import frc.robot.subsystems.Drive.PathResetOdometry;
-import frc.robot.subsystems.Drive.TrajectoryFollow2;
-import frc.robot.subsystems.Intake.AutoDriveIntake;
-import frc.robot.subsystems.Intake.IntakeSubsystem;
-import frc.robot.subsystems.Shooter.AutoShootTarmac;
-import frc.robot.subsystems.Shooter.LimelightAutoShootTarmac;
-import frc.robot.subsystems.Shooter.ShooterSubsystem;
-import frc.robot.subsystems.Tower.TowerSubsystem;
+import frc.robot.Subsystems.Drive.DriveSubsystem;
+import frc.robot.Subsystems.Drive.LimelightAim;
+import frc.robot.Subsystems.Drive.PathResetOdometry;
+import frc.robot.Subsystems.Drive.TrajectoryFollow;
+import frc.robot.Subsystems.Intake.AutoDriveIntake;
+import frc.robot.Subsystems.Intake.IntakeSubsystem;
+import frc.robot.Subsystems.Shooter.AutoShoot;
+import frc.robot.Subsystems.Shooter.LimelightAutoShootTarmac;
+import frc.robot.Subsystems.Shooter.ShooterSubsystem;
+import frc.robot.Subsystems.Tower.TowerSubsystem;
 
 
 public class FourBallAuto extends SequentialCommandGroup {
@@ -38,10 +40,10 @@ public class FourBallAuto extends SequentialCommandGroup {
 
       new PathResetOdometry("4BallPart1", m_drive),
 
-      new TrajectoryFollow2("4BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
-      new AutoShootTarmac(m_shooter, m_tower).withTimeout(2.5).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
+      new TrajectoryFollow("4BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
+      new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward).withTimeout(2.5).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
 
-      new TrajectoryFollow2("4BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
+      new TrajectoryFollow("4BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
       
       // // LEAVE COMMENTED new AutoDriveIntake(m_intake, m_tower, 1.0).withTimeout(0.25),
       new InstantCommand(m_intake::intakeRetract, m_intake),
@@ -49,10 +51,10 @@ public class FourBallAuto extends SequentialCommandGroup {
 
       new AutoDriveIntake(m_intake, m_tower, 1.0).withTimeout(1.5),
 
-      new TrajectoryFollow2("4BallPart3", m_drive).get(),
+      new TrajectoryFollow("4BallPart3", m_drive).get(),
       
-      new LimelightAim2(m_drive, m_limelight, false, true),
-      new AutoShootTarmac(m_shooter, m_tower)
+      new LimelightAim(m_drive, m_limelight, false, true),
+      new LimelightAutoShootTarmac(drive, m_shooter, m_tower, limelight)
     );
   }
 }

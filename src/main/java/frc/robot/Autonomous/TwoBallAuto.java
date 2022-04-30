@@ -4,16 +4,18 @@
 
 package frc.robot.Autonomous;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.Drive.DriveSubsystem;
-import frc.robot.subsystems.Drive.PathResetOdometry;
-import frc.robot.subsystems.Drive.TrajectoryFollow2;
-import frc.robot.subsystems.Intake.AutoDriveIntake;
-import frc.robot.subsystems.Intake.IntakeSubsystem;
-import frc.robot.subsystems.Shooter.AutoShoot;
-import frc.robot.subsystems.Shooter.ShooterSubsystem;
-import frc.robot.subsystems.Tower.TowerSubsystem;
+import frc.robot.Subsystems.Drive.DriveSubsystem;
+import frc.robot.Subsystems.Drive.PathResetOdometry;
+import frc.robot.Subsystems.Drive.TrajectoryFollow;
+import frc.robot.Subsystems.Intake.AutoDriveIntake;
+import frc.robot.Subsystems.Intake.IntakeSubsystem;
+import frc.robot.Subsystems.Shooter.AutoShoot;
+import frc.robot.Subsystems.Shooter.ShooterSubsystem;
+import frc.robot.Subsystems.Tower.TowerSubsystem;
+import frc.robot.Constants.ShooterConstants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -32,11 +34,11 @@ public class TwoBallAuto extends SequentialCommandGroup {
     m_intake = intake;
 
     addCommands(
-      new AutoShoot(m_shooter, m_tower).withTimeout(3.0),
+      new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse),
       new InstantCommand(m_intake::intakeDeploy, m_intake),
       new PathResetOdometry("2Ball", m_drive),
-      new TrajectoryFollow2("2Ball", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
-      new AutoShoot(m_shooter, m_tower).withTimeout(3.0)
-    );
+      new TrajectoryFollow("2Ball", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
+      new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse)   
+      );
   }
 }
