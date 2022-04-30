@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import frc.robot.Util.Gains;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -119,44 +120,26 @@ public final class Constants {
 
     public static final class ShooterConstants {
 
-        public static final double lowerHubVelocity = 975.0;
+        public static final double kLowerHubVelocity = 975.0;
 
-        public static final double upperHubVelocity = 1800.0;
+        public static final double kUpperHubFenderVelocity = 1800.0;
 
-        public static final double TarmacVelocity = 2025.0;
+        public static final double kTarmacVelocity = 2025.0;
         
-        public static final double launchpadVelocity = 2200;
+        public static final double kLaunchpadVelocity = 2200;
         
         public static final int kShooterTolerance = 100;
         
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
-        public static final Gains kGains = new Gains(0.0, 0.0, 0.0, 0.0, 0,  1.00);
+        public static final Gains kTestGains = new Gains(0.01, 0.0, 1.15, 0.048, 0, 1.0);
         
-        public static final double kP = 0.01;
-        public static final double kI = 0.0;
-        public static final double kD = 1.15;
-        public static final double kF = 0.048;
+        public static final Gains kLowerHubGains = new Gains(0.01, 0.0, 1.05, 0.059, 0, 1.0);
 
-        public static final double lowerKP = 0.01;
-        public static final double lowerKI = 0.0;
-        public static final double lowerKD = 1.05;
-        public static final double lowerKF = 0.059;
+        public static final Gains kUpperHubFenderGains = new Gains(0.35, 0.0, 0.9, 0.0535, 0, 1.0);
 
-        public static final double upperKP = 0.035; 
-        public static final double upperKI = 0.0;
-        public static final double upperKD = 0.9;
-        public static final double upperKF = 0.0535;
+        public static final Gains kTarmacGains = new Gains(0.03, 0.0, 2.0, 0.0535, 0, 1.0);
 
-        public static final double tarmacKP = 0.03; 
-        public static final double tarmacKI = 0.0;
-        public static final double tarmacKD = 2.0;
-        public static final double tarmacKF = 0.0535;
-
-        public static final double launchpadKP = 0.03; 
-        public static final double launchpadKI = 0.0;
-        public static final double launchpadKD = 2.0;
-        public static final double launchpadKF = 0.0535;
-
+        public static final Gains kLaunchpadGains =  new Gains(0.03, 0.0, 2.0, 0.0535, 0, 1.0);
 	}
 
     public static final class TowerConstants {

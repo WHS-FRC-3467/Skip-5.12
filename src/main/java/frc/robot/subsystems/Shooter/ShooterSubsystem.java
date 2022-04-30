@@ -1,194 +1,207 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
-package frc.robot.subsystems.Shooter;
+package frc.robot.Subsystems.Shooter;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Gains;
+import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.PHConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Util.Gains;
+import frc.robot.Util.TunableNumber;
 
-public class ShooterSubsystem extends SubsystemBase {
-    /** Creates a new ShooterSubsystem. */
+public class ShooterSubsystem extends SubsystemBase
+{ //implements ISpeedControl
+     /* Hardware */
+     TalonFX m_motorLeft = new TalonFX(CanConstants.ShooterLeft);
+     TalonFX m_motorRight = new TalonFX(CanConstants.ShooterRight);
+
     DoubleSolenoid m_hood = new DoubleSolenoid(PneumaticsModuleType.REVPH, PHConstants.HoodForwardSolenoid, PHConstants.HoodReverseSolenoid);
-    Gains m_speedGains;
-    FalconVelocity m_speedControl;
-    public ShooterSubsystem m_shooter;
+
+    /* Gains */
+     double m_kP = 0.0;
+     double m_kI = 0.0;
+     double m_kD = 0.0;
+     double m_kF = 0.0;
+ 
+    /* Current Limiting */
+    private SupplyCurrentLimitConfiguration talonCurrentLimit;
+    private final boolean ENABLE_CURRENT_LIMIT = true;
+    private final double CONTINUOUS_CURRENT_LIMIT = 25; //amps
+    private final double TRIGGER_THRESHOLD_LIMIT = 35; //amps
+    private final double TRIGGER_THRESHOLD_TIME = .2; //secs
+
+    //Gains for shooter tuning
+    private static TunableNumber kPTest = new TunableNumber("Shooter kP");
+    private static TunableNumber kITest = new TunableNumber("Shooter kI");
+    private static TunableNumber kDTest = new TunableNumber("Shooter kD");
+    private static TunableNumber kFTest = new TunableNumber("Shooter kF");
+    private static TunableNumber kShooterSetpoint = new TunableNumber("Shooter Setpoint");
 
 
-    private static TunableNumber kP = new TunableNumber("Tarmac kP");
-    private static TunableNumber kI = new TunableNumber("Tarmac kI");
-    private static TunableNumber kD = new TunableNumber("Tarmac kD");
-    private static TunableNumber kF = new TunableNumber("Tarmac kF");
-    private static TunableNumber kShooterSetpointUpper = new TunableNumber("Shooter/SetpointUpper");
+    private Gains testGains;
 
+     public ShooterSubsystem()
+     {
+         /* Factory Default all hardware to prevent unexpected behaviour */
+         m_motorLeft.configFactoryDefault();
+         m_motorRight.configFactoryDefault();
+ 
+         /* Config sensor used for Primary PID [m_Velocity] */
+         m_motorLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 30);
+ 
+        /* Instead of throttle ramping, use current limits to moderate the wheel acceleration */
+         talonCurrentLimit = new SupplyCurrentLimitConfiguration(ENABLE_CURRENT_LIMIT,
+                CONTINUOUS_CURRENT_LIMIT, TRIGGER_THRESHOLD_LIMIT, TRIGGER_THRESHOLD_TIME);
+ 
+         m_motorLeft.configSupplyCurrentLimit(talonCurrentLimit);
+         m_motorRight.configSupplyCurrentLimit(talonCurrentLimit);
+ 
+         /* Set motors to Coast */
+         m_motorLeft.setNeutralMode(NeutralMode.Coast);
+         m_motorRight.setNeutralMode(NeutralMode.Coast);
+         
+         /*
+          * Phase sensor accordingly. 
+          * Positive Sensor Reading should match Green (blinm_king) Leds on Talon
+          */
+         m_motorLeft.setSensorPhase(false);
+         m_motorRight.setSensorPhase(false);
+         
+         /* Config the peak and nominal outputs */
+         m_motorLeft.configNominalOutputForward(0.0, 30);
+         m_motorLeft.configNominalOutputReverse(0.0, 30);
+         m_motorLeft.configPeakOutputForward(1.0, 30);
+         m_motorLeft.configPeakOutputReverse(0.0, 30); // Don't go in reverse
+ 
+         m_motorRight.configNominalOutputForward(0.0, 30);
+         m_motorRight.configNominalOutputReverse(0.0, 30);
+         m_motorRight.configPeakOutputForward(1.0, 30);
+         m_motorRight.configPeakOutputReverse(0.0, 30); // Don't go in reverse
+ 
+         /* Set up voltage compensation to maintain consistent velocities across a range of battery voltages */
+         m_motorLeft.configVoltageCompSaturation(12.0);
+         m_motorLeft.enableVoltageCompensation(true);
+         m_motorRight.configVoltageCompSaturation(12.0);
+         m_motorRight.enableVoltageCompensation(true);
 
-    public ShooterSubsystem() { 
+         /* Invert motor2 and have it follow motor1 */
+         m_motorRight.follow(m_motorLeft);
+         m_motorRight.setInverted(false);
+         m_motorLeft.setInverted(true);
 
-        m_speedControl = new FalconVelocity();
-        m_speedGains = ShooterConstants.kGains;
+         m_motorLeft.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 255);
+         m_motorLeft.setStatusFramePeriod(StatusFrame.Status_10_Targets, 255);
+         m_motorLeft.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 255);
 
-        kP.setDefault(Constants.ShooterConstants.launchpadKP);
-        kI.setDefault(Constants.ShooterConstants.launchpadKI);
-        kD.setDefault(Constants.ShooterConstants.launchpadKD);
-        kF.setDefault(Constants.ShooterConstants.launchpadKF);
-        kShooterSetpointUpper.setDefault(Constants.ShooterConstants.launchpadVelocity);
+         m_motorRight.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 255);
+         m_motorRight.setStatusFramePeriod(StatusFrame.Status_10_Targets, 255);
+         m_motorRight.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 255);
 
-        //commented out for non-testing purposes 
-        //Can be put back if shooter needs to be tested
-        // /* Initialize Smart Dashboard display */
-        // SmartDashboard.putNumber("P Gain", m_speedGains.kP);
-        // SmartDashboard.putNumber("Feed Forward", m_speedGains.kF);
-        // SmartDashboard.putNumber("D Gain", m_speedGains.kD);
-        // SmartDashboard.putNumber("Target Velocity", 0.0);
-        SmartDashboard.putNumber("Current Velocity", 0);
-        // SmartDashboard.putNumber("Current Output Percent", 0);
-        // SmartDashboard.putNumber("Velocity Error", 0);
-        
+         kPTest.setDefault(ShooterConstants.kTestGains.kP);
+         kITest.setDefault(ShooterConstants.kTestGains.kI);
+         kDTest.setDefault(ShooterConstants.kTestGains.kD);
+         kFTest.setDefault(ShooterConstants.kTestGains.kF);
+         kShooterSetpoint.setDefault(0.0);
+ 
+
+     }
+ 
+     public void updateGains(Gains gains)
+     {
+        m_motorLeft.config_kP(0, gains.kP, 30); 
+        m_motorLeft.config_kI(0, gains.kI, 30);
+        m_motorLeft.config_kD(0, gains.kD, 30);
+        m_motorLeft.config_kF(0, gains.kF, 30);
+     }
+ 
+     public int runVelocityPIDF(double targetVelocity)
+     {
+         // Convert RPM to raw units per 100ms
+         double targetVelocity_UnitsPer100ms = targetVelocity * 2048 / 600;
+                 
+         // Set Velocity setpoint
+         m_motorLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
+ 
+         // Get current speed and convert back to RPM
+         return (int)((double)m_motorLeft.getSelectedSensorVelocity() * 600 / 2048);
+     }
+ 
+     public double getError()
+     {
+         return m_motorLeft.getClosedLoopError();
+     }
+ 
+     public double getOutputPercent()
+     {
+         return (m_motorLeft.getMotorOutputPercent() * 100);
+     }
+ 
+     public void stop()
+     {
+        m_motorLeft.set(ControlMode.PercentOutput, 0.0);
+     }
+
+     public double getEncoderAverage(){
+        return m_motorLeft.getSelectedSensorVelocity();
+     }
+
+     public void runPercentOutput(double percent){
+        m_motorLeft.set(ControlMode.PercentOutput, percent);
+     }
+
+     public double getShooterVelocity(){
+        return (int)((double)m_motorLeft.getSelectedSensorVelocity() * 600 / 2048);
     }
 
-    /*
-    *
-    *  Shooter Wheel control
-    * 
-    */
-
-    /**
-     * boolean isWheelAtSpeed() - return TRUE when wheel is equal to target, or within tolerance
-     *
-     * @return TRUE if shooter wheel is at commanded speed
-     */
-    public boolean isWheelAtSpeed()
-    {
-        return (Math.abs(m_speedControl.getError()) <= ShooterConstants.kShooterTolerance);
-    }
-
-    /**
-     * void runShooter() - run the shooter at the speed commanded
-    */
-    public void runShooter(double targetVelocity)
-    {
-        
-        if (targetVelocity == 0.0)
-        {
-            stopShooter();
-            SmartDashboard.putNumber("Current Velocity", 0.0);
-            return;
-        }    
-        
-        // Show the commanded velocity on the SmartDashboard
-        //SmartDashboard.putNumber("Target Velocity", targetVelocity);
-
-        // read PID coefficients from SmartDashboard
-        // double kP = SmartDashboard.getNumber("P Gain", 0);
-        // double kI = SmartDashboard.getNumber("I Gain", 0);
-        // double kD = SmartDashboard.getNumber("D Gain", 0);
-        // double kF = SmartDashboard.getNumber("Feed Forward", 0);
-
-        // Update gains on the controller
-        m_speedControl.updateGains(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, ShooterConstants.kF);
-
-        // Update the target velocity and get back the current velocity
-        int currentVelocity = m_speedControl.runVelocityPIDF(targetVelocity);
-
-        // Show the Current Velocity, Error, and Current Output Percent on the SDB
-        SmartDashboard.putNumber("Current Velocity", currentVelocity);
-
-        System.out.println(currentVelocity);
-        // SmartDashboard.putNumber("Error", m_speedControl.getError());
-        // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
-    }
-
-    public void shootLowerHub(){
-        // Update gains on the controller
-        m_speedControl.updateGains(ShooterConstants.lowerKP, ShooterConstants.lowerKI, ShooterConstants.lowerKD, ShooterConstants.lowerKF);
-
-        // Update the target velocity and get back the current velocity
-        int currentVelocity = m_speedControl.runVelocityPIDF(ShooterConstants.lowerHubVelocity);
-
-        // Show the Current Velocity, Error, and Current Output Percent on the SDB
-        SmartDashboard.putNumber("Current Velocity", currentVelocity);
-        // SmartDashboard.putNumber("Error", m_speedControl.getError());
-        // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
-        System.out.println(currentVelocity);
-
-    }
-    
-    public void shootUpperHub(){    
-        // Update gains on the controller
-        m_speedControl.updateGains(ShooterConstants.upperKP, ShooterConstants.upperKI, ShooterConstants.upperKD, ShooterConstants.upperKF);
-
-        // Update the target velocity and get back the current velocity
-        int currentVelocity = m_speedControl.runVelocityPIDF(ShooterConstants.upperHubVelocity);
-    
-        // Show the Current Velocity, Error, and Current Output Percent on the SDB
-        SmartDashboard.putNumber("Current Velocity", currentVelocity);
-        // SmartDashboard.putNumber("Error", m_speedControl.getError());
-        // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
-        System.out.println(currentVelocity);
-        SmartDashboard.putNumber("Shooter Setpoint", ShooterConstants.upperHubVelocity);
-    }
-    public void shootTarmac(){    
-        // Update gains on the controller
-        m_speedControl.updateGains(ShooterConstants.tarmacKP, ShooterConstants.tarmacKI, ShooterConstants.tarmacKD, ShooterConstants.tarmacKF);
-
-        // Update the target velocity and get back the current velocity
-        int currentVelocity = m_speedControl.runVelocityPIDF(ShooterConstants.TarmacVelocity);
-    
-        // Show the Current Velocity, Error, and Current Output Percent on the SDB
-        SmartDashboard.putNumber("Current Velocity", currentVelocity);
-        // SmartDashboard.putNumber("Error", m_speedControl.getError());
-        // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
-        System.out.println(currentVelocity);
-        SmartDashboard.putNumber("Shooter Setpoint", ShooterConstants.TarmacVelocity);
-
-    }
-
-    public void shootLaunchpad(){    
-        // Update gains on the controller
-        m_speedControl.updateGains(kP.get(), kI.get(), kD.get(), kF.get());
-
-        // Update the target velocity and get back the current velocity
-        int currentVelocity = m_speedControl.runVelocityPIDF(kShooterSetpointUpper.get());
-    
-        // Show the Current Velocity, Error, and Current Output Percent on the SDB
-        SmartDashboard.putNumber("Current Velocity", currentVelocity);
-        // SmartDashboard.putNumber("Error", m_speedControl.getError());
-        // SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
-        System.out.println(currentVelocity);
-        SmartDashboard.putNumber("Shooter Setpoint", ShooterConstants.launchpadVelocity);
-
-    }
-
-    // public int currentVelocity(){
-    //     m_falconVelocity
-    // }
-/**
- * void stopShooter() - Stop the Shooter by simply turning off the motors instead of commanding Velocity PID to 0.0
- */
-    public void stopShooter()
-    {
-        m_speedControl.m_motorLeft.set(ControlMode.PercentOutput, 0.0);
-    }
     public void retractHood(){
         m_hood.set(Value.kReverse);
     }
     public void deployHood(){
         m_hood.set(Value.kForward);
-
     }
 
-    public void shootPercentOutput(double percent){
-        m_speedControl.runPercentOutput(percent);
-        double currentVelocity = m_speedControl.getShooterVelocity();
-        SmartDashboard.putNumber("Current Velocity", currentVelocity);
+    public boolean isWheelAtSpeed()
+    {
+        return (Math.abs(getError()) <= ShooterConstants.kShooterTolerance);
     }
+
+    public void stopShooter()
+    {
+        m_motorLeft.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    public void shoot(double velocity, Gains gains, Value hoodPosition){
+        m_hood.set(hoodPosition);
+        //update gains
+        updateGains(gains);
+
+        // Update the target velocity and get back the current velocity
+        runVelocityPIDF(kShooterSetpoint.get());
+    
+        // Show the Current Velocity on SmartDashboard
+        SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
+
+    }
+    
+    public void testShoot(){
+        testGains = new Gains(kPTest.get(), kITest.get(), kDTest.get(), kFTest.get(), 0, 1.0);
+
+        updateGains(testGains);
+
+        // Update the target velocity and get back the current velocity
+        runVelocityPIDF(kShooterSetpoint.get());
+
+        // Show the Current Velocity on SmartDashboard
+        SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
+    }
+
 }
