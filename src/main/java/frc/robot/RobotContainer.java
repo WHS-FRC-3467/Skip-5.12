@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Autonomous.FourBallAuto;
 import frc.robot.Autonomous.LimelightOneBall;
 import frc.robot.Autonomous.Offset4BallAuto;
@@ -142,9 +141,9 @@ public class RobotContainer {
     // SmartDashboard.putData(new A9_DoItAll(m_climberSubsystem));
     // SmartDashboard.putData(new AX_CancelClimb(m_climberSubsystem));
 
-    if(Constants.tuningMode){
-      SmartDashboard.putData( new RunCommand(m_shooterSubystem::testShoot, m_shooterSubystem));
-    }
+    // if(Constants.tuningMode){
+    //   SmartDashboard.putData( new RunCommand(m_shooterSubystem::testShoot, m_shooterSubystem));
+    // }
   } 
 
   /**

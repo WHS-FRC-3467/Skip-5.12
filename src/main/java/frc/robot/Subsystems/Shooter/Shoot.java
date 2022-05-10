@@ -31,6 +31,7 @@ public class Shoot extends CommandBase {
   @Override
   public void execute() {
     m_shooter.shoot(m_velocity, m_gains, m_hoodPosition);
+
   }
 
   // Called once the command ends or is interrupted.
