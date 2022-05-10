@@ -114,7 +114,7 @@ public class ShooterSubsystem extends SubsystemBase
  
 
      }
- 
+     
      public void updateGains(Gains gains)
      {
         m_motorLeft.config_kP(0, gains.kP, 30); 
@@ -122,33 +122,40 @@ public class ShooterSubsystem extends SubsystemBase
         m_motorLeft.config_kD(0, gains.kD, 30);
         m_motorLeft.config_kF(0, gains.kF, 30);
      }
+
  
-     public int runVelocityPIDF(double targetVelocity)
-     {
-         // Convert RPM to raw units per 100ms
-         double targetVelocity_UnitsPer100ms = targetVelocity * 2048 / 600;
-                 
-         // Set Velocity setpoint
-         m_motorLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
+    /** 
+    * @param targetVelocity the velocity in RPM of the shooter
+     */
+    public void shoot(double targetVelocity, Gains gains, Value hoodPosition)
+    {
+        m_hood.set(hoodPosition);
+
+        updateGains(gains);
+        // Convert RPM to raw units per 100ms
+        double targetVelocity_UnitsPer100ms = targetVelocity * 2048 / 600;
+                
+        // Set Velocity setpoint
+        m_motorLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
+
+        SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
+    }
  
-         // Get current speed and convert back to RPM
-         return (int)((double)m_motorLeft.getSelectedSensorVelocity() * 600 / 2048);
-     }
+
+    public double getError()
+    {
+        return m_motorLeft.getClosedLoopError();
+    }
  
-     public double getError()
-     {
-         return m_motorLeft.getClosedLoopError();
-     }
+    public double getOutputPercent()
+    {
+        return (m_motorLeft.getMotorOutputPercent() * 100);
+    }
  
-     public double getOutputPercent()
-     {
-         return (m_motorLeft.getMotorOutputPercent() * 100);
-     }
- 
-     public void stop()
-     {
+    public void stop()
+    {
         m_motorLeft.set(ControlMode.PercentOutput, 0.0);
-     }
+    }
 
      public double getEncoderAverage(){
         return m_motorLeft.getSelectedSensorVelocity();
@@ -179,18 +186,7 @@ public class ShooterSubsystem extends SubsystemBase
         m_motorLeft.set(ControlMode.PercentOutput, 0.0);
     }
 
-    public void shoot(double velocity, Gains gains, Value hoodPosition){
-        m_hood.set(hoodPosition);
-        //update gains
-        updateGains(gains);
-
-        // Update the target velocity and get back the current velocity
-        runVelocityPIDF(kShooterSetpoint.get());
     
-        // Show the Current Velocity on SmartDashboard
-        SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
-
-    }
     
     public void testShoot(){
         testGains = new Gains(kPTest.get(), kITest.get(), kDTest.get(), kFTest.get(), 0, 1.0);
@@ -198,7 +194,12 @@ public class ShooterSubsystem extends SubsystemBase
         updateGains(testGains);
 
         // Update the target velocity and get back the current velocity
-        runVelocityPIDF(kShooterSetpoint.get());
+        double targetVelocity_UnitsPer100ms = kShooterSetpoint.get() * 2048 / 600;
+                
+        // Set Velocity setpoint
+        m_motorLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
+
+        SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
 
         // Show the Current Velocity on SmartDashboard
         SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
