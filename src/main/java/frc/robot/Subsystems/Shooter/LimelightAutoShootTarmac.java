@@ -18,6 +18,13 @@ public class LimelightAutoShootTarmac extends SequentialCommandGroup {
     TowerSubsystem m_tower;
     Limelight m_limelight;
 
+    /**
+     * 
+     * @param drive Drive Subsystem
+     * @param shooter Shooter Subsystem
+     * @param tower Tower Subsystem
+     * @param limelight Limelight Subsystem
+     */
     public LimelightAutoShootTarmac(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower, Limelight limelight){
         
     m_drive = drive; 

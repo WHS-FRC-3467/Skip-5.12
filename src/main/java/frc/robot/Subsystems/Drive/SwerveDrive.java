@@ -2,8 +2,8 @@ package frc.robot.Subsystems.Drive;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Control.XBoxControllerEE;
+import frc.robot.Util.ModifyAxis;
 
 import java.util.function.DoubleSupplier;
 
@@ -17,6 +17,13 @@ public class SwerveDrive extends CommandBase{
     private final XBoxControllerEE m_driverController = new XBoxControllerEE(0);
     
     //Constructor for SwerveDrive
+    /**
+     * 
+     * @param driveSubsystem drive Subsystem
+     * @param translationXSupplier X Value
+     * @param translationYSupplier Y value
+     * @param rotationSupplier Rotation value
+     */
     public SwerveDrive(DriveSubsystem driveSubsystem, DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier rotationSupplier) {
         m_driveSubsystem = driveSubsystem;
         m_translationXSupplier = translationXSupplier;
@@ -28,13 +35,17 @@ public class SwerveDrive extends CommandBase{
 
     @Override
     public void execute() {
+        ModifyAxis m_axisX = new ModifyAxis(m_translationXSupplier.getAsDouble(), 2);
+        ModifyAxis m_axisY = new ModifyAxis(m_translationYSupplier.getAsDouble(), 2);
+        ModifyAxis m_axisRot = new ModifyAxis(m_rotationSupplier.getAsDouble(), 2);
+
         // You can use `new ChassisSpeeds(...)` for robot-oriented movement instead of field-oriented movement
         if(m_driverController.getLeftBumper()){
             m_driveSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                    m_driveSubsystem.modifyAxis(m_translationYSupplier.getAsDouble() * DriveConstants.precisionSpeed, 2),
-                    m_driveSubsystem.modifyAxis(m_translationXSupplier.getAsDouble() * DriveConstants.precisionSpeed, 2),
-                    m_driveSubsystem.modifyAxis(m_rotationSupplier.getAsDouble() * 0.1, 2),
+                    m_axisY.m_modifiedValue* 0.125,
+                    m_axisX.m_modifiedValue* 0.125,
+                    m_axisRot.m_modifiedValue * 0.0125,
                     m_driveSubsystem.getGyroscopeRotation()
 
                 )
@@ -43,20 +54,19 @@ public class SwerveDrive extends CommandBase{
         else if(m_driverController.getRightBumper()){
             m_driveSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                    m_driveSubsystem.modifyAxis(m_translationYSupplier.getAsDouble() * 0.5, 2),
-                    m_driveSubsystem.modifyAxis(m_translationXSupplier.getAsDouble() * 0.5, 2),
-                    m_driveSubsystem.modifyAxis(m_rotationSupplier.getAsDouble() * 0.1, 2),
+                    m_axisY.m_modifiedValue* 0.0625,
+                    m_axisX.m_modifiedValue* 0.0625,
+                    m_axisRot.m_modifiedValue * 0.0125,
                     m_driveSubsystem.getGyroscopeRotation()
-
                 )
             );  
         }
         else{
             m_driveSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                    m_driveSubsystem.modifyAxis(m_translationYSupplier.getAsDouble(), 2),
-                    m_driveSubsystem.modifyAxis(m_translationXSupplier.getAsDouble(), 2),
-                    m_driveSubsystem.modifyAxis(m_rotationSupplier.getAsDouble()* 0.45, 2),
+                    m_axisY.m_modifiedValue* 0.25,
+                    m_axisX.m_modifiedValue * 0.25,
+                    m_axisRot.m_modifiedValue * 0.025,
                     m_driveSubsystem.getGyroscopeRotation()
                 )
             ); 

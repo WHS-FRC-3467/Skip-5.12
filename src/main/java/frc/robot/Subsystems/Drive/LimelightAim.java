@@ -22,7 +22,12 @@ public class LimelightAim extends CommandBase {
     m_ranging = true;
     addRequirements(m_drive, m_limelight);
   }
-
+  /** 
+  * @param drive Drive Subsystem
+  * @param limelight Limelight 
+  * @param waitForTarget The command ends if there is no target
+  * @param ranging Driving to the distance for tarmac shot
+  */
   public LimelightAim(DriveSubsystem drive, Limelight limelight, boolean waitForTarget, boolean ranging){
     m_limelight = limelight;
     m_drive = drive;
@@ -45,7 +50,7 @@ public class LimelightAim extends CommandBase {
     tv = table.getEntry("tv");
     count = 0;
 
-    deltaYTargetTarmac = 0;
+    deltaYTargetTarmac = 4.0;
 
   }
 
@@ -89,7 +94,7 @@ public class LimelightAim extends CommandBase {
 	
     //tightened tolerances to +/- 1 degree now that we are 
     //slowing down as the robot is approaching the target
-    if((errorX < 0.5 && errorY < 1.0) && (!m_waitForTarget || m_hasTarget)){
+    if((errorX < 0.5 && errorY < 0.75) && (!m_waitForTarget || m_hasTarget)){
       System.out.println("End command");
       m_end = true;
 

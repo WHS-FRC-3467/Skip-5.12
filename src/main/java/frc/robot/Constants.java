@@ -39,7 +39,7 @@ public final class Constants {
 		//non drivebase CAN IDs
         public static final int LowerTowerMotor = 13;
         public static final int UpperTowerMotor = 14;
-        public static final int ShooterLeft = 15;
+        public static final int ShooterLeft = 15; 
         public static final int ShooterRight = 16;
         public static final int ClimberLeft = 17;
         public static final int ClimberRight = 18;
@@ -122,9 +122,9 @@ public final class Constants {
 
         public static final double kLowerHubVelocity = 975.0;
 
-        public static final double kUpperHubFenderVelocity = 1800.0;
+        public static final double kUpperHubFenderVelocity = 1860.0;
 
-        public static final double kTarmacVelocity = 2025.0;
+        public static final double kTarmacVelocity = 2115.0;
         
         public static final double kLaunchpadVelocity = 2200;
         
@@ -135,9 +135,9 @@ public final class Constants {
         
         public static final Gains kLowerHubGains = new Gains(0.01, 0.0, 1.05, 0.059, 0, 1.0);
 
-        public static final Gains kUpperHubFenderGains = new Gains(0.35, 0.0, 0.9, 0.0535, 0, 1.0);
+        public static final Gains kUpperHubFenderGains = new Gains(0.035, 0.0, 0.9, 0.0535, 0, 1.0);
 
-        public static final Gains kTarmacGains = new Gains(0.03, 0.0, 2.0, 0.0535, 0, 1.0);
+        public static final Gains kTarmacGains = new Gains(0.04, 0.0, 1.8, 0.0535, 0, 1.0);
 
         public static final Gains kLaunchpadGains =  new Gains(0.03, 0.0, 2.0, 0.0535, 0, 1.0);
 	}

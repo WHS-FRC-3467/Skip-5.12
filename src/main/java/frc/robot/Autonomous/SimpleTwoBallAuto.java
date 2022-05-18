@@ -42,14 +42,14 @@ public class SimpleTwoBallAuto extends SequentialCommandGroup {
       new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse),
 
       new ParallelCommandGroup(
-                                new BasicAutoDrive(m_drive, 0.0, 3.0, -0.878, -1.12, 0.0),
+                                new BasicAutoDrive(m_drive, 3.0, -0.878, -1.12, 0.0),
                                 new AutoDriveIntake(m_intake, m_tower,  1.0).withTimeout(3.5)
                               ),
       new InstantCommand(m_drive::resetDriveEncoders),
-      new BasicAutoDrive(m_drive, 0.0, 3.0, 0.9, 1.12, 0.0),
+      new BasicAutoDrive(m_drive, 3.0, 0.9, 1.12, 0.0),
       new InstantCommand(m_drive::resetDriveEncoders),
       new WaitCommand(0.25),
-      new BasicAutoDrive(m_drive, 0.0, 0.30, 0.0, 0.0, 0.5).withTimeout(0.75),
+      new BasicAutoDrive(m_drive, 0.30, 0.0, 0.0, 0.5).withTimeout(0.75),
       new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse)    );
   }
 }

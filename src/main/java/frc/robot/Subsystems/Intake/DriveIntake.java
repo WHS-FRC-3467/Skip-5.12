@@ -13,13 +13,17 @@ public class DriveIntake extends CommandBase {
   
   DoubleSupplier m_forwardspeed, m_backspeed;
   IntakeSubsystem m_intake;
-  
+  /**
+   * 
+   * @param intake Intake Subsystem
+   * @param forwardspeed The speed the intake will be driven at  forward 0 to 1 
+   * @param backspeed The speed the intake will be driven at in reverse 0 to 1
+   */
   public DriveIntake(IntakeSubsystem intake, DoubleSupplier forwardspeed, DoubleSupplier backspeed) {
     m_intake = intake;
     m_forwardspeed = forwardspeed;
     m_backspeed = backspeed;
     addRequirements(m_intake);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

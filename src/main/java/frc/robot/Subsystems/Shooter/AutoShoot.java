@@ -18,7 +18,13 @@ public class AutoShoot extends CommandBase {
   Gains m_gains;
   Value m_hoodPosition;
   Boolean m_end;
-
+  /**
+   * @param shooter Shooter Subsystem
+   * @param tower Tower Subsystem
+   * @param velocity The velocity of the shooter in RPM
+   * @param gains The gains for the shooter
+   * @param hoodPosition The hood position in kFoward or kReverse
+   */
   public AutoShoot(ShooterSubsystem shooter, TowerSubsystem tower, double velocity, Gains gains, Value hoodPosition) {
     m_shooter = shooter;
     m_tower = tower;

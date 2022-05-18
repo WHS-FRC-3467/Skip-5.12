@@ -50,12 +50,21 @@ public class TowerSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Upper Beam Break", m_upperBeamBreak.get());
   }
 
+  /**
+   * @param speed the speed the lower tower will be run at -1 to 1
+   */
   public void driveLowerTower(double speed){
     m_lowerTower.set(ControlMode.PercentOutput, speed);
   }
+  /**
+   * @param speed the speed the upper tower will be run at -1 to 1
+   */
   public void driveUpperTower(double speed){
     m_upperTower.set(ControlMode.PercentOutput, speed);
   }
+  /**
+   * @param speed the speed the whole tower will be run at -1 to 1
+   */
   public void driveWholeTower(double speed){
     m_upperTower.set(ControlMode.PercentOutput, speed);
     m_lowerTower.set(ControlMode.PercentOutput, speed);
@@ -97,6 +106,10 @@ public class TowerSubsystem extends SubsystemBase {
     }
   }
 
+  /**
+   * 
+   * @return the number of balls currently in the robot 0 to 2
+   */
   public int ballCount(){
     if(m_entryBeamBreak.get()==false && m_midBeamBreak.get()==true && m_upperBeamBreak.get()==true){
       //Ball entry
@@ -130,6 +143,11 @@ public class TowerSubsystem extends SubsystemBase {
       return 0;
     }
   }
+
+  /**
+   * 
+   * @return if a beam break is broken
+   */
   public boolean doesBallExist (){
     if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){
       //no balls
@@ -139,14 +157,4 @@ public class TowerSubsystem extends SubsystemBase {
       return false;
     }
   }
-
-  public boolean getLowerBeamBrake(){
-    if(m_entryBeamBreak.get() == false){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
-  
 }

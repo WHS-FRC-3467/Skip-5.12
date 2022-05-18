@@ -22,6 +22,11 @@ public class TrajectoryFollow {
         m_pathName = "Stay Still";
     }
 
+    /**
+     * 
+     * @param pathName String key for path
+     * @param drive Drive subsytem
+     */
     public TrajectoryFollow(String pathName, DriveSubsystem drive) {
         m_pathName = pathName;
         m_drive = drive;

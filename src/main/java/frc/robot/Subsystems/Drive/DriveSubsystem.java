@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.RobotConstants;
@@ -33,7 +34,6 @@ import frc.robot.Constants.RobotConstants;
 import static frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
-        private static DriveSubsystem instance = null;
         private SwerveDriveOdometry m_odometry;
         private NetworkTableEntry odometryEntry;
 
@@ -170,7 +170,7 @@ public class DriveSubsystem extends SubsystemBase {
                 m_odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation());
                 
                 odometryEntry = tab.add("Odometry", "not found").getEntry();
-                tab.add("Field", m_field);
+                SmartDashboard.putData("Field", m_field);
 
                 ShuffleboardTab othertab = Shuffleboard.getTab("tab");
                 othertab.add("gyro rot", getGyroscopeRotation().getDegrees());
@@ -227,11 +227,16 @@ public class DriveSubsystem extends SubsystemBase {
         public void zeroGyroscope() {
                 m_pigeon.setYaw(0.0);
         }
+
+        /**
+         * @param deg Degrees to set gyro yaw to 
+         */
         public void setGyroscope(double deg) {
                 m_pigeon.setYaw(deg);
-            }
+        }
         
 
+       
         public void drive(ChassisSpeeds chassisSpeeds) {
                 m_chassisSpeeds = chassisSpeeds;
         }
@@ -247,23 +252,26 @@ public class DriveSubsystem extends SubsystemBase {
                 m_backRightDriveMotor.setSelectedSensorPosition(0.0);
                 m_frontRightDriveMotor.setSelectedSensorPosition(0.0);
         }
-
+        /**
+         * 
+         * @param meters
+         * @return encoder ticks 
+         */
         public double meterToEncoderTicks(double meters){
                 return meters * (2048/(SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI));
         }
-
+        /**
+         * 
+         * @param encoderTicks
+         * @return meters for robot drive
+         */
         public double encoderTicksToMeter(double encoderTicks){
                 return encoderTicks /  (2048/(SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI));
         }
-
-        public static DriveSubsystem getInstance() {
-                if (instance == null) {
-                        instance = new DriveSubsystem();
-                }
-
-                return instance;
-        }
         
+        /**
+         * @param pose the Pose2D that the odometry will be set to 
+         */
         public void resetOdometry(Pose2d pose){
                 m_odometry.resetPosition(pose, pose.getRotation());
                 offestRotation2d = pose.getRotation();
@@ -293,6 +301,11 @@ public class DriveSubsystem extends SubsystemBase {
                 m_chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond;
                 
         }        
+        /**
+         * @param value The value of the joystick that will be modified
+         * @param exponent The power to which the joystick will be raised to 
+         * @return The modified value of the joystick
+         */
         public double modifyAxis(double value, int exponent){
                 double deadValue = MathUtil.applyDeadband(value, DriveConstants.kDeadBand);
                 double quarticValue = Math.copySign(Math.pow(deadValue, exponent), deadValue);

@@ -33,7 +33,7 @@ public class SimpleOneBallAuto extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(m_drive::resetDriveEncoders),
       new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse),
-      new BasicAutoDrive(drive, 0, 3, 0.0, -1.0, 0.0)
+      new BasicAutoDrive(drive, 3, 0.0, -1.0, 0.0)
     );
   }
 }

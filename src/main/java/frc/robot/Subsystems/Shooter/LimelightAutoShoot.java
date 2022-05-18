@@ -19,6 +19,13 @@ public class LimelightAutoShoot extends SequentialCommandGroup {
   DriveSubsystem m_drive;
   ShooterSubsystem m_shooter;
   TowerSubsystem m_tower;
+  /**
+   * 
+   * @param drive Drive subsystem
+   * @param limelight Limelight
+   * @param shooter Shooter Subsystem
+   * @param tower Tower Subsystem
+   */
   public LimelightAutoShoot(DriveSubsystem drive, Limelight limelight, ShooterSubsystem shooter, TowerSubsystem tower) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

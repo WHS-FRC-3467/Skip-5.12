@@ -12,6 +12,11 @@ public class DriveTower extends CommandBase {
   /** Creates a new DriveTower. */
   TowerSubsystem m_tower;
   DoubleSupplier m_speed;
+  /**
+   * 
+   * @param tower Tower Subsystem
+   * @param speed Speed the tower will be run at -1 to 1
+   */
   public DriveTower(TowerSubsystem tower, DoubleSupplier speed) { 
     m_speed = speed;
     m_tower = tower;

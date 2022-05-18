@@ -67,22 +67,16 @@ public class RobotContainer {
   private final XBoxControllerEE m_operatorController = new XBoxControllerEE(1);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {  
     
     new Pneumactics();
-  
+
     // Detect if controllers are missing / Stop multiple warnings
     DriverStation.silenceJoystickConnectionWarning(DriveConstants.PRACTICE);
     
 
     // Comment out for simulation
-    // UsbCamera camera = CameraServer.startAutomaticCapture("MS Lifecam Camera", 0);
-    // camera.setResolution(160, 90);
-    // camera.setFPS(15);
-    // CvSink cvSink = CameraServer.getVideo();
-    // CvSource outputStream = CameraServer.putVideo("Intake Cam", 320, 240);
 
     m_chooser.addOption("Simple Two Ball Auto", new SimpleTwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
     m_chooser.addOption("Simple One Ball Auto", new SimpleOneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
@@ -95,7 +89,10 @@ public class RobotContainer {
     m_chooser.addOption("Offset Four Ball", new Offset4BallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
     m_chooser.addOption("Right Two Ball Close", new TwoBallAutoRightClose(m_driveSubsystem, m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_limelight));
     m_chooser.addOption("Right Two Ball Far", new TwoBallAutoRightFar(m_driveSubsystem, m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_limelight));
+
     SmartDashboard.putData("Auto Chooser", m_chooser);
+
+    SmartDashboard.putData(new A0_CalibrateClimber(m_climberSubsystem));
 
 
 
@@ -105,16 +102,6 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     
-
-    // SlewRateLimiter yFilter = new SlewRateLimiter(4.0);
-    // SlewRateLimiter xFilter = new SlewRateLimiter(4.0);
-    // SlewRateLimiter rotFilter = new SlewRateLimiter(4.0);
-
-    // Set up the default commands for the various subsystems
-    // m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
-    //                                   () -> -(xFilter.calculate(m_driverController.getLeftX())) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-    //                                   () -> -(yFilter.calculate(m_driverController.getLeftY())) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-    //                                   () -> -(rotFilter.calculate(m_driverController.getRightX())) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     
     m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
                                       () -> -((m_driverController.getLeftX())) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
@@ -133,17 +120,15 @@ public class RobotContainer {
     m_climberSubsystem.setDefaultCommand(new MatchDefault(m_climberSubsystem));
 
     // Make the Climb Sequence commands available on SmartDash
-    SmartDashboard.putData(new A0_CalibrateClimber(m_climberSubsystem));
-    // SmartDashboard.putData(new A1_PrepareToClimb(m_climberSubsystem));
+    // SmartDashboard.putData("Calibrate Climber", new A0_CalibrateClimber(m_climberSubsystem));
     // SmartDashboard.putData(new A2_LiftAndReach(m_climberSubsystem));
     // SmartDashboard.putData(new A3_HookAndReach(m_climberSubsystem));
     // SmartDashboard.putData(new A4_HookAndStop(m_climberSubsystem));
     // SmartDashboard.putData(new A9_DoItAll(m_climberSubsystem));
     // SmartDashboard.putData(new AX_CancelClimb(m_climberSubsystem));
-
-    // if(Constants.tuningMode){
-    //   SmartDashboard.putData( new RunCommand(m_shooterSubystem::testShoot, m_shooterSubystem));
     // }
+
+    
   } 
 
   /**
@@ -170,7 +155,7 @@ public class RobotContainer {
       .whileHeld(new LimelightAim(m_driveSubsystem, m_limelight, true, false));
 
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kA)
-      .whileHeld(new LimelightAim(m_driveSubsystem, m_limelight));
+      .whileHeld(new LimelightAim(m_driveSubsystem, m_limelight, false, false));
 
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kX)
       .whileHeld(new LimelightAutoShootTarmac(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_limelight));

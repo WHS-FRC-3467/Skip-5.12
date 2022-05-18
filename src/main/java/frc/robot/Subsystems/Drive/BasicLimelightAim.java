@@ -17,6 +17,11 @@ public class BasicLimelightAim extends CommandBase {
 
 
   // Constructor for BasicLimelightAim
+  /**
+   * 
+   * @param drive Drive subsystem
+   * @param limelight Limelight subsystem
+   */
   public BasicLimelightAim(DriveSubsystem drive, Limelight limelight) {
     m_limelight = limelight;
     m_drive = drive;

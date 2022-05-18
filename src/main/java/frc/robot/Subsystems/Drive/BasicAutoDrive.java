@@ -14,10 +14,18 @@ public class BasicAutoDrive extends CommandBase {
   boolean m_end;
   boolean m_reverse;
 
+
   //Constructor for BasicAutoDrive
-  public BasicAutoDrive(DriveSubsystem drive, double angle, double meter, double xTranslation, double yTranslation, double rotation) {
+  /**
+   * 
+   * @param drive Drive subsystem
+   * @param meter The distance driven
+   * @param xTranslation X meters per second
+   * @param yTranslation Y meters per second
+   * @param rotation Rotation in radians per second
+   */
+  public BasicAutoDrive(DriveSubsystem drive, double meter, double xTranslation, double yTranslation, double rotation) {
     //Set constructer objects equal to member variables 
-    m_angle = angle;
     m_meter = meter;
     m_drive = drive;
 

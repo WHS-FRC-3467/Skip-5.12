@@ -111,10 +111,17 @@ public class ShooterSubsystem extends SubsystemBase
          kDTest.setDefault(ShooterConstants.kTestGains.kD);
          kFTest.setDefault(ShooterConstants.kTestGains.kF);
          kShooterSetpoint.setDefault(0.0);
- 
-
      }
-     
+
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Left Motor Current", getLeftMotorCurrent());
+        SmartDashboard.putNumber("Right Motor Current", getRightMotorCurrent());
+    }
+     /**
+      * @param gains Gains for shooter
+      */
      public void updateGains(Gains gains)
      {
         m_motorLeft.config_kP(0, gains.kP, 30); 
@@ -126,6 +133,8 @@ public class ShooterSubsystem extends SubsystemBase
  
     /** 
     * @param targetVelocity the velocity in RPM of the shooter
+    * @param gains Gains for shooter
+    * @param hoodPosition The hood position in kFoward or kReverse
      */
     public void shoot(double targetVelocity, Gains gains, Value hoodPosition)
     {
@@ -142,40 +151,66 @@ public class ShooterSubsystem extends SubsystemBase
     }
  
 
+    /**
+     * @return the error of the shooter from target RPM
+     */
     public double getError()
     {
         return m_motorLeft.getClosedLoopError();
     }
- 
+    /**
+     * @return the percent output of current from the left shooter motor
+     */
     public double getOutputPercent()
     {
         return (m_motorLeft.getMotorOutputPercent() * 100);
     }
- 
+    
     public void stop()
     {
         m_motorLeft.set(ControlMode.PercentOutput, 0.0);
     }
-
-     public double getEncoderAverage(){
+    /**
+     * @return The average raw encoder value of the left shooter motor
+     */
+    public double getEncoderAverage(){
         return m_motorLeft.getSelectedSensorVelocity();
-     }
+    }
 
-     public void runPercentOutput(double percent){
+    public void runPercentOutput(double percent){
         m_motorLeft.set(ControlMode.PercentOutput, percent);
-     }
-
-     public double getShooterVelocity(){
+    }
+    /**
+     * @return the velocity of the shooter in RPM
+     */
+    public double getShooterVelocity(){
         return (int)((double)m_motorLeft.getSelectedSensorVelocity() * 600 / 2048);
     }
 
+    public double getLeftMotorVoltage(){
+        return m_motorLeft.getMotorOutputVoltage();
+    }
+    public double getRightMotorVoltage(){
+        return m_motorRight.getMotorOutputVoltage();
+    }
+
+    public double getLeftMotorCurrent(){
+        return m_motorLeft.getStatorCurrent();
+    }
+    public double getRightMotorCurrent(){
+        return m_motorRight.getStatorCurrent();
+    }
     public void retractHood(){
         m_hood.set(Value.kReverse);
     }
+
     public void deployHood(){
         m_hood.set(Value.kForward);
     }
 
+    /**
+     * @return true if the error of the shooter is within the tolerance
+     */
     public boolean isWheelAtSpeed()
     {
         return (Math.abs(getError()) <= ShooterConstants.kShooterTolerance);

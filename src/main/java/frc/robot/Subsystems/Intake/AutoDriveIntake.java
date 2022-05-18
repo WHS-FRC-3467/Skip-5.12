@@ -12,6 +12,12 @@ public class AutoDriveIntake extends CommandBase {
   IntakeSubsystem m_intake;
   TowerSubsystem m_tower;
   double m_speed;
+  /**
+   * 
+   * @param intake Intake Subsystem
+   * @param tower Tower Subsystem
+   * @param speed The speed the intake will be run at -1 to 1
+   */
   public AutoDriveIntake(IntakeSubsystem intake, TowerSubsystem tower, double speed) {
     m_intake = intake;
     m_speed = speed;

@@ -15,6 +15,10 @@ public class PathResetOdometry extends CommandBase {
     
     PathPlannerTrajectory trajectory = null;
     DriveSubsystem m_drive;
+    /**
+     * @param pathName the string key for the path
+     * @param drive Drive Subsystem
+     */
     public PathResetOdometry(String pathName, DriveSubsystem drive) {
         try {
             trajectory = PathPlanner.loadPath(pathName, 1, 1);

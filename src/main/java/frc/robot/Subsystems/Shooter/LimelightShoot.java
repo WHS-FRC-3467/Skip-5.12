@@ -28,7 +28,11 @@ public class LimelightShoot extends CommandBase {
   NetworkTable table;
   NetworkTableEntry ty;
 
-
+  /**
+   * @param shooter Shooter Subsystem
+   * @param tower Tower Subsystem
+   * @param limelight LimelightSubsystem
+   */
   public LimelightShoot(ShooterSubsystem shooter, TowerSubsystem tower, Limelight limelight) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooter = shooter;
