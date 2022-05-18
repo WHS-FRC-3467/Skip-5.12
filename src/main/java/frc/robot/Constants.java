@@ -124,7 +124,7 @@ public final class Constants {
 
         public static final double kUpperHubFenderVelocity = 1860.0;
 
-        public static final double kTarmacVelocity = 2115.0;
+        public static final double kTarmacVelocity = 2140.0;
         
         public static final double kLaunchpadVelocity = 2200;
         

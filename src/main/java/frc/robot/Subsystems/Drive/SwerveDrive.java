@@ -40,7 +40,7 @@ public class SwerveDrive extends CommandBase{
         ModifyAxis m_axisRot = new ModifyAxis(m_rotationSupplier.getAsDouble(), 2);
 
         // You can use `new ChassisSpeeds(...)` for robot-oriented movement instead of field-oriented movement
-        if(m_driverController.getLeftBumper()){
+        if(m_driverController.getRightBumper()){
             m_driveSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                     m_axisY.m_modifiedValue* 0.125,
@@ -51,7 +51,7 @@ public class SwerveDrive extends CommandBase{
                 )
             );  
         }
-        else if(m_driverController.getRightBumper()){
+        else if(m_driverController.getLeftBumper()){
             m_driveSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                     m_axisY.m_modifiedValue* 0.0625,
