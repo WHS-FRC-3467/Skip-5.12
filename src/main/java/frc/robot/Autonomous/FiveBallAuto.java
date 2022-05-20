@@ -5,14 +5,12 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.Subsystems.Drive.DriveSubsystem;
-import frc.robot.Subsystems.Drive.LimelightAim;
 import frc.robot.Subsystems.Drive.PathResetOdometry;
 import frc.robot.Subsystems.Drive.TrajectoryFollow;
 import frc.robot.Subsystems.Intake.AutoDriveIntake;
@@ -43,24 +41,21 @@ public class FiveBallAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward).withTimeout(2.5),    new InstantCommand(m_intake::intakeDeploy, m_intake),
-
       new PathResetOdometry("5BallPart1", m_drive),
-
-      new TrajectoryFollow("5BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward).withTimeout(2.5).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
-
+      new TrajectoryFollow("5BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, tower, 1.0)),
+      new WaitCommand(0.1),
+      new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_drive)),
+      
       new TrajectoryFollow("5BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
-      
-      // // LEAVE COMMENTED new AutoDriveIntake(m_intake, m_tower, 1.0).withTimeout(0.25),
-      new InstantCommand(m_intake::intakeRetract, m_intake),
-      new WaitCommand(0.5),
+      new WaitCommand(0.1),
+      new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward).withTimeout(1.5).raceWith(new RunCommand(m_intake::fullRunIntake, m_drive)),
 
-      new AutoDriveIntake(m_intake, m_tower, 1.0).withTimeout(1.5),
+      new TrajectoryFollow("5BallPart3", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
 
-      new TrajectoryFollow("5BallPart3", m_drive).get(),
-      
-      new LimelightAim(m_drive, m_limelight, false, true),
+      new WaitCommand(0.1),
+      new AutoDriveIntake(m_intake, m_tower, 1.0).withTimeout(0.5),
+   
+      new TrajectoryFollow("5BallPart4", m_drive).get(),
       new LimelightAutoShootTarmac(drive, m_shooter, m_tower, limelight)
 
     );

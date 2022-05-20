@@ -42,7 +42,7 @@ public class TrajectoryFollow {
 
         if (m_trajectory == null) {
             try {
-                m_trajectory = PathPlanner.loadPath(m_pathName, 3, 4); 
+                m_trajectory = PathPlanner.loadPath(m_pathName, 5, 5); 
             } catch (Exception e) {
                 e.printStackTrace();
             }

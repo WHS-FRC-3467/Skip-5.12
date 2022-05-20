@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Autonomous.FiveBallAuto;
 import frc.robot.Autonomous.FourBallAuto;
 import frc.robot.Autonomous.LimelightOneBall;
 import frc.robot.Autonomous.Offset4BallAuto;
@@ -89,7 +90,7 @@ public class RobotContainer {
     m_chooser.addOption("Offset Four Ball", new Offset4BallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
     m_chooser.addOption("Right Two Ball Close", new TwoBallAutoRightClose(m_driveSubsystem, m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_limelight));
     m_chooser.addOption("Right Two Ball Far", new TwoBallAutoRightFar(m_driveSubsystem, m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_limelight));
-
+    m_chooser.addOption("Five Ball", new FiveBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
     SmartDashboard.putData("Auto Chooser", m_chooser);
 
     SmartDashboard.putData(new A0_CalibrateClimber(m_climberSubsystem));

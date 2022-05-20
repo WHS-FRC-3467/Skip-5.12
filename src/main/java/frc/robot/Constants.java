@@ -128,7 +128,7 @@ public final class Constants {
         
         public static final double kLaunchpadVelocity = 2200;
         
-        public static final int kShooterTolerance = 100;
+        public static final int kShooterTolerance = 50;
         
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
         public static final Gains kTestGains = new Gains(0.01, 0.0, 1.15, 0.048, 0, 1.0);
@@ -137,7 +137,7 @@ public final class Constants {
 
         public static final Gains kUpperHubFenderGains = new Gains(0.035, 0.0, 0.9, 0.0535, 0, 1.0);
 
-        public static final Gains kTarmacGains = new Gains(0.04, 0.0, 1.8, 0.0535, 0, 1.0);
+        public static final Gains kTarmacGains = new Gains(0.04, 0.0, 2.0, 0.0535, 0, 1.0);
 
         public static final Gains kLaunchpadGains =  new Gains(0.03, 0.0, 2.0, 0.0535, 0, 1.0);
 	}

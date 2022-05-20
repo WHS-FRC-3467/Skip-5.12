@@ -118,6 +118,9 @@ public class ShooterSubsystem extends SubsystemBase
     public void periodic() {
         SmartDashboard.putNumber("Left Motor Current", getLeftMotorCurrent());
         SmartDashboard.putNumber("Right Motor Current", getRightMotorCurrent());
+
+        SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
+
     }
      /**
       * @param gains Gains for shooter
@@ -147,7 +150,7 @@ public class ShooterSubsystem extends SubsystemBase
         // Set Velocity setpoint
         m_motorLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
 
-        SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
+        // SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
     }
  
 
@@ -234,10 +237,10 @@ public class ShooterSubsystem extends SubsystemBase
         // Set Velocity setpoint
         m_motorLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
 
-        SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
+        // SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
 
         // Show the Current Velocity on SmartDashboard
-        SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
+        // SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
     }
 
 }
