@@ -53,7 +53,7 @@ public class FiveBallAuto extends SequentialCommandGroup {
       new TrajectoryFollow("5BallPart3", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
 
       new WaitCommand(0.1),
-      new AutoDriveIntake(m_intake, m_tower, 1.0).withTimeout(0.5),
+      new RunCommand(m_intake::fullRunIntake, m_intake).withTimeout(0.5),
    
       new TrajectoryFollow("5BallPart4", m_drive).get(),
       new LimelightAutoShootTarmac(drive, m_shooter, m_tower, limelight)

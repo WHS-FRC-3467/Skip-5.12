@@ -19,7 +19,7 @@ import frc.robot.Util.Gains;
 import frc.robot.Util.TunableNumber;
 
 public class ShooterSubsystem extends SubsystemBase
-{ //implements ISpeedControl
+{ 
      /* Hardware */
      TalonFX m_motorLeft = new TalonFX(CanConstants.ShooterLeft);
      TalonFX m_motorRight = new TalonFX(CanConstants.ShooterRight);
@@ -46,6 +46,7 @@ public class ShooterSubsystem extends SubsystemBase
     private static TunableNumber kFTest = new TunableNumber("Shooter kF");
     private static TunableNumber kShooterSetpoint = new TunableNumber("Shooter Setpoint");
 
+    public double setpoint;
 
     private Gains testGains;
 
@@ -144,6 +145,8 @@ public class ShooterSubsystem extends SubsystemBase
         m_hood.set(hoodPosition);
 
         updateGains(gains);
+        setpoint = targetVelocity;
+
         // Convert RPM to raw units per 100ms
         double targetVelocity_UnitsPer100ms = targetVelocity * 2048 / 600;
                 
@@ -183,6 +186,7 @@ public class ShooterSubsystem extends SubsystemBase
     public void runPercentOutput(double percent){
         m_motorLeft.set(ControlMode.PercentOutput, percent);
     }
+
     /**
      * @return the velocity of the shooter in RPM
      */
@@ -216,7 +220,10 @@ public class ShooterSubsystem extends SubsystemBase
      */
     public boolean isWheelAtSpeed()
     {
-        return (Math.abs(getError()) <= ShooterConstants.kShooterTolerance);
+        System.out.println(setpoint);
+        System.out.println(getShooterVelocity());
+
+        return Math.abs(setpoint - getShooterVelocity()) < ShooterConstants.kShooterTolerance;
     }
 
     public void stopShooter()
@@ -237,10 +244,6 @@ public class ShooterSubsystem extends SubsystemBase
         // Set Velocity setpoint
         m_motorLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
 
-        // SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
-
-        // Show the Current Velocity on SmartDashboard
-        // SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
     }
 
 }

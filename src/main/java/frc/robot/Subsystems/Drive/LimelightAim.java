@@ -94,7 +94,7 @@ public class LimelightAim extends CommandBase {
 	
     //tightened tolerances to +/- 1 degree now that we are 
     //slowing down as the robot is approaching the target
-    if((errorX < 0.5 && errorY < 0.75) && (!m_waitForTarget || m_hasTarget)){
+    if((errorX < 0.5 && errorY < 1.0) && (!m_waitForTarget || m_hasTarget)){
       System.out.println("End command");
       m_end = true;
 

@@ -140,13 +140,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //Driver Controller
-        
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kLeftBumper)
-      .whileHeld(new IntakeOverride(m_intakeSubsystem, true));
-    
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kRightBumper)
-      .whileHeld(new IntakeOverride(m_intakeSubsystem, false));
-
+      
     // Back button zeros the gyroscope
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kBack)
         .whenPressed(m_driveSubsystem::zeroGyroscope, m_driveSubsystem);
