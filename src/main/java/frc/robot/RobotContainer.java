@@ -20,7 +20,6 @@ import frc.robot.Autonomous.ThreeBallAuto;
 import frc.robot.Autonomous.TwoBallAuto;
 import frc.robot.Autonomous.TwoBallAutoRightClose;
 import frc.robot.Autonomous.TwoBallAutoRightFar;
-import frc.robot.Autonomous.TwoBallWithTarmac;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Control.XBoxControllerButton;
@@ -79,15 +78,14 @@ public class RobotContainer {
 
     // Comment out for simulation
 
-    m_chooser.addOption("Simple Two Ball Auto", new SimpleTwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
-    m_chooser.addOption("Simple One Ball Auto", new SimpleOneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
+    // m_chooser.addOption("Simple Two Ball Auto", new SimpleTwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
+    // m_chooser.addOption("Simple One Ball Auto", new SimpleOneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
     m_chooser.addOption("No Auto", null);
-    m_chooser.addOption("Three Ball Auto", new ThreeBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem, m_limelight));
-    m_chooser.addOption("Four Ball Auto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
+    //m_chooser.addOption("Three Ball Auto", new ThreeBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem, m_limelight));
+    //m_chooser.addOption("Four Ball Auto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
     m_chooser.addOption("Limelight One Ball", new LimelightOneBall(m_shooterSubystem, m_towerSubsystem, m_limelight, m_driveSubsystem));
-    m_chooser.addOption("Two Ball Auto Left ", new TwoBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem));
-    m_chooser.addOption("Two Ball Auto Left With Tarmac", new TwoBallWithTarmac(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem, m_limelight));
-    m_chooser.addOption("Offset Four Ball", new Offset4BallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
+    m_chooser.addOption("Two Ball Auto Left ", new TwoBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem, m_limelight));
+    //m_chooser.addOption("Offset Four Ball", new Offset4BallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
     m_chooser.addOption("Right Two Ball Close", new TwoBallAutoRightClose(m_driveSubsystem, m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_limelight));
     m_chooser.addOption("Right Two Ball Far", new TwoBallAutoRightFar(m_driveSubsystem, m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_limelight));
     m_chooser.addOption("Five Ball", new FiveBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));

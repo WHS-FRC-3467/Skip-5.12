@@ -31,6 +31,7 @@ public class Pneumactics extends SubsystemBase{
   public void periodic() {
     pdh.clearStickyFaults();
     phCompressor.enableAnalog(119, 120);
+    
     SmartDashboard.putNumber("Pressure", phCompressor.getPressure());
   }
 }
