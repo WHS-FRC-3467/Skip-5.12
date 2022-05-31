@@ -15,6 +15,8 @@ public class SwerveDrive extends CommandBase{
     DoubleSupplier m_rotationSupplier;
     Boolean m_precisionMode;
     private final XBoxControllerEE m_driverController = new XBoxControllerEE(0);
+    private final XBoxControllerEE m_operatorController = new XBoxControllerEE(1);
+
     
     //Constructor for SwerveDrive
     /**
@@ -51,7 +53,7 @@ public class SwerveDrive extends CommandBase{
                 )
             );  
         }
-        else if(m_driverController.getLeftBumper()){
+        else if(m_driverController.getLeftBumper() || m_operatorController.getDpadDown()){
             m_driveSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                     m_axisY.m_modifiedValue* 0.0625,
