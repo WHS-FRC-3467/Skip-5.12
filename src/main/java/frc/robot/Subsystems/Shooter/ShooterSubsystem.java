@@ -138,7 +138,7 @@ public class ShooterSubsystem extends SubsystemBase
     /** 
     * @param targetVelocity the velocity in RPM of the shooter
     * @param gains Gains for shooter
-    * @param hoodPosition The hood position in kFoward or kReverse
+    * @param hoodPosition The hood position in kFoward (deployed) or kReverse (retracted)
      */
     public void shoot(double targetVelocity, Gains gains, Value hoodPosition)
     {

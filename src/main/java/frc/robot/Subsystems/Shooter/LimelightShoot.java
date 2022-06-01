@@ -62,7 +62,6 @@ public class LimelightShoot extends CommandBase {
     ty = table.getEntry("ty");
     deltaY = ty.getDouble(0.0);
 
-    // TODO: Determine equation for m_velocity through testing 
     //Zero is tarmac velocity
     m_velocity = deltaY + ShooterConstants.kTarmacVelocity;
 

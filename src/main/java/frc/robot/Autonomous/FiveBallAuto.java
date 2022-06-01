@@ -7,7 +7,6 @@ package frc.robot.Autonomous;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.Subsystems.Drive.DriveSubsystem;
@@ -16,7 +15,6 @@ import frc.robot.Subsystems.Drive.TrajectoryFollow;
 import frc.robot.Subsystems.Intake.AutoDriveIntake;
 import frc.robot.Subsystems.Intake.IntakeSubsystem;
 import frc.robot.Subsystems.Shooter.AutoShoot;
-import frc.robot.Subsystems.Shooter.LimelightAutoShootTarmac;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
 
@@ -55,7 +53,6 @@ public class FiveBallAuto extends SequentialCommandGroup {
       new TrajectoryFollow("5BallPart4", m_drive).get(),
       new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward).withTimeout(2.0)
 
-      // new LimelightAutoShootTarmac(drive, m_shooter, m_tower, limelight)
 
     );
   }

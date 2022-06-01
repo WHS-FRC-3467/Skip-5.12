@@ -18,7 +18,7 @@ public class Shoot extends CommandBase {
    * @param shooter Shooter Subsystem 
    * @param velocity Velocity of shooter in RPM
    * @param gains Gains for shooter
-   * @param hoodPosition The hood position in Value.kFoward or Value.kReverse
+   * @param hoodPosition The hood position in Value.kFoward (deployed) or Value.kReverse (retracted)
    */
   public Shoot(ShooterSubsystem shooter, double velocity, Gains gains, Value hoodPosition) {
     // Use addRequirements() here to declare subsystem dependencies.

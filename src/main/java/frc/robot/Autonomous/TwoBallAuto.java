@@ -4,21 +4,17 @@
 
 package frc.robot.Autonomous;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.Subsystems.Drive.DriveSubsystem;
 import frc.robot.Subsystems.Drive.PathResetOdometry;
 import frc.robot.Subsystems.Drive.TrajectoryFollow;
 import frc.robot.Subsystems.Intake.AutoDriveIntake;
 import frc.robot.Subsystems.Intake.IntakeSubsystem;
-import frc.robot.Subsystems.Shooter.AutoShoot;
 import frc.robot.Subsystems.Shooter.LimelightAutoShootTarmac;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
-import frc.robot.Constants.ShooterConstants;
 
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

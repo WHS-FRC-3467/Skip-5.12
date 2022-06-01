@@ -69,6 +69,11 @@ public class TowerSubsystem extends SubsystemBase {
     m_upperTower.set(ControlMode.PercentOutput, speed);
     m_lowerTower.set(ControlMode.PercentOutput, speed);
   }
+
+  public void fullDriveTower(){
+    m_upperTower.set(ControlMode.PercentOutput, 1);
+    m_lowerTower.set(ControlMode.PercentOutput, 1);
+  }
   
   public void sendToTop(){
     if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){

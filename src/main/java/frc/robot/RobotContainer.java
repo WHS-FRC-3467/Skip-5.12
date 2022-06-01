@@ -11,14 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Autonomous.FiveBallAuto;
-import frc.robot.Autonomous.FourBallAuto;
 import frc.robot.Autonomous.LimelightOneBall;
-import frc.robot.Autonomous.Offset4BallAuto;
-import frc.robot.Autonomous.SimpleOneBallAuto;
-import frc.robot.Autonomous.SimpleTwoBallAuto;
-import frc.robot.Autonomous.ThreeBallAuto;
 import frc.robot.Autonomous.TwoBallAuto;
-import frc.robot.Autonomous.TwoBallAutoRightClose;
+import frc.robot.Autonomous.TwoBallAutoBattlecryExtraBall;
 import frc.robot.Autonomous.TwoBallAutoRightFar;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterConstants;
@@ -37,7 +32,6 @@ import frc.robot.Subsystems.Drive.DriveSubsystem;
 import frc.robot.Subsystems.Drive.LimelightAim;
 import frc.robot.Subsystems.Drive.SwerveDrive;
 import frc.robot.Subsystems.Intake.DriveIntake;
-import frc.robot.Subsystems.Intake.IntakeOverride;
 import frc.robot.Subsystems.Intake.IntakeSubsystem;
 import frc.robot.Subsystems.Shooter.LimelightAutoShootTarmac;
 import frc.robot.Subsystems.Shooter.Shoot;
@@ -86,9 +80,10 @@ public class RobotContainer {
     m_chooser.addOption("Limelight One Ball", new LimelightOneBall(m_shooterSubystem, m_towerSubsystem, m_limelight, m_driveSubsystem));
     m_chooser.addOption("Two Ball Auto Left ", new TwoBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem, m_limelight));
     //m_chooser.addOption("Offset Four Ball", new Offset4BallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
-    m_chooser.addOption("Right Two Ball Close", new TwoBallAutoRightClose(m_driveSubsystem, m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_limelight));
-    m_chooser.addOption("Right Two Ball Far", new TwoBallAutoRightFar(m_driveSubsystem, m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_limelight));
+    m_chooser.addOption("Right Two Ball Far", new TwoBallAutoRightFar(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
     m_chooser.addOption("Five Ball", new FiveBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
+    m_chooser.addOption("Two Ball with Mystery Ball", new TwoBallAutoBattlecryExtraBall(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem, m_limelight));
+
     SmartDashboard.putData("Auto Chooser", m_chooser);
 
     SmartDashboard.putData(new A0_CalibrateClimber(m_climberSubsystem));
