@@ -1,6 +1,7 @@
 package frc.robot.Subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ShooterConstants;
@@ -35,8 +36,9 @@ public class LimelightAutoShootTarmac extends SequentialCommandGroup {
             new Shoot(m_shooter, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward),
             new LimelightAim(m_drive, m_limelight)
         ),
-        new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward)
-        
+            new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward)
+
+
         
     );
 

@@ -75,6 +75,13 @@ public class TowerSubsystem extends SubsystemBase {
     m_lowerTower.set(ControlMode.PercentOutput, 1);
   }
   
+  public void fullLowerTower(){
+    m_lowerTower.set(ControlMode.PercentOutput, 0.75);
+  }
+  
+  public void fullUpperTower(){
+    m_upperTower.set(ControlMode.PercentOutput, 0.75);
+  }
   public void sendToTop(){
     if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){
       //no balls
@@ -101,6 +108,7 @@ public class TowerSubsystem extends SubsystemBase {
       //ball entry and upper
       driveWholeTower(0.0);
     }
+    
     else if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == true){
       //ball entry and middle
       driveLowerTower(TowerConstants.standardTowerSpeed);

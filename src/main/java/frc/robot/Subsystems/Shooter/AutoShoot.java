@@ -50,7 +50,7 @@ public class AutoShoot extends CommandBase {
     m_time = Timer.getFPGATimestamp() - m_startTime;
     m_shooter.shoot(m_velocity, m_gains, m_hoodPosition);  
     
-    if(m_shooter.isWheelAtSpeed() ){
+    if(m_shooter.isWheelAtSpeed() || m_time >1.5 ){
       m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
     }
     else{
