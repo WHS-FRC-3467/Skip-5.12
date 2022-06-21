@@ -5,7 +5,7 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Feedback.Cameras.Limelight;
+import frc.robot.Feedback.Cameras.LimelightSubsystem;
 import frc.robot.Subsystems.Drive.DriveSubsystem;
 import frc.robot.Subsystems.Drive.PathResetOdometry;
 import frc.robot.Subsystems.Drive.TrajectoryFollow;
@@ -15,32 +15,37 @@ import frc.robot.Subsystems.Shooter.LimelightAutoShootTarmac;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TwoBallAutoRightFar extends SequentialCommandGroup {
-  /** Creates a new TwoBallAutoRightClose. */
-  
-   /** Creates a new FiveBallAuto. */
-   ShooterSubsystem m_shooter;
-   TowerSubsystem m_tower;
-   IntakeSubsystem m_intake;
-   DriveSubsystem m_drive;
-   Limelight m_limelight;
- 
-   public TwoBallAutoRightFar(ShooterSubsystem shooter, TowerSubsystem tower, IntakeSubsystem intake, DriveSubsystem drive, Limelight limelight) {
-     m_shooter = shooter;
-     m_tower = tower;
-     m_intake = intake;
-     m_drive = drive;
-     m_limelight = limelight;
- 
-     // Add your commands in the addCommands() call, e.g.
-     // addCommands(new FooCommand(), new BarCommand());
-     addCommands(
-       new PathResetOdometry("5BallPart1", m_drive),
-       new TrajectoryFollow("5BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, tower, 1.0)),
-       new LimelightAutoShootTarmac(m_drive, m_shooter, m_tower, m_limelight)
+  //import subsystem
+  ShooterSubsystem m_shooter;
+  TowerSubsystem m_tower;
+  IntakeSubsystem m_intake;
+  DriveSubsystem m_drive;
+  LimelightSubsystem m_limelight;
+   /**
+   * Constructor for TwoBallAutoRightFar
+   * @param drive Drive Subsystem
+   * @param shooter Shooter Subsystem
+   * @param tower Tower subsystem
+   * @param intake Intake Subsystem
+   * @param limelight Limelight Subsystem
+   */
+
+  public TwoBallAutoRightFar(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower, IntakeSubsystem intake, LimelightSubsystem limelight) {
+    //Set local variables to member variables
+    m_shooter = shooter;
+    m_tower = tower;
+    m_intake = intake;
+    m_drive = drive;
+    m_limelight = limelight;
+
+    addCommands(
+      //Set initial pose
+      new PathResetOdometry("5BallPart1", m_drive),
+      //Drive to first ball
+      new TrajectoryFollow("5BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, tower, 1.0)),
+      //Shoot two balls
+      new LimelightAutoShootTarmac(m_drive, m_shooter, m_tower, m_limelight)
     );
   }
 }

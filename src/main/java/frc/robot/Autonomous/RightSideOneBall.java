@@ -14,24 +14,30 @@ import frc.robot.Subsystems.Shooter.AutoShoot;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class RightSideOneBall extends SequentialCommandGroup {
-  /** Creates a new OneBallAuto. */
+  //import subsystem
   DriveSubsystem m_drive;
   TowerSubsystem m_tower;
   ShooterSubsystem m_shooter;
+
+  /**
+   * Constructor for RightSideOneBall
+   * @param drive Drive Subsystem
+   * @param shooter Shooter Subsystem
+   * @param tower Tower subsystem
+   */
   public RightSideOneBall(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower) {
+    //Set local variables to member variables
     m_drive = drive;
     m_tower = tower;
     m_shooter = shooter;
-    addRequirements(m_shooter, m_tower, m_drive);
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+
     addCommands(
+      //Reset drive encoders to zero distance
       new InstantCommand(m_drive::resetDriveEncoders),
+      //Shoot one ball
       new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse),
+      //Drive away
       new BasicAutoDrive(drive, 3, 0.5, -0.5, 0.0)
     );
   }

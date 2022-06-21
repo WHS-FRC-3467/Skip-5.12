@@ -3,11 +3,11 @@ package frc.robot.Feedback.LED;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Feedback.LED.BlinkinLedDriver.BlinkinLedMode;
 
-public class LED extends SubsystemBase {
+public class LEDSubsystem extends SubsystemBase {
   /** Creates a new LED. */
   private final BlinkinLedDriver blinkin;
 
-  public LED() {
+  public LEDSubsystem() {
     blinkin = new BlinkinLedDriver(0);
   }
 

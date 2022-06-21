@@ -20,10 +20,9 @@ import frc.robot.Util.TunableNumber;
 
 public class ShooterSubsystem extends SubsystemBase
 { 
-     /* Hardware */
-     TalonFX m_motorLeft = new TalonFX(CanConstants.ShooterLeft);
-     TalonFX m_motorRight = new TalonFX(CanConstants.ShooterRight);
-
+    /* Hardware */
+    TalonFX m_motorLeft = new TalonFX(CanConstants.ShooterLeft);
+    TalonFX m_motorRight = new TalonFX(CanConstants.ShooterRight);
     DoubleSolenoid m_hood = new DoubleSolenoid(PneumaticsModuleType.REVPH, PHConstants.HoodForwardSolenoid, PHConstants.HoodReverseSolenoid);
 
     /* Gains */
@@ -98,7 +97,8 @@ public class ShooterSubsystem extends SubsystemBase
          m_motorRight.follow(m_motorLeft);
          m_motorRight.setInverted(false);
          m_motorLeft.setInverted(true);
-
+        
+         //slows unneeded status fames 
          m_motorLeft.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 255);
          m_motorLeft.setStatusFramePeriod(StatusFrame.Status_10_Targets, 255);
          m_motorLeft.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 255);
@@ -107,6 +107,7 @@ public class ShooterSubsystem extends SubsystemBase
          m_motorRight.setStatusFramePeriod(StatusFrame.Status_10_Targets, 255);
          m_motorRight.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 255);
 
+         //sets default numbers for dashboard
          kPTest.setDefault(ShooterConstants.kTestGains.kP);
          kITest.setDefault(ShooterConstants.kTestGains.kI);
          kDTest.setDefault(ShooterConstants.kTestGains.kD);
@@ -117,11 +118,11 @@ public class ShooterSubsystem extends SubsystemBase
 
     @Override
     public void periodic() {
+        //Puts numbers to smart dashboard
         SmartDashboard.putNumber("Left Motor Current", getLeftMotorCurrent());
         SmartDashboard.putNumber("Right Motor Current", getRightMotorCurrent());
 
         SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
-
     }
      /**
       * @param gains Gains for shooter

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class BasicAutoDrive extends CommandBase {
-  //Initialize Variables
+  //Initialize Variables and import subsystems
   DriveSubsystem m_drive;
   double m_angle, m_meter, m_XTranslation, m_YTranslation, m_rotation;
   double m_finalPosition;
@@ -32,43 +32,51 @@ public class BasicAutoDrive extends CommandBase {
     m_YTranslation = yTranslation;
     m_XTranslation = xTranslation;
     m_rotation = rotation;
+    //Requires drive subsytem
     addRequirements(m_drive);
   }
 
   @Override
   public void initialize() {
-    m_finalPosition = m_drive.meterToEncoderTicks(m_meter);
     //Converts meter from constructer to encoder ticks
+    m_finalPosition = m_drive.meterToEncoderTicks(m_meter);
+    //set drive encoders to zero
     m_drive.resetDriveEncoders();
+
     System.out.println("start");
   }
 
   @Override
   public void execute() {
-
+    //If the distance traveled is less than the distance needed to go then it will drive at the direction and velocoty from the construtor
+    //else it will end the command
     if(Math.abs(m_drive.getAverageEncoder()) <= Math.abs(m_finalPosition)){
       m_drive.drive(
-        
+        //Drive robot at constructor speeds
         ChassisSpeeds.fromFieldRelativeSpeeds(
             -m_XTranslation,
             -m_YTranslation,
             m_rotation,
             m_drive.getGyroscopeRotation()
         )
-    );      m_end = false;
+      );      
+      //Do not end command
+      m_end = false;
     }
     else{
+      //Stop drivebase and end command
       m_drive.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
       m_end = true;
     }
-      
-      System.out.println(m_finalPosition);
-      System.out.println(m_drive.getAverageEncoder());
+    
+    //prints goal distance and current distance traveled
+    System.out.println(m_finalPosition);
+    System.out.println(m_drive.getAverageEncoder());
 
     double driveDistance = m_drive.encoderTicksToMeter(m_drive.getAverageEncoder());
     //Puts drive distance and encoder distance to smart Dashboard
     SmartDashboard.putNumber("Drive Distance", driveDistance);
-    //SmartDashboard.putNumber("Encoder position", m_drive.getAverageEncoder());
+
   }
 
   
@@ -81,6 +89,7 @@ public class BasicAutoDrive extends CommandBase {
 
   @Override
   public boolean isFinished() {
+    //ends command if m_end is true
     return m_end;
   }
 }

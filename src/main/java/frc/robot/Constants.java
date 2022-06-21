@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.Util.Gains;
 
 /**
@@ -37,7 +36,7 @@ public final class Constants {
         public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 12; 
         
 		//non drivebase CAN IDs
-        public static final int LowerTowerMotor = 13;
+        public static final int LOWER_TOWER_MOTOR = 13;
         public static final int UpperTowerMotor = 14;
         public static final int ShooterLeft = 15; 
         public static final int ShooterRight = 16;
@@ -143,7 +142,7 @@ public final class Constants {
 	}
 
     public static final class TowerConstants {
-        public static final double standardTowerSpeed = 0.75;
+        public static final double STANDARD_TOWER_SPEED = 0.75;
     }
     
     public static final class ClimberConstants {
@@ -181,22 +180,5 @@ public final class Constants {
         public static final double kExtendedAboveBar = 50000.0;
         public static final double kFixedArmsFree = 70000.0;
         public static final double kFullExtendedPosition = 205000.0;
-
-    }
-
-	public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = 3;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
-        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
-
-        public static final double TRAJECTORYXkP = 1;
-        public static final double TRAJECTORYYkP = 1;
-        public static final double THETACONTROLLERkP = 1;
-
-        // Constraint for the motion profilied robot angle controller
-        public static final TrapezoidProfile.Constraints THETACONTROLLERCONSTRAINTS =
-            new TrapezoidProfile.Constraints(
-                kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
 }

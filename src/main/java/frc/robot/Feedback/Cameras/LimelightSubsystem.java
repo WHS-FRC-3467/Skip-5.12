@@ -13,13 +13,13 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Limelight extends SubsystemBase {
+public class LimelightSubsystem extends SubsystemBase {
   	/** Creates a new Limelight. */
 	//   private static HttpCamera limelightFeed;
 	public static NetworkTableInstance table = NetworkTableInstance.getDefault();
 	public static HttpCamera limelightFeed;
 
-	public Limelight() {
+	public LimelightSubsystem() {
 	}
 
   	public static void initialize(){

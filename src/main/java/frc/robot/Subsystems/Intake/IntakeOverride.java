@@ -21,16 +21,14 @@ public class IntakeOverride extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    
-  }
+  public void initialize() {}
   @Override
   public void execute() {
     if(m_deployed == true){
-      m_intake.intakeDeploy();
+      m_intake.deployIntake();
     }
     else if(m_deployed == false){
-      m_intake.intakeRetract();
+      m_intake.retractIntake();
     }
   }
 

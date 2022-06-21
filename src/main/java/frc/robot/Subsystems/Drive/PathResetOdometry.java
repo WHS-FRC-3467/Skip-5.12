@@ -12,10 +12,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class PathResetOdometry extends CommandBase {
-    
+    //Initialize variables
     PathPlannerTrajectory trajectory = null;
     DriveSubsystem m_drive;
+
     /**
+     * Constructor for PathResetOdometry
      * @param pathName the string key for the path
      * @param drive Drive Subsystem
      */
@@ -31,18 +33,22 @@ public class PathResetOdometry extends CommandBase {
 
     @Override
     public void initialize() {
+        //gets gets pose information from drive subsystem
         Pose2d currentPose = m_drive.getCurrentPose();
+        //gets initial pose from path planner
         Pose2d initialPose = trajectory.getInitialPose();
+        //gets offset rotation from pathplanner
         Rotation2d offsetRot = initialPose.getRotation().minus(currentPose.getRotation());
 
+        //creates offset Pose2D from  initial pose and rotation from pathplanner
         Pose2d offsetPose = new Pose2d(
             initialPose.getX(),
             initialPose.getY(),
             offsetRot
         );
-
+        //sets the gyroscope yaw to offset rotation of path
         m_drive.setGyroscope(offsetRot.getDegrees());
-        
+        //sets drivebase odometry to offset pose of path
         m_drive.resetOdometry(offsetPose);
     }
 
@@ -53,6 +59,7 @@ public class PathResetOdometry extends CommandBase {
 
     @Override
     public boolean isFinished() {
+        //ends immediately
         return true;
     }
     

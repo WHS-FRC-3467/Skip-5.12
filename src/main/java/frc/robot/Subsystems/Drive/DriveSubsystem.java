@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
@@ -34,15 +33,16 @@ import frc.robot.Constants.RobotConstants;
 import static frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
+        //Creates member variables
         private SwerveDriveOdometry m_odometry;
         private NetworkTableEntry odometryEntry;
-
+        //Initializes feild object
         public final Field2d m_field = new Field2d();
 
-        Rotation2d offestRotation2d = new Rotation2d();
         // The maximum voltage that will be delivered to the drive motors.
         public static final double MAX_VOLTAGE = 12.0;
 
+        //initializes motors and CanCoders
         TalonFX m_frontLeftDriveMotor = new TalonFX(CanConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR);
         TalonFX m_frontRightDriveMotor = new TalonFX(CanConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR);
         TalonFX m_backLeftDriveMotor = new TalonFX(CanConstants.BACK_LEFT_MODULE_DRIVE_MOTOR);
@@ -74,6 +74,7 @@ public class DriveSubsystem extends SubsystemBase {
                         / Math.hypot(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
                                 RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
+        //initializes Swerve drive kinematics 
         private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
                         // Front left
                         new Translation2d(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
@@ -100,11 +101,14 @@ public class DriveSubsystem extends SubsystemBase {
         private final SwerveModule m_backLeftModule;
         private final SwerveModule m_backRightModule;
 
+        //initializes chasisisSpeeds
         private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
         public DriveSubsystem() {
+                //Creates a tab for the drive train
                 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
+                //initializes modules
                 m_frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Front Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(0,0),
                         Mk4SwerveModuleHelper.GearRatio.L2,
@@ -114,7 +118,6 @@ public class DriveSubsystem extends SubsystemBase {
                         DriveConstants.FRONT_LEFT_MODULE_STEER_OFFSET
                 );
 
-                // We will do the same for the other modules
                 m_frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Front Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(2,0),
                         Mk4SwerveModuleHelper.GearRatio.L2, 
@@ -142,6 +145,7 @@ public class DriveSubsystem extends SubsystemBase {
                         DriveConstants.BACK_RIGHT_MODULE_STEER_OFFSET
                 );
                 
+                //Configures sensors and brake mode for motors 
                 m_frontLeftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
                 m_backLeftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
                 m_frontRightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
@@ -151,11 +155,6 @@ public class DriveSubsystem extends SubsystemBase {
                 m_frontRightDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_backLeftDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
                 m_backRightDriveMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
-
-                m_frontLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-                m_backLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-                m_frontRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-                m_backRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
 
                 m_frontLeftDriveMotor.setNeutralMode(NeutralMode.Brake);
                 m_frontRightDriveMotor.setNeutralMode(NeutralMode.Brake);
@@ -167,26 +166,39 @@ public class DriveSubsystem extends SubsystemBase {
                 m_backLeftSteerMotor.setNeutralMode(NeutralMode.Brake);
                 m_backRightSteerMotor.setNeutralMode(NeutralMode.Brake);
 
+                //configures drive base cancoders to absolute position
+                m_frontLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+                m_backLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+                m_frontRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+                m_backRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+
+                //Initializes odometry
                 m_odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation());
                 
+                //puts odometry on dashboard
                 odometryEntry = tab.add("Odometry", "not found").getEntry();
+
+                //puts field on dashboard
                 SmartDashboard.putData("Field", m_field);
 
-                ShuffleboardTab othertab = Shuffleboard.getTab("tab");
-                othertab.add("gyro rot", getGyroscopeRotation().getDegrees());
+                //puts gyro rotation on dashboard
+                tab.add("gyro rot", getGyroscopeRotation().getDegrees());
         
         }
 
         @Override
         public void periodic() {
 
+                //updates odometry network table
                 odometryEntry.setString(getCurrentPose().toString());
 
+                //Converts chasis speeds to states
                 SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
-                // normalize wheel speeds
+                
+                //Normalize wheel speeds
                 SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
-                m_field.setRobotPose(m_odometry.getPoseMeters());
-
+                
+                //sets modules to the states
                 m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[0].angle.getRadians());
                 m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
@@ -196,34 +208,15 @@ public class DriveSubsystem extends SubsystemBase {
                 m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[3].angle.getRadians());
 
+                //Updates the odometry
                 m_odometry.update(getGyroscopeRotation(), states);
-
+                //Updates Field2d
+                m_field.setRobotPose(m_odometry.getPoseMeters());
+                //Puts feild on dashboard
+                SmartDashboard.putData(m_field);
         }
 
-        public void initilizeEncoders(){
-                m_frontLeftCanCoder.configFactoryDefault();
-                m_frontRightCanCoder.configFactoryDefault();
-                m_backLeftCanCoder.configFactoryDefault();
-                m_backRightCanCoder.configFactoryDefault();
-
-                m_frontLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-                m_frontRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-                m_backLeftCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-                m_backRightCanCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-
-                m_frontLeftCanCoder.configSensorDirection(true);
-                m_frontRightCanCoder.configSensorDirection(true);
-                m_backLeftCanCoder.configSensorDirection(true);
-                m_backRightCanCoder.configSensorDirection(true);
-
-                m_frontLeftCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
-                m_frontRightCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
-                m_backLeftCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
-                m_backRightCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
-
-                m_pigeon.clearStickyFaults();
-        }
-
+        //Sets the front of the robot to the direction that the robot is facing when command is called
         public void zeroGyroscope() {
                 m_pigeon.setYaw(0.0);
         }
@@ -235,17 +228,21 @@ public class DriveSubsystem extends SubsystemBase {
                 m_pigeon.setYaw(deg);
         }
         
-
-       
+        /**
+         * @param chassisSpeeds Chasis speeds 
+         * Sets chasis speeds passed into the void as the member variable for chasis speeds  
+         */
         public void drive(ChassisSpeeds chassisSpeeds) {
                 m_chassisSpeeds = chassisSpeeds;
         }
 
+        //gets the number of ticks of the front left drive motor
         public double getAverageEncoder(){
                 //returns in 2048/rotation
                 return m_frontLeftDriveMotor.getSelectedSensorPosition();
         }
 
+        //Sets internal encoders of driving swerve motor to 0 
         public void resetDriveEncoders(){
                 m_backLeftDriveMotor.setSelectedSensorPosition(0.0);
                 m_frontLeftDriveMotor.setSelectedSensorPosition(0.0);
@@ -256,6 +253,7 @@ public class DriveSubsystem extends SubsystemBase {
          * 
          * @param meters
          * @return encoder ticks 
+         * Converts meters to encoder ticks 
          */
         public double meterToEncoderTicks(double meters){
                 return meters * (2048/(SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI));
@@ -264,6 +262,7 @@ public class DriveSubsystem extends SubsystemBase {
          * 
          * @param encoderTicks
          * @return meters for robot drive
+         * Converts encoder ticks to meters
          */
         public double encoderTicksToMeter(double encoderTicks){
                 return encoderTicks /  (2048/(SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI));
@@ -274,33 +273,42 @@ public class DriveSubsystem extends SubsystemBase {
          */
         public void resetOdometry(Pose2d pose){
                 m_odometry.resetPosition(pose, pose.getRotation());
-                offestRotation2d = pose.getRotation();
         }
-        
+        /**
+         * gets the yaw of robot in rotation2d 
+         */
         public Rotation2d getGyroscopeRotation() {
                 return Rotation2d.fromDegrees(m_pigeon.getYaw());
         }
-        
+        /** 
+         * @return pitch of robot
+         */
         public double getGyroPitch() {
                 return m_pigeon.getPitch();
         }
         
+        /**
+         * 
+         * @return Pose of robot from the odometry
+         */
         public Pose2d getCurrentPose(){
                 return m_odometry.getPoseMeters();
         }
-                
+        /**
+         * 
+         * @return the kinematics of the swerve drive
+         */
         public SwerveDriveKinematics getKinematics(){
                 return m_kinematics;
         }
+        /**
+         * 
+         * @param states converts states to chasis speeds
+         */
         public void actuateModulesAuto(SwerveModuleState[] states){
-                driveAuto(m_kinematics.toChassisSpeeds(states));
+                drive(m_kinematics.toChassisSpeeds(states));
         }   
-        public void driveAuto(ChassisSpeeds chassisSpeeds) {
-                m_chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vxMetersPerSecond;
-                m_chassisSpeeds.vyMetersPerSecond = chassisSpeeds.vyMetersPerSecond;
-                m_chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond;
-                
-        }        
+           
         /**
          * @param value The value of the joystick that will be modified
          * @param exponent The power to which the joystick will be raised to 

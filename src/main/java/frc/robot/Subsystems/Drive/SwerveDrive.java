@@ -8,12 +8,13 @@ import frc.robot.Util.ModifyAxis;
 import java.util.function.DoubleSupplier;
 
 public class SwerveDrive extends CommandBase{
-      //Initialize Variables
+    //Initialize Variables
     DriveSubsystem m_driveSubsystem;
     DoubleSupplier m_translationXSupplier;
     DoubleSupplier m_translationYSupplier;
     DoubleSupplier m_rotationSupplier;
     Boolean m_precisionMode;
+    //Creates controller objects
     private final XBoxControllerEE m_driverController = new XBoxControllerEE(0);
     private final XBoxControllerEE m_operatorController = new XBoxControllerEE(1);
 
@@ -27,6 +28,7 @@ public class SwerveDrive extends CommandBase{
      * @param rotationSupplier Rotation value
      */
     public SwerveDrive(DriveSubsystem driveSubsystem, DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier rotationSupplier) {
+        //sets local variable to member variables
         m_driveSubsystem = driveSubsystem;
         m_translationXSupplier = translationXSupplier;
         m_translationYSupplier = translationYSupplier;
@@ -37,11 +39,13 @@ public class SwerveDrive extends CommandBase{
 
     @Override
     public void execute() {
+        //modifys axis of controlls to ease control
         ModifyAxis m_axisX = new ModifyAxis(m_translationXSupplier.getAsDouble(), 2);
         ModifyAxis m_axisY = new ModifyAxis(m_translationYSupplier.getAsDouble(), 2);
         ModifyAxis m_axisRot = new ModifyAxis(m_rotationSupplier.getAsDouble(), 2);
 
         // You can use `new ChassisSpeeds(...)` for robot-oriented movement instead of field-oriented movement
+        //drives robot at 50% speed
         if(m_driverController.getRightBumper()){
             m_driveSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -53,6 +57,7 @@ public class SwerveDrive extends CommandBase{
                 )
             );  
         }
+        //Drives robot at 25% speed
         else if(m_driverController.getLeftBumper() || m_operatorController.getDpadDown()){
             m_driveSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -63,6 +68,7 @@ public class SwerveDrive extends CommandBase{
                 )
             );  
         }
+        //Drive robot at full speed
         else{
             m_driveSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -78,6 +84,7 @@ public class SwerveDrive extends CommandBase{
 
     @Override
     public void end(boolean interrupted) {
+        //Stops drive base if command ends 
         m_driveSubsystem.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
 }

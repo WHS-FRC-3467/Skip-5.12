@@ -3,7 +3,7 @@ package frc.robot.Subsystems.Drive;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Feedback.Cameras.Limelight;
+import frc.robot.Feedback.Cameras.LimelightSubsystem;
 
 public class LimelightAim extends CommandBase {
   // Initialize Variables
@@ -12,10 +12,10 @@ public class LimelightAim extends CommandBase {
   boolean m_end, m_waitForTarget, m_hasTarget, m_ranging;
   NetworkTableEntry tx, ty, ta, tv;
   NetworkTable table;
-  Limelight m_limelight;
+  LimelightSubsystem m_limelight;
 
 
-  public LimelightAim(DriveSubsystem drive, Limelight limelight) {
+  public LimelightAim(DriveSubsystem drive, LimelightSubsystem limelight) {
     m_limelight = limelight;
     m_drive = drive;
     m_waitForTarget = false;
@@ -28,7 +28,7 @@ public class LimelightAim extends CommandBase {
   * @param waitForTarget The command ends if there is no target
   * @param ranging Driving to the distance for tarmac shot
   */
-  public LimelightAim(DriveSubsystem drive, Limelight limelight, boolean waitForTarget, boolean ranging){
+  public LimelightAim(DriveSubsystem drive, LimelightSubsystem limelight, boolean waitForTarget, boolean ranging){
     m_limelight = limelight;
     m_drive = drive;
     m_waitForTarget = waitForTarget;
@@ -42,21 +42,26 @@ public class LimelightAim extends CommandBase {
 
     // Initialize parent NetworkTable
     table = NetworkTableInstance.getDefault().getTable("limelight");
+    
+    //Puts limelight into threshold mode where it can see the goal
+    //Turns on LEDs
+    LimelightSubsystem.setVisionMode();
 
-    Limelight.setVisionMode();
-
+    //gets limelight network table entries
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     tv = table.getEntry("tv");
     count = 0;
 
+    //Sets the place in limelight where goal needs to be
+    // Positive is up/forward, Negative is down/down
     deltaYTargetTarmac = 5.0;
 
   }
 
   @Override
   public void execute() {
-
+    //Updates network table variables
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     tv = table.getEntry("tv");
@@ -68,7 +73,8 @@ public class LimelightAim extends CommandBase {
 	
   	// get current Y-axis target delta from center of image, with the offset in account, in degrees.
 	  deltaY = ty.getDouble(0.0) - deltaYTargetTarmac; 
-	
+    
+    //gets absolute distance from the center of the target.
 	  errorX = Math.abs(deltaX);
 	  
     if(m_ranging == true) {
@@ -109,7 +115,7 @@ public class LimelightAim extends CommandBase {
     m_drive.drive(new ChassisSpeeds(0, 0, 0));
 
     System.out.println("end LimelightAim");
-    Limelight.setDriverMode();
+    LimelightSubsystem.setDriverMode();
   }
 
   @Override

@@ -10,6 +10,7 @@ import frc.robot.Util.Gains;
 
 public class Shoot extends CommandBase {
   /** Creates a new ShooterCommand. */
+  //Intialize member variables
   double m_velocity;
   ShooterSubsystem m_shooter;
   Gains m_gains;
@@ -21,11 +22,12 @@ public class Shoot extends CommandBase {
    * @param hoodPosition The hood position in Value.kFoward (deployed) or Value.kReverse (retracted)
    */
   public Shoot(ShooterSubsystem shooter, double velocity, Gains gains, Value hoodPosition) {
-    // Use addRequirements() here to declare subsystem dependencies.
+    //Sets local variables to member variables
     m_velocity = velocity;
     m_shooter = shooter;
     m_gains = gains;
     m_hoodPosition = hoodPosition;
+    //addes requirements for shooter
     addRequirements(m_shooter);
   }
 
@@ -36,13 +38,14 @@ public class Shoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //runs shooter
     m_shooter.shoot(m_velocity, m_gains, m_hoodPosition);
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //stops shooter if command ends
     m_shooter.stopShooter();
   }
 
