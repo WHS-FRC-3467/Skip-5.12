@@ -39,6 +39,7 @@ public class AutoShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //starts timer
     m_startTime = Timer.getFPGATimestamp();
     m_end = false;
     count = 0;
@@ -47,11 +48,14 @@ public class AutoShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //updates time
     m_time = Timer.getFPGATimestamp() - m_startTime;
+    //runs shooter at velocity, updates gains in subsystem, sets hood to position
     m_shooter.shoot(m_velocity, m_gains, m_hoodPosition);  
     
+    //if wheel is up to speed or has been runing for more than 1.5 seconds then it will run tower if not it stops tower
     if(m_shooter.isWheelAtSpeed() || m_time >1.5 ){
-      m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
+      m_tower.driveWholeTower(TowerConstants.STANDARD_TOWER_SPEED);
     }
     else{
       m_tower.driveWholeTower(0.0);
@@ -60,6 +64,7 @@ public class AutoShoot extends CommandBase {
     System.out.println(m_end);
     System.out.println(m_tower.ballCount());
 
+    //if ballcount is 0 then command will end if not it won't
     if(m_tower.ballCount() > 0){
       m_end = false;
       
@@ -69,12 +74,14 @@ public class AutoShoot extends CommandBase {
     }
 
     System.out.println("Running Shooting");
+    //Increases count
     count++;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //Stops shooter and tower
     m_shooter.stopShooter();
     m_tower.driveWholeTower(0);
   }

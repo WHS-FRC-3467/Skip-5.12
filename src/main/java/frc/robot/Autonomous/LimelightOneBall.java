@@ -5,29 +5,34 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Feedback.Cameras.Limelight;
+import frc.robot.Feedback.Cameras.LimelightSubsystem;
 import frc.robot.Subsystems.Drive.DriveSubsystem;
 import frc.robot.Subsystems.Shooter.LimelightAutoShootTarmac;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class LimelightOneBall extends SequentialCommandGroup {
-  /** Creates a new LimelightOneBall. */
+  //Import Subsystems
   TowerSubsystem m_tower;
   ShooterSubsystem m_shooter;
-  Limelight m_limelight;
+  LimelightSubsystem m_limelight;
   DriveSubsystem m_drive;
-  public LimelightOneBall(ShooterSubsystem shooter, TowerSubsystem tower, Limelight limelight, DriveSubsystem drive) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+  /**
+   * Constructor for LimelightOneBall
+   * @param drive Drive Subsystem
+   * @param shooter Shooter Subsystem
+   * @param tower Tower Subsystem
+   * @param limelight Limelight Subsystem
+   */
+  public LimelightOneBall(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower, LimelightSubsystem limelight) {
+    //Set Local variables to member variables
     m_limelight = limelight;
     m_drive = drive;
     m_shooter = shooter;
     m_tower = tower;
     addCommands(
+      //Use limelight to drive back into position
+      //Shoot one ball
       new LimelightAutoShootTarmac(m_drive, m_shooter, m_tower, m_limelight)
     );
   }

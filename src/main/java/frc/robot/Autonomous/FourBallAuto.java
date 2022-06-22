@@ -6,9 +6,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Feedback.Cameras.Limelight;
+import frc.robot.Feedback.Cameras.LimelightSubsystem;
 import frc.robot.Subsystems.Drive.DriveSubsystem;
-import frc.robot.Subsystems.Drive.LimelightAim;
 import frc.robot.Subsystems.Drive.PathResetOdometry;
 import frc.robot.Subsystems.Drive.TrajectoryFollow;
 import frc.robot.Subsystems.Intake.AutoDriveIntake;
@@ -20,14 +19,22 @@ import frc.robot.Subsystems.Tower.TowerSubsystem;
 
 
 public class FourBallAuto extends SequentialCommandGroup {
-
+  //import Subsystems 
   ShooterSubsystem m_shooter;
   TowerSubsystem m_tower;
   IntakeSubsystem m_intake;
   DriveSubsystem m_drive;
-  Limelight m_limelight;
-
-  public FourBallAuto(ShooterSubsystem shooter, TowerSubsystem tower, IntakeSubsystem intake, DriveSubsystem drive, Limelight limelight) {
+  LimelightSubsystem m_limelight;
+  /**
+   * Constructor for FourBallAuto
+   * @param drive Drive Subsystem
+   * @param shooter Shooter Subsystem
+   * @param tower Tower subsystem
+   * @param intake Intake Subsystem
+   * @param limelight Limelight Subsystem
+   */
+  public FourBallAuto(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower, IntakeSubsystem intake, LimelightSubsystem limelight){
+    //set local variables to member variables
     m_shooter = shooter;
     m_tower = tower;
     m_intake = intake;
@@ -35,25 +42,27 @@ public class FourBallAuto extends SequentialCommandGroup {
     m_limelight = limelight;
 
     addCommands(
+      //Wait 0.5 seconds
       new WaitCommand(0.5),
-      new InstantCommand(m_intake::intakeDeploy, m_intake),
-
+      //Deploy intake
+      new InstantCommand(m_intake::deployIntake, m_intake),
+      //Set initial pose
       new PathResetOdometry("4BallPart1", m_drive),
-
+      //Drive to first Ball
       new TrajectoryFollow("4BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
+      //Shoot two balls
       new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward).withTimeout(2.5).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
-
+      //Drive to terminal
       new TrajectoryFollow("4BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
-      
-      // // LEAVE COMMENTED new AutoDriveIntake(m_intake, m_tower, 1.0).withTimeout(0.25),
-      new InstantCommand(m_intake::intakeRetract, m_intake),
+      //Retract intake
+      new InstantCommand(m_intake::retractIntake, m_intake),
+      //Wait 0.5 seconds
       new WaitCommand(0.5),
-
+      //Drive intake for 1.5 seconds
       new AutoDriveIntake(m_intake, m_tower, 1.0).withTimeout(1.5),
-
+      //Drive to hub
       new TrajectoryFollow("4BallPart3", m_drive).get(),
-      
-      new LimelightAim(m_drive, m_limelight, false, true),
+      //Shoot two balls
       new LimelightAutoShootTarmac(drive, m_shooter, m_tower, limelight)
     );
   }

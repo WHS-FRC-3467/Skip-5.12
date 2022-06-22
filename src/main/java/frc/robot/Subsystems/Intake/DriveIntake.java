@@ -33,23 +33,27 @@ public class DriveIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //if forward speed is greater than 0.2 runs intake at forwardSpeed and deploys intake
     if(m_forwardspeed.getAsDouble() > 0.2){
        m_intake.driveIntake(m_forwardspeed.getAsDouble());
-       m_intake.intakeDeploy();
+       m_intake.deployIntake();
     }
+    //if forward speed is greater than 0.2 runs intake at backSpeed and deploys intake 
     if(m_backspeed.getAsDouble() > 0.2){
       m_intake.driveIntake(-m_backspeed.getAsDouble());
-      m_intake.intakeDeploy();
+      m_intake.deployIntake();
     }
-   if(m_backspeed.getAsDouble() < 0.2 && m_forwardspeed.getAsDouble() < 0.2){
+    //If both speeds are less that 0.2 then it keeps intake up and doesn't drive intake
+    if(m_backspeed.getAsDouble() < 0.2 && m_forwardspeed.getAsDouble() < 0.2){
       m_intake.driveIntake(0.0);
-      m_intake.intakeRetract();
+      m_intake.retractIntake();
    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //stops intake if command ends
     m_intake.driveIntake(0.0);
   }
 

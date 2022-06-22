@@ -13,16 +13,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Autonomous.FiveBallAuto;
 import frc.robot.Autonomous.LimelightOneBall;
 import frc.robot.Autonomous.TwoBallAuto;
-import frc.robot.Autonomous.TwoBallAutoBattlecryExtraBall;
 import frc.robot.Autonomous.TwoBallAutoRightFar;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Control.XBoxControllerButton;
 import frc.robot.Control.XBoxControllerDPad;
 import frc.robot.Control.XBoxControllerEE;
+<<<<<<< HEAD
 import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.Feedback.LED.LED;
+=======
+import frc.robot.Feedback.Cameras.LimelightSubsystem;
+>>>>>>> 7f0cadd487aef27e216641ca2de1b8d333984482
 import frc.robot.Feedback.LED.LEDDefault;
+import frc.robot.Feedback.LED.LEDSubsystem;
 import frc.robot.Subsystems.Climber.A0_CalibrateClimber;
 import frc.robot.Subsystems.Climber.A1_PrepareToClimb;
 import frc.robot.Subsystems.Climber.A9_DoItAll;
@@ -56,8 +60,8 @@ public class RobotContainer {
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final ShooterSubsystem m_shooterSubystem = new ShooterSubsystem();
   private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
-  private final LED m_led = new LED();
-  private final Limelight m_limelight = new Limelight();
+  private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
+  private final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
 
   private final XBoxControllerEE m_driverController = new XBoxControllerEE(0);
   private final XBoxControllerEE m_operatorController = new XBoxControllerEE(1);
@@ -74,26 +78,20 @@ public class RobotContainer {
 
     // Comment out for simulation
 
-    // m_chooser.addOption("Simple Two Ball Auto", new SimpleTwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
-    // m_chooser.addOption("Simple One Ball Auto", new SimpleOneBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem));
     m_chooser.addOption("No Auto", null);
-    //m_chooser.addOption("Three Ball Auto", new ThreeBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem, m_limelight));
-    //m_chooser.addOption("Four Ball Auto", new FourBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
-    m_chooser.addOption("Limelight One Ball", new LimelightOneBall(m_shooterSubystem, m_towerSubsystem, m_limelight, m_driveSubsystem));
-    m_chooser.addOption("Two Ball Auto Left ", new TwoBallAuto(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem, m_limelight));
-    //m_chooser.addOption("Offset Four Ball", new Offset4BallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
-    m_chooser.addOption("Right Two Ball Far", new TwoBallAutoRightFar(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
-    m_chooser.addOption("Five Ball", new FiveBallAuto(m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_driveSubsystem, m_limelight));
-    m_chooser.addOption("Three Ball left Battle Cry", new TwoBallAutoBattlecryExtraBall(m_intakeSubsystem, m_towerSubsystem, m_shooterSubystem, m_driveSubsystem, m_limelight));
+    m_chooser.addOption("Limelight One Ball", new LimelightOneBall(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_limelightSubsystem));
+    m_chooser.addOption("Two Ball Auto Left ", new TwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_limelightSubsystem));
+    m_chooser.addOption("Right Two Ball Far", new TwoBallAutoRightFar(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_limelightSubsystem));
+    m_chooser.addOption("Five Ball", new FiveBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
+    
     m_chooser.setDefaultOption("No Auto", null);
+
     SmartDashboard.putData("Auto Chooser", m_chooser);
 
     SmartDashboard.putData(new A0_CalibrateClimber(m_climberSubsystem));
 
-
-
-    Limelight.initialize();
-    Limelight.setDriverMode();
+    LimelightSubsystem.initialize();
+    LimelightSubsystem.setDriverMode();
 
     // Configure the button bindings
     configureButtonBindings();
@@ -111,7 +109,7 @@ public class RobotContainer {
     m_towerSubsystem.setDefaultCommand(new DriveTower(m_towerSubsystem,  
                                       () -> -m_operatorController.getLeftY()));
 
-    m_led.setDefaultCommand(new LEDDefault(m_led, m_towerSubsystem));
+    m_ledSubsystem.setDefaultCommand(new LEDDefault(m_ledSubsystem, m_towerSubsystem));
     
     m_climberSubsystem.setDefaultCommand(new MatchDefault(m_climberSubsystem));
 
@@ -140,13 +138,13 @@ public class RobotContainer {
 
     // Auto Aim Limelight
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kB)
-      .whileHeld(new LimelightAim(m_driveSubsystem, m_limelight, true, false));
+      .whileHeld(new LimelightAim(m_driveSubsystem, m_limelightSubsystem, true, false));
 
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kA)
-      .whileHeld(new LimelightAim(m_driveSubsystem, m_limelight, false, false));
+      .whileHeld(new LimelightAim(m_driveSubsystem, m_limelightSubsystem, false, false));
 
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kX)
-      .whileHeld(new LimelightAutoShootTarmac(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_limelight));
+      .whileHeld(new LimelightAutoShootTarmac(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_limelightSubsystem));
 
 
 

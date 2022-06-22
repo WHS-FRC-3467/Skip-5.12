@@ -20,36 +20,51 @@ import frc.robot.Constants.ShooterConstants;
 
 
 public class SimpleTwoBallAuto extends SequentialCommandGroup {
-  /** Creates a new TwoBallAuto. */
+  //import subsystem
   DriveSubsystem m_drive;
   ShooterSubsystem m_shooter;
   TowerSubsystem m_tower;
   IntakeSubsystem m_intake;
+  /**
+   * Constructor for SimpleTwoBallAuto
+   * @param drive Drive Subsystem
+   * @param shooter Shooter Subsystem
+   * @param tower Tower subsystem
+   * @param intake Intake Subsystem
+   */
   public SimpleTwoBallAuto(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower, IntakeSubsystem intake) {
+    //Set local variables to member variables
     m_drive = drive;
     m_intake = intake;
     m_tower = tower;
     m_shooter = shooter;
-    addRequirements(m_intake, m_drive, m_shooter, m_tower);
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+
     addCommands(
-
+      //Reset drive encoders to zero
       new InstantCommand(m_drive::resetDriveEncoders),
-      new InstantCommand(m_intake::intakeDeploy, m_intake),
+      //Deploy intake
+      new InstantCommand(m_intake::deployIntake, m_intake),
+      //Drive intake for 1 seconds
       new AutoDriveIntake(m_intake, m_tower,  1.0).withTimeout(1.0),
-
+      //Shoot One ball
       new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse),
 
       new ParallelCommandGroup(
+                                //Drive back to ball and pick up
                                 new BasicAutoDrive(m_drive, 3.0, -0.878, -1.12, 0.0),
                                 new AutoDriveIntake(m_intake, m_tower,  1.0).withTimeout(3.5)
                               ),
+      //Resent drive encoders to zero
       new InstantCommand(m_drive::resetDriveEncoders),
+      //Drive back to hub
       new BasicAutoDrive(m_drive, 3.0, 0.9, 1.12, 0.0),
+      //Reset drive encoder
       new InstantCommand(m_drive::resetDriveEncoders),
+      //Wait 0.25 seconds
       new WaitCommand(0.25),
+      //Rotate to goal
       new BasicAutoDrive(m_drive, 0.30, 0.0, 0.0, 0.5).withTimeout(0.75),
+      //Shoot one ball
       new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse)    );
   }
 }

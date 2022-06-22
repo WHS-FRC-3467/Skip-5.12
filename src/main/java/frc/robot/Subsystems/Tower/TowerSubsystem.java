@@ -19,7 +19,7 @@ import frc.robot.Constants.TowerConstants;
 public class TowerSubsystem extends SubsystemBase {
 
   //Tower Subsystem
-  TalonSRX m_lowerTower = new TalonSRX(CanConstants.LowerTowerMotor);
+  TalonSRX m_lowerTower = new TalonSRX(CanConstants.LOWER_TOWER_MOTOR);
   TalonSRX m_upperTower = new TalonSRX(CanConstants.UpperTowerMotor); 
   DigitalInput m_entryBeamBreak = new DigitalInput(DIOConstants.EntryBeamBreak);
   DigitalInput m_midBeamBreak = new DigitalInput(DIOConstants.MidTowerBeamBreak);
@@ -89,11 +89,11 @@ public class TowerSubsystem extends SubsystemBase {
     }
     else if(m_entryBeamBreak.get()==false && m_midBeamBreak.get()==true && m_upperBeamBreak.get()==true){
       //Ball entry
-      driveWholeTower(TowerConstants.standardTowerSpeed);
+      driveWholeTower(TowerConstants.STANDARD_TOWER_SPEED);
     }
     else if(m_entryBeamBreak.get()==true && m_midBeamBreak.get()== false && m_upperBeamBreak.get() == true){
       //Ball middle
-      driveWholeTower(TowerConstants.standardTowerSpeed);
+      driveWholeTower(TowerConstants.STANDARD_TOWER_SPEED);
     }
     else if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == false){
       //ball upper
@@ -111,7 +111,7 @@ public class TowerSubsystem extends SubsystemBase {
     
     else if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == true){
       //ball entry and middle
-      driveLowerTower(TowerConstants.standardTowerSpeed);
+      driveLowerTower(TowerConstants.STANDARD_TOWER_SPEED);
     }
     else if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){
       //no balls

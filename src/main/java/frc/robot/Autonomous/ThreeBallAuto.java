@@ -6,7 +6,6 @@ package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Feedback.Cameras.Limelight;
 import frc.robot.Subsystems.Drive.DriveSubsystem;
 import frc.robot.Subsystems.Drive.PathResetOdometry;
 import frc.robot.Subsystems.Drive.TrajectoryFollow;
@@ -19,24 +18,34 @@ import frc.robot.Constants.ShooterConstants;
 
 
 public class ThreeBallAuto extends SequentialCommandGroup {
-
+  //import subsystem
   IntakeSubsystem m_intake;
   TowerSubsystem m_tower;
   ShooterSubsystem m_shooter;
   DriveSubsystem m_drive;
-  Limelight m_limelight;
-  public  ThreeBallAuto(IntakeSubsystem intake, TowerSubsystem tower, ShooterSubsystem shooter, DriveSubsystem drive, Limelight limelight){
 
+  /**
+   * Constructor for ThreeBallAuto
+   * @param drive Drive Subsystem
+   * @param shooter Shooter Subsystem
+   * @param tower Tower subsystem
+   * @param intake Intake Subsystem
+   */
+  public  ThreeBallAuto(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower, IntakeSubsystem intake){
+    //Set local variables to member variables
     m_drive = drive; 
     m_shooter = shooter; 
     m_tower = tower;
     m_intake = intake;
-    m_limelight = limelight;
 
     addCommands(
+      //Shoot one ball
       new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse),
+      //set initial pose
       new PathResetOdometry("3Ball", m_drive),
+      //Drive to pick up two balls
       new TrajectoryFollow("3Ball", m_drive).get().raceWith(new AutoDriveIntake(m_intake,m_tower, 1.0)),
+      //Shoot two balls
       new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse)
       );
   }

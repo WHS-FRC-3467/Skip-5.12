@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TowerConstants;
-import frc.robot.Feedback.Cameras.Limelight;
+import frc.robot.Feedback.Cameras.LimelightSubsystem;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
 
 public class LimelightShoot extends CommandBase {
@@ -23,7 +23,7 @@ public class LimelightShoot extends CommandBase {
   TowerSubsystem m_tower;
   Boolean m_end;
   ShooterSubsystem m_shooter;
-  Limelight m_limelight;
+  LimelightSubsystem m_limelight;
   double m_velocity, deltaY, count, m_time, m_startTime; 
   NetworkTable table;
   NetworkTableEntry ty;
@@ -33,7 +33,7 @@ public class LimelightShoot extends CommandBase {
    * @param tower Tower Subsystem
    * @param limelight LimelightSubsystem
    */
-  public LimelightShoot(ShooterSubsystem shooter, TowerSubsystem tower, Limelight limelight) {
+  public LimelightShoot(ShooterSubsystem shooter, TowerSubsystem tower, LimelightSubsystem limelight) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooter = shooter;
     m_limelight = limelight; 
@@ -50,28 +50,34 @@ public class LimelightShoot extends CommandBase {
     // enable limelight LEDs
     // table.getEntry("ledMode").setNumber(3);
 
+    //Turns on 
+    LimelightSubsystem.setVisionMode();
 
-    Limelight.setVisionMode();
-
+    //Initializes network table member variables
     ty = table.getEntry("ty");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //Updates limelight network table member variables 
     ty = table.getEntry("ty");
     deltaY = ty.getDouble(0.0);
 
     //Zero is tarmac velocity
     m_velocity = deltaY + ShooterConstants.kTarmacVelocity;
 
+    //Updates time
     m_time = Timer.getFPGATimestamp() - m_startTime;
+    //Runs shooter at detemined velocity
     m_shooter.shoot(m_velocity, ShooterConstants.kTarmacGains, Value.kForward);  
     
+    //If shooter is up to speed or time is greater than one second tower will shoot
     if(m_shooter.isWheelAtSpeed() || m_time > 1.0){
-      m_tower.driveWholeTower(TowerConstants.standardTowerSpeed);
+      m_tower.driveWholeTower(TowerConstants.STANDARD_TOWER_SPEED);
     }
     else{
+    // else it will stop tower
       m_tower.driveWholeTower(0.0);
     }
 
@@ -87,6 +93,7 @@ public class LimelightShoot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //stops tower and shooter 
     m_shooter.stopShooter();
     m_tower.driveWholeTower(0.0);
   }

@@ -27,19 +27,23 @@ public class AutoDriveIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.intakeDeploy();
+    //deploys intake
+    m_intake.deployIntake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //drives intake at given speed
     m_intake.driveIntake(m_speed);
+    //runs tower beam brake send to top
     m_tower.sendToTop();
   }
   
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //stops intake when command ends
     m_intake.driveIntake(0.0);
   }
 

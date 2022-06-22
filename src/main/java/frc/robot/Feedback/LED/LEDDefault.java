@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
 
 public class LEDDefault extends CommandBase {
-  /** Creates a new LEDDefault. */
-  LED m_led;
+  //Import subsystems
+  LEDSubsystem m_led;
   TowerSubsystem m_tower;
   double startTime;
-  public LEDDefault(LED led, TowerSubsystem tower) {
+  public LEDDefault(LEDSubsystem led, TowerSubsystem tower) {
     m_tower = tower;
     m_led = led;
     addRequirements(m_led);
