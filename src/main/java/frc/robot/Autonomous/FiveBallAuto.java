@@ -44,8 +44,7 @@ public class FiveBallAuto extends SequentialCommandGroup {
     addCommands(
       //Set initial pose
       new PathResetOdometry("5BallPart1", m_drive),
-<<<<<<< HEAD
-      new InstantCommand(m_intake::intakeDeploy, m_intake),
+      new InstantCommand(m_intake::deployIntake, m_intake),
       new TrajectoryFollow("5BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
       new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
       
@@ -57,23 +56,6 @@ public class FiveBallAuto extends SequentialCommandGroup {
       new RunCommand(m_intake::fullRunIntake, m_intake).raceWith(new RunCommand(m_tower::sendToTop, m_tower)).withTimeout(0.5),
    
       new TrajectoryFollow("5BallPart4", m_drive).get(), 
-=======
-      //Drive to first ball
-      new TrajectoryFollow("5BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, tower, 1.0)),
-      //Shoot two Balls
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_drive)),
-      //Drive to second ball
-      new TrajectoryFollow("5BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
-      //Shoot one Ball
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward).withTimeout(1.2).raceWith(new RunCommand(m_intake::fullRunIntake, m_drive)),
-      //Drive to terminal
-      new TrajectoryFollow("5BallPart3", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
-      //Wait at terminal and pick up HP ball
-      new RunCommand(m_intake::fullRunIntake, m_intake).withTimeout(0.5),
-      //Drive to cargo ring
-      new TrajectoryFollow("5BallPart4", m_drive).get(),
-      //Shoot Two Balls
->>>>>>> 7f0cadd487aef27e216641ca2de1b8d333984482
       new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward).withTimeout(2.0)
 
 

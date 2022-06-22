@@ -19,12 +19,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Control.XBoxControllerButton;
 import frc.robot.Control.XBoxControllerDPad;
 import frc.robot.Control.XBoxControllerEE;
-<<<<<<< HEAD
-import frc.robot.Feedback.Cameras.Limelight;
-import frc.robot.Feedback.LED.LED;
-=======
 import frc.robot.Feedback.Cameras.LimelightSubsystem;
->>>>>>> 7f0cadd487aef27e216641ca2de1b8d333984482
 import frc.robot.Feedback.LED.LEDDefault;
 import frc.robot.Feedback.LED.LEDSubsystem;
 import frc.robot.Subsystems.Climber.A0_CalibrateClimber;

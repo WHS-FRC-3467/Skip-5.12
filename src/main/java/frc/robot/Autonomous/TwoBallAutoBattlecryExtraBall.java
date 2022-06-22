@@ -11,11 +11,7 @@ package frc.robot.Autonomous;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-<<<<<<< HEAD
-import frc.robot.Feedback.Cameras.Limelight;
-=======
 import frc.robot.Feedback.Cameras.LimelightSubsystem;
->>>>>>> 7f0cadd487aef27e216641ca2de1b8d333984482
 import frc.robot.Subsystems.Drive.DriveSubsystem;
 import frc.robot.Subsystems.Drive.PathResetOdometry;
 import frc.robot.Subsystems.Drive.TrajectoryFollow;
