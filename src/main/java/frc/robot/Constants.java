@@ -96,7 +96,7 @@ public final class Constants {
 
         public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(202.5);
         public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(103.7);
-        public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(144.22); 
+        public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(140.22); 
         public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(131.1);
 
         // Limelight auto aim X-axis target tolerance. This is the number of degrees
@@ -123,9 +123,9 @@ public final class Constants {
 
         public static final double kUpperHubFenderVelocity = 1960.0;
 
-        public static final double kTarmacVelocity = 2100.0;
+        public static final double kTarmacVelocity = 2125.0;
         
-        public static final double kLaunchpadVelocity = 2500;
+        public static final double kLaunchpadVelocity = 2330;
         
         public static final int kShooterTolerance = 150;
         

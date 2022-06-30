@@ -72,9 +72,9 @@ public class SwerveDrive extends CommandBase{
         else{
             m_driveSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                    m_axisY.m_modifiedValue* 0.25,
-                    m_axisX.m_modifiedValue * 0.25,
-                    m_axisRot.m_modifiedValue * 0.03,
+                    m_axisY.m_modifiedValue* 0.175, //0.25 normally
+                    m_axisX.m_modifiedValue * 0.175, //""
+                    m_axisRot.m_modifiedValue * 0.03, //0.03 normally
                     m_driveSubsystem.getGyroscopeRotation()
                 )
             ); 
