@@ -126,4 +126,7 @@ public class LimelightSubsystem extends SubsystemBase {
 	private static NetworkTableEntry getValue(String key){
 		return table.getTable("limelight").getEntry(key);
 	}
+	public double getYOffset(){
+		return getValue("ty").getDouble(0.0);
+	};
 }
