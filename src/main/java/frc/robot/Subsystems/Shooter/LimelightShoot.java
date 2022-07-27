@@ -70,7 +70,7 @@ public class LimelightShoot extends CommandBase {
     //Updates time
     m_time = Timer.getFPGATimestamp() - m_startTime;
     //Runs shooter at detemined velocity
-    m_shooter.shoot(m_velocity, ShooterConstants.kTarmacGains, Value.kForward);  
+    m_shooter.shoot(m_velocity, Value.kForward);  
     
     //If shooter is up to speed or time is greater than one second tower will shoot
     if(m_shooter.isWheelAtSpeed() || m_time > 1.0){

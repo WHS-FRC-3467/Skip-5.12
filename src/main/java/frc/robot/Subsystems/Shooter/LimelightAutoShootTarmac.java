@@ -33,11 +33,11 @@ public class LimelightAutoShootTarmac extends SequentialCommandGroup {
     addCommands(
         //Starts shooter and runs limelight aim
         new ParallelRaceGroup(
-            new Shoot(m_shooter, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward),
+            new Shoot(m_shooter, ShooterConstants.kTarmacVelocity, Value.kForward),
             new LimelightAim(m_drive, m_limelight)
         ),
         //Runs auto shoot
-        new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward)
+        new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kShooterGains, Value.kForward)
 
 
         

@@ -51,7 +51,7 @@ public class AutoShoot extends CommandBase {
     //updates time
     m_time = Timer.getFPGATimestamp() - m_startTime;
     //runs shooter at velocity, updates gains in subsystem, sets hood to position
-    m_shooter.shoot(m_velocity, m_gains, m_hoodPosition);  
+    m_shooter.shoot(m_velocity, m_hoodPosition);  
     
     //if wheel is up to speed or has been runing for more than 1.5 seconds then it will run tower if not it stops tower
     if(m_shooter.isWheelAtSpeed() || m_time >1.5 ){

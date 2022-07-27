@@ -6,14 +6,12 @@ package frc.robot.Subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Util.Gains;
 
 public class Shoot extends CommandBase {
   /** Creates a new ShooterCommand. */
   //Intialize member variables
   double m_velocity;
   ShooterSubsystem m_shooter;
-  Gains m_gains;
   Value m_hoodPosition;
   /**
    * @param shooter Shooter Subsystem 
@@ -21,11 +19,10 @@ public class Shoot extends CommandBase {
    * @param gains Gains for shooter
    * @param hoodPosition The hood position in Value.kFoward (deployed) or Value.kReverse (retracted)
    */
-  public Shoot(ShooterSubsystem shooter, double velocity, Gains gains, Value hoodPosition) {
+  public Shoot(ShooterSubsystem shooter, double velocity, Value hoodPosition) {
     //Sets local variables to member variables
     m_velocity = velocity;
     m_shooter = shooter;
-    m_gains = gains;
     m_hoodPosition = hoodPosition;
     //addes requirements for shooter
     addRequirements(m_shooter);
@@ -39,7 +36,7 @@ public class Shoot extends CommandBase {
   @Override
   public void execute() {
     //runs shooter
-    m_shooter.shoot(m_velocity, m_gains, m_hoodPosition);
+    m_shooter.shoot(m_velocity, m_hoodPosition);
   }
 
   // Called once the command ends or is interrupted.

@@ -18,7 +18,7 @@ import frc.robot.Util.Gains;
  */
 public final class Constants {
 
-    public static final boolean tuningMode = true;
+    public static final boolean tuningMode = false;
 
     public static final class CanConstants{
         //drivebase CAN IDs 
@@ -130,15 +130,17 @@ public final class Constants {
         public static final int kShooterTolerance = 150;
         
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
-        public static final Gains kTestGains = new Gains(0.01, 0.0, 1.15, 0.048, 0, 1.0);
-        
-        public static final Gains kLowerHubGains = new Gains(0.01, 0.0, 1.05, 0.059, 0, 1.0);
+        public static final Gains kTestGains = new Gains(0.01, 0.0, 1.15, 1023/20660, 0, 1.0);
 
-        public static final Gains kUpperHubFenderGains = new Gains(0.035, 0.0, 0.9, 0.0535, 0, 1.0);
+        public static final Gains kShooterGains = new Gains(0.1, 0.0001, 5, 1023/20660, 300, 1.0);
 
-        public static final Gains kTarmacGains = new Gains(0.04, 0.0, 2.0, 0.0535, 0, 1.0);
+        public static final Gains kLowerHubGains = new Gains(0.01, 0.0, 1.05, 1023/20660, 0, 1.0);
 
-        public static final Gains kLaunchpadGains =  new Gains(0.03, 0.0, 2.0, 0.0535, 0, 1.0);
+        public static final Gains kUpperHubFenderGains = new Gains(0.035, 0.0, 0.9, 1023/20660, 0, 1.0);
+
+        public static final Gains kTarmacGains = new Gains(0.04, 0.0, 2.0, 1023/20660, 0, 1.0);
+
+        public static final Gains kLaunchpadGains =  new Gains(0.03, 0.0, 2.0, 1023/20660, 0, 1.0);
 	}
 
     public static final class TowerConstants {
@@ -148,6 +150,7 @@ public final class Constants {
     public static final class ClimberConstants {
 
         /**
+         * 
          * PID Gains may have to be adjusted based on the responsiveness of control loop.
          * kF: 1023 represents output value to Talon at 100%, 6800 represents Velocity units at 100% output
          * 

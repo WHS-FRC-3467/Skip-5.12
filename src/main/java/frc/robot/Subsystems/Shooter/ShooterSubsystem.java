@@ -43,6 +43,8 @@ public class ShooterSubsystem extends SubsystemBase
     private static TunableNumber kITest = new TunableNumber("Shooter kI");
     private static TunableNumber kDTest = new TunableNumber("Shooter kD");
     private static TunableNumber kFTest = new TunableNumber("Shooter kF");
+    private static TunableNumber kIzoneTest = new TunableNumber("Shooter Izone");
+
     private static TunableNumber kShooterSetpoint = new TunableNumber("Shooter Setpoint");
 
     public double setpoint;
@@ -111,8 +113,9 @@ public class ShooterSubsystem extends SubsystemBase
          kPTest.setDefault(ShooterConstants.kTestGains.kP);
          kITest.setDefault(ShooterConstants.kTestGains.kI);
          kDTest.setDefault(ShooterConstants.kTestGains.kD);
-         kFTest.setDefault(ShooterConstants.kTestGains.kF);
+         //kFTest.setDefault(ShooterConstants.kTestGains.kF);
          kShooterSetpoint.setDefault(0.0);
+
      }
 
 
@@ -132,7 +135,8 @@ public class ShooterSubsystem extends SubsystemBase
         m_motorLeft.config_kP(0, gains.kP, 30); 
         m_motorLeft.config_kI(0, gains.kI, 30);
         m_motorLeft.config_kD(0, gains.kD, 30);
-        m_motorLeft.config_kF(0, gains.kF, 30);
+        m_motorLeft.config_kF(0,  gains.kF, 30);
+        m_motorLeft.config_IntegralZone(0, gains.kIzone, 30);
      }
 
  
@@ -141,11 +145,11 @@ public class ShooterSubsystem extends SubsystemBase
     * @param gains Gains for shooter
     * @param hoodPosition The hood position in kFoward (deployed) or kReverse (retracted)
      */
-    public void shoot(double targetVelocity, Gains gains, Value hoodPosition)
+    public void shoot(double targetVelocity, Value hoodPosition)
     {
         m_hood.set(hoodPosition);
 
-        updateGains(gains);
+        updateGains(ShooterConstants.kShooterGains);
         setpoint = targetVelocity;
 
         // Convert RPM to raw units per 100ms
@@ -235,16 +239,17 @@ public class ShooterSubsystem extends SubsystemBase
     
     
     public void testShoot(){
-        testGains = new Gains(kPTest.get(), kITest.get(), kDTest.get(), kFTest.get(), 0, 1.0);
+        testGains = new Gains(kPTest.get(), kITest.get(), kDTest.get(), kFTest.get(), kIzoneTest.get(), 1.0);
 
         updateGains(testGains);
+
+        setpoint = kShooterSetpoint.get();
 
         // Update the target velocity and get back the current velocity
         double targetVelocity_UnitsPer100ms = kShooterSetpoint.get() * 2048 / 600;
                 
         // Set Velocity setpoint
         m_motorLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
-
     }
 
 }

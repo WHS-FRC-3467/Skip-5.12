@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Autonomous.FiveBallAuto;
 import frc.robot.Autonomous.LimelightOneBall;
 import frc.robot.Autonomous.TwoBallAuto;
@@ -38,6 +37,7 @@ import frc.robot.Subsystems.Shooter.AutoShoot;
 import frc.robot.Subsystems.Shooter.LimelightAutoShootTarmac;
 import frc.robot.Subsystems.Shooter.Shoot;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
+import frc.robot.Subsystems.Shooter.TestShoot;
 import frc.robot.Subsystems.Tower.DriveTower;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
 
@@ -117,9 +117,9 @@ public class RobotContainer {
     // SmartDashboard.putData(new A9_DoItAll(m_climberSubsystem));
     // SmartDashboard.putData(new AX_CancelClimb(m_climberSubsystem));
     // }
+
     if(Constants.tuningMode){
-      SmartDashboard.putData("Run Shooter", new RunCommand(m_shooterSubystem::testShoot));
-      SmartDashboard.putData("Stop Shooter", new RunCommand(m_shooterSubystem::stopShooter));
+      SmartDashboard.putData("Test Shooter", new TestShoot(m_towerSubsystem, m_shooterSubystem));
       SmartDashboard.putNumber("Limelight Y offset", m_limelightSubsystem.getYOffset());
     }
   } 
@@ -162,18 +162,18 @@ public class RobotContainer {
       .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse));
 
     new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadRight)
-      .whileActiveContinuous(new Shoot(m_shooterSubystem, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse));
+      .whileActiveContinuous(new Shoot(m_shooterSubystem, ShooterConstants.kUpperHubFenderVelocity, Value.kReverse));
 
     // Shoot Tarmac
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
-      .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward));
+      .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kTarmacVelocity, ShooterConstants.kShooterGains, Value.kForward));
 
     new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadUp)
-      .whileActiveContinuous(new Shoot(m_shooterSubystem, ShooterConstants.kTarmacVelocity, ShooterConstants.kTarmacGains, Value.kForward));
+      .whileActiveContinuous(new Shoot(m_shooterSubystem, ShooterConstants.kTarmacVelocity, Value.kForward));
 
     //Shoot Ranging
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kX)
-      .whenHeld(new Shoot(m_shooterSubystem, ShooterConstants.kLaunchpadVelocity, ShooterConstants.kLaunchpadGains, Value.kForward));
+      .whenHeld(new Shoot(m_shooterSubystem, ShooterConstants.kLaunchpadVelocity, Value.kForward));
 
 
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kBack)
