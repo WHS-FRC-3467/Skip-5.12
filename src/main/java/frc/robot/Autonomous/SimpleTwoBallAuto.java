@@ -47,7 +47,7 @@ public class SimpleTwoBallAuto extends SequentialCommandGroup {
       //Drive intake for 1 seconds
       new AutoDriveIntake(m_intake, m_tower,  1.0).withTimeout(1.0),
       //Shoot One ball
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse),
+      new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kShooterGains, Value.kReverse),
 
       new ParallelCommandGroup(
                                 //Drive back to ball and pick up
@@ -65,6 +65,6 @@ public class SimpleTwoBallAuto extends SequentialCommandGroup {
       //Rotate to goal
       new BasicAutoDrive(m_drive, 0.30, 0.0, 0.0, 0.5).withTimeout(0.75),
       //Shoot one ball
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse)    );
+      new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kShooterGains, Value.kReverse)    );
   }
 }

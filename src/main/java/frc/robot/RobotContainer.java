@@ -34,6 +34,7 @@ import frc.robot.Subsystems.Drive.SwerveDrive;
 import frc.robot.Subsystems.Intake.DriveIntake;
 import frc.robot.Subsystems.Intake.IntakeSubsystem;
 import frc.robot.Subsystems.Shooter.AutoShoot;
+import frc.robot.Subsystems.Shooter.LimelightAutoShoot;
 import frc.robot.Subsystems.Shooter.LimelightAutoShootTarmac;
 import frc.robot.Subsystems.Shooter.Shoot;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
@@ -87,7 +88,12 @@ public class RobotContainer {
     SmartDashboard.putData(new A0_CalibrateClimber(m_climberSubsystem));
 
     LimelightSubsystem.initialize();
-    LimelightSubsystem.setDriverMode();
+    if(Constants.tuningMode){
+      LimelightSubsystem.setVisionMode();
+    }
+    else{
+      LimelightSubsystem.setDriverMode();
+    }
 
     // Configure the button bindings
     configureButtonBindings();
@@ -120,7 +126,6 @@ public class RobotContainer {
 
     if(Constants.tuningMode){
       SmartDashboard.putData("Test Shooter", new TestShoot(m_towerSubsystem, m_shooterSubystem));
-      SmartDashboard.putNumber("Limelight Y offset", m_limelightSubsystem.getYOffset());
     }
   } 
 
@@ -137,12 +142,16 @@ public class RobotContainer {
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kBack)
         .whenPressed(m_driveSubsystem::zeroGyroscope, m_driveSubsystem);
 
+    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kA)
+        .whileHeld(new LimelightAim(m_driveSubsystem, m_limelightSubsystem, false, false));
+  
     // Auto Aim Limelight
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kB)
       .whileHeld(new LimelightAim(m_driveSubsystem, m_limelightSubsystem, true, false));
 
-    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kA)
-      .whileHeld(new LimelightAim(m_driveSubsystem, m_limelightSubsystem, false, false));
+
+    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kY)
+      .whileHeld(new LimelightAutoShoot(m_shooterSubystem, m_towerSubsystem, m_limelightSubsystem, m_driveSubsystem));
 
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kX)
       .whileHeld(new LimelightAutoShootTarmac(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_limelightSubsystem));
@@ -155,25 +164,25 @@ public class RobotContainer {
 
     //Shoot lower hub
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kA)
-      .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kLowerHubVelocity, ShooterConstants.kLowerHubGains, Value.kForward));
+      .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kLowerHubVelocity, ShooterConstants.kShooterGains, Value.kForward));
 
     //Shoot Upper Hub
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kB)
-      .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse));
-
-    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadRight)
-      .whileActiveContinuous(new Shoot(m_shooterSubystem, ShooterConstants.kUpperHubFenderVelocity, Value.kReverse));
+      .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kShooterGains, Value.kReverse));
 
     // Shoot Tarmac
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
       .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kTarmacVelocity, ShooterConstants.kShooterGains, Value.kForward));
 
-    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadUp)
-      .whileActiveContinuous(new Shoot(m_shooterSubystem, ShooterConstants.kTarmacVelocity, Value.kForward));
-
     //Shoot Ranging
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kX)
       .whenHeld(new Shoot(m_shooterSubystem, ShooterConstants.kLaunchpadVelocity, Value.kForward));
+
+    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadRight)
+      .whileActiveContinuous(new Shoot(m_shooterSubystem, ShooterConstants.kUpperHubFenderVelocity, Value.kReverse));
+
+    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadUp)
+      .whileActiveContinuous(new Shoot(m_shooterSubystem, ShooterConstants.kTarmacVelocity, Value.kForward));
 
 
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kBack)

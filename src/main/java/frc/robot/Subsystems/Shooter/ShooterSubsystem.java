@@ -110,10 +110,12 @@ public class ShooterSubsystem extends SubsystemBase
          m_motorRight.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 255);
 
          //sets default numbers for dashboard
-         kPTest.setDefault(ShooterConstants.kTestGains.kP);
-         kITest.setDefault(ShooterConstants.kTestGains.kI);
-         kDTest.setDefault(ShooterConstants.kTestGains.kD);
-         //kFTest.setDefault(ShooterConstants.kTestGains.kF);
+         kPTest.setDefault(ShooterConstants.kShooterGains.kP);
+         kITest.setDefault(ShooterConstants.kShooterGains.kI);
+         kDTest.setDefault(ShooterConstants.kShooterGains.kD);
+         kFTest.setDefault(ShooterConstants.kShooterGains.kF);
+         kIzoneTest.setDefault(ShooterConstants.kShooterGains.kIzone);
+         
          kShooterSetpoint.setDefault(0.0);
 
      }

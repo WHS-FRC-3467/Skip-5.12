@@ -11,6 +11,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightSubsystem extends SubsystemBase {
@@ -22,6 +23,7 @@ public class LimelightSubsystem extends SubsystemBase {
 	public LimelightSubsystem() {
 	}
 
+
   	public static void initialize(){
 		ShuffleboardTab dashboardTab = Shuffleboard.getTab("Driver Dash");
 		limelightFeed = new HttpCamera("limelight", "http://limelight.local:5809/stream.mjpg");
@@ -31,8 +33,8 @@ public class LimelightSubsystem extends SubsystemBase {
   	}
 	@Override
 	public void periodic() {
-    	// This method will be called once per scheduler run
-  	}
+		SmartDashboard.putNumber("Limelight Y offset", getYOffset());
+	}
  	 public static enum CameraMode {
 		eVision, eDriver
 	}

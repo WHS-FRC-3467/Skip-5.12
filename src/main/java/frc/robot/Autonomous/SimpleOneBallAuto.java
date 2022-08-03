@@ -37,7 +37,7 @@ public class SimpleOneBallAuto extends SequentialCommandGroup {
       //Reset drive encoders to zero
       new InstantCommand(m_drive::resetDriveEncoders),
       //Shoot one ball
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kUpperHubFenderGains, Value.kReverse),
+      new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kShooterGains, Value.kReverse),
       //Drive back
       new BasicAutoDrive(drive, 3, 0.0, -1.0, 0.0)
     );
