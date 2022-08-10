@@ -23,7 +23,7 @@ public class ShooterSubsystem extends SubsystemBase
     /* Hardware */
     TalonFX m_motorLeft = new TalonFX(CanConstants.ShooterLeft);
     TalonFX m_motorRight = new TalonFX(CanConstants.ShooterRight);
-    DoubleSolenoid m_hood = new DoubleSolenoid(PneumaticsModuleType.REVPH, PHConstants.HoodForwardSolenoid, PHConstants.HoodReverseSolenoid);
+    DoubleSolenoid m_hood = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, PHConstants.HoodForwardSolenoid, PHConstants.HoodReverseSolenoid);
 
     /* Gains */
      double m_kP = 0.0;

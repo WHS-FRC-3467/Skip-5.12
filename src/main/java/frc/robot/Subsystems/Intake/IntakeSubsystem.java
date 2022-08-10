@@ -17,7 +17,7 @@ import frc.robot.Constants.PHConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
   //Initializes solenoid and talon
-  DoubleSolenoid m_intakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, PHConstants.IntakeForwardSolenoid, PHConstants.IntakeReverseSolenoid);
+  DoubleSolenoid m_intakePiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, PHConstants.IntakeForwardSolenoid, PHConstants.IntakeReverseSolenoid);
   TalonFX m_intakeMotor = new TalonFX(CanConstants.IntakeMotor);
 
   /** Creates a new IntakeSubsystem. */

@@ -16,9 +16,9 @@ import frc.robot.Constants.PHConstants;
 public class ClimberSubsystem extends SubsystemBase {
 
   // Solenoid control
-  DoubleSolenoid m_fixedClimberPiston = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+  DoubleSolenoid m_fixedClimberPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
       PHConstants.FixedClimberVerticalSolenoid, PHConstants.FixedClimberAngledSolenoid);
-  DoubleSolenoid m_extendingClimberPiston = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+  DoubleSolenoid m_extendingClimberPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
       PHConstants.ExtendingClimberAngledSolenoid, PHConstants.ExtendingClimberVerticalSolenoid);
 
   // Climber Winch Motors

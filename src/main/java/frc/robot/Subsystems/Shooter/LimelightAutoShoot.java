@@ -83,7 +83,15 @@ public class LimelightAutoShoot extends CommandBase {
     //fixed clamp logic here
     //increased limits to 1.5 now that we are slowing down approaching target
     //feel free to lower these, or divide by a bigger number if oscillations occur
+    //Was 6 now 2 after limelight
     m_rotation = Math.max(-1.5, Math.min(1.5, deltaX/6.0));
+
+    if(m_rotation < 0.4 && m_rotation > 0){
+      m_rotation = 0.4;
+    }
+    else if( m_rotation > -0.4 && m_rotation < 0.0){
+      m_rotation = -0.4;
+    }
 
     m_drive.drive(new ChassisSpeeds(0, 0, -m_rotation));
     
@@ -104,7 +112,11 @@ public class LimelightAutoShoot extends CommandBase {
         m_tower.driveWholeTower(0.0);
       }
     }
+    System.out.println(errorX + " errorX");
+    System.out.println(m_shooter.isWheelAtSpeed() + "at speed");
+    System.out.println(m_rotation + " m_rotation");
   }
+
 
   // Called once the command ends or is interrupted.
   @Override

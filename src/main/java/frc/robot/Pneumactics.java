@@ -11,20 +11,18 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Control.XBoxControllerEE;
+// import frc.robot.Control.XBoxControllerEE;
 
 public class Pneumactics extends SubsystemBase{
   /** Creates a new Pneumactics. */
-  Compressor phCompressor = new Compressor(PneumaticsModuleType.REVPH);
+  Compressor phCompressor = new Compressor(PneumaticsModuleType.CTREPCM);
   PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
 
   PneumaticHub m_hub = new PneumaticHub();
   
-  private final XBoxControllerEE m_operatorController = new XBoxControllerEE(1);
+  // private final XBoxControllerEE m_operatorController = new XBoxControllerEE(1);
 
 
-  boolean enabled = phCompressor.enabled();
-  boolean pressureSwitch = phCompressor.getPressureSwitchValue();
   double current = phCompressor.getPressure();
 
   public Pneumactics() {
@@ -35,13 +33,14 @@ public class Pneumactics extends SubsystemBase{
   public void periodic() {
     pdh.clearStickyFaults();
     
-    if(m_operatorController.getDpadDown()){
-      phCompressor.enableAnalog(35, 40);
-    }
-    else {
-      phCompressor.enableAnalog(119, 120);
-    }
-    
+    // if(m_operatorController.getDpadDown()){
+    //   phCompressor.enableAnalog(35, 40);
+    // }
+    // else {
+    //   phCompressor.enableAnalog(119, 120);
+    // }
+    phCompressor.enableDigital();
+
     SmartDashboard.putNumber("Pressure", phCompressor.getPressure());
   }
 }
