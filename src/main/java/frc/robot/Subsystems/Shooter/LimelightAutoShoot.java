@@ -24,8 +24,8 @@ public class LimelightAutoShoot extends CommandBase {
   ShooterSubsystem m_shooter;
   DriveSubsystem m_drive;
   LimelightSubsystem m_limelight;
-  double m_velocity, deltaY, count, m_rotation, m_translationY, m_targetThreshold, deltaX, deltaYTargetTarmac, errorX, errorY; 
-
+  double m_velocity, m_closeVelocity, deltaY, m_rotation, m_translationY, m_targetThreshold, deltaX, deltaYTargetTarmac, errorX, errorY; 
+  int count;
   NetworkTable table;
   NetworkTableEntry tx, ty, ta, tv;
   boolean m_waitForTarget, m_hasTarget;
@@ -58,6 +58,7 @@ public class LimelightAutoShoot extends CommandBase {
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     tv = table.getEntry("tv");
+    count = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -79,6 +80,7 @@ public class LimelightAutoShoot extends CommandBase {
     
     //gets absolute distance from the center of the target.
 	  errorX = Math.abs(deltaX);
+    
 	  
     //fixed clamp logic here
     //increased limits to 1.5 now that we are slowing down approaching target
@@ -86,32 +88,62 @@ public class LimelightAutoShoot extends CommandBase {
     //Was 6 now 2 after limelight
     m_rotation = Math.max(-1.5, Math.min(1.5, deltaX/6.0));
 
-    if(m_rotation < 0.4 && m_rotation > 0){
-      m_rotation = 0.4;
+    if(deltaY>20.0){
+      m_translationY = -1.0; 
     }
-    else if( m_rotation > -0.4 && m_rotation < 0.0){
-      m_rotation = -0.4;
+    else if(deltaY>11.0 && deltaY<12.0){
+      m_translationY = -1.0; 
+    }
+    else if(deltaY<-10.0){
+      m_translationY = 1.0;
+    }
+    else{
+      m_translationY = 0.0;
     }
 
-    m_drive.drive(new ChassisSpeeds(0, 0, -m_rotation));
+
+    if(m_rotation < 0.5 && m_rotation > 0){
+      m_rotation = 0.5;
+    }
+    else if( m_rotation > -0.5 && m_rotation < 0.0){
+      m_rotation = -0.5;
+    }
     
-    //Zero is tarmac velocity
-    m_velocity = 2270.8 * Math.pow(Math.E, -0.01 * deltaY);
-
+    
+    double X = deltaY;
+    m_velocity = 2234 + (-25.5)*X + (3.3* Math.pow(X, 2.0)) + (-0.231* Math.pow(X, 3.0));
+    m_closeVelocity = X;
     //Runs shooter at detemined velocity
-    m_shooter.shoot(m_velocity, Value.kForward);  
+    if(deltaY<11){
+      m_shooter.shoot(m_velocity, Value.kForward);  
+    } else{
+      m_shooter.shoot(m_closeVelocity, Value.kReverse);
+    }
+   
 
     //tightened tolerances to +/- 1 degree now that we are 
     //slowing down as the robot is approaching the target
-    if((errorX < 0.5) && m_hasTarget){
+    if((errorX < 1.0) && m_hasTarget){
+      m_drive.drive(new ChassisSpeeds(0, 0, 0));
+      count = count+1;
+
+
       if(m_shooter.isWheelAtSpeed()){
-        m_tower.driveWholeTower(TowerConstants.STANDARD_TOWER_SPEED);
+        if (count > 10){
+          m_tower.driveWholeTower(TowerConstants.STANDARD_TOWER_SPEED);
+        }
       }
       else{
+        
       // else it will stop tower
         m_tower.driveWholeTower(0.0);
       }
     }
+    else{
+      count = 0;
+      m_drive.drive(new ChassisSpeeds(-m_translationY, 0, -m_rotation));
+    }
+    System.out.println(count + " count");
     System.out.println(errorX + " errorX");
     System.out.println(m_shooter.isWheelAtSpeed() + "at speed");
     System.out.println(m_rotation + " m_rotation");
@@ -124,6 +156,7 @@ public class LimelightAutoShoot extends CommandBase {
     //stops tower and shooter 
     m_shooter.stopShooter();
     m_tower.driveWholeTower(0.0);
+    LimelightSubsystem.setDriverMode();
   }
 
   // Returns true when the command should end.
