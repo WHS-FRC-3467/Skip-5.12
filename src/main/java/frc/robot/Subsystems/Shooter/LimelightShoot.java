@@ -4,7 +4,6 @@
 
 package frc.robot.Subsystems.Shooter;
 
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -12,20 +11,16 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.TowerConstants;
 import frc.robot.Feedback.Cameras.LimelightSubsystem;
-import frc.robot.Subsystems.Drive.DriveSubsystem;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
 
-public class LimelightAutoShoot extends CommandBase {
+public class LimelightShoot extends CommandBase {
   /** Creates a new LimelightShoot. */
 
   //Must be followed by Limelight Aim
 
   TowerSubsystem m_tower;
   ShooterSubsystem m_shooter;
-  DriveSubsystem m_drive;
-  LimelightSubsystem m_limelight;
-  double m_velocity, m_closeVelocity, deltaY, m_rotation, m_translationY, m_targetThreshold, deltaX, deltaYTargetTarmac, errorX, errorY; 
-  int count;
+  double m_velocity, deltaY, deltaX, errorX, errorY; 
   NetworkTable table;
   NetworkTableEntry tx, ty, ta, tv;
   boolean m_waitForTarget, m_hasTarget;
@@ -36,13 +31,11 @@ public class LimelightAutoShoot extends CommandBase {
    * @param tower Tower Subsystem
    * @param limelight LimelightSubsystem
    */
-  public LimelightAutoShoot(ShooterSubsystem shooter, TowerSubsystem tower, LimelightSubsystem limelight, DriveSubsystem drive) {
+  public LimelightShoot(ShooterSubsystem shooter, TowerSubsystem tower) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooter = shooter;
-    m_limelight = limelight; 
     m_tower = tower; 
-    m_drive = drive;
-    addRequirements(m_shooter, m_tower, m_limelight, m_drive);
+    addRequirements(m_shooter, m_tower);
   }
 
   // Called when the command is initially scheduled.
@@ -58,18 +51,14 @@ public class LimelightAutoShoot extends CommandBase {
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     tv = table.getEntry("tv");
-    count = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    //Updates network table variables
-    tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     tv = table.getEntry("tv");
-    m_hasTarget = tv.getDouble(1.0) == 1.0;
 	  //removed ta since it's unused and slows the loop
 	
     // get current X-axis target delta from center of image, in degrees.
@@ -82,53 +71,21 @@ public class LimelightAutoShoot extends CommandBase {
 	  errorX = Math.abs(deltaX);
     
 	  
-    //fixed clamp logic here
-    //increased limits to 1.5 now that we are slowing down approaching target
-    //feel free to lower these, or divide by a bigger number if oscillations occur
-    //Was 6 now 2 after limelight
-    m_rotation = Math.max(-1.5, Math.min(1.5, deltaX/6.0));
-
-    if(deltaY>12.0){
-      m_translationY = -1.0; 
-    }
-    else if(deltaY<-10.0){
-      m_translationY = 1.0;
-    }
-    else{
-      m_translationY = 0.0;
-    }
-
-
-    if(m_rotation < 0.5 && m_rotation > 0){
-      m_rotation = 0.5;
-    }
-    else if( m_rotation > -0.5 && m_rotation < 0.0){
-      m_rotation = -0.5;
-    }
-    
+   
     
     double X = deltaY;
     m_velocity = 2234 + (-25.5)*X + (3.3* Math.pow(X, 2.0)) + (-0.231* Math.pow(X, 3.0));
-    m_closeVelocity = X;
     //Runs shooter at detemined velocity
-    if(deltaY<11){
-      m_shooter.shoot(m_velocity, Value.kForward);  
-    } else{
-      m_shooter.shoot(m_closeVelocity, Value.kReverse);
-    }
+    m_shooter.shoot(m_velocity, Value.kForward);  
+    
    
 
     //tightened tolerances to +/- 1 degree now that we are 
     //slowing down as the robot is approaching the target
-    if((errorX < 1.0) && m_hasTarget){
-      m_drive.drive(new ChassisSpeeds(0, 0, 0));
-      count = count+1;
-
-
+    if(errorX < 1.0){
       if(m_shooter.isWheelAtSpeed()){
-        if (count > 10){
-          m_tower.driveWholeTower(TowerConstants.STANDARD_TOWER_SPEED);
-        }
+        m_tower.driveWholeTower(TowerConstants.STANDARD_TOWER_SPEED);
+      
       }
       else{
         
@@ -136,14 +93,9 @@ public class LimelightAutoShoot extends CommandBase {
         m_tower.driveWholeTower(0.0);
       }
     }
-    else{
-      count = 0;
-      m_drive.drive(new ChassisSpeeds(-m_translationY, 0, -m_rotation));
-    }
-    System.out.println(count + " count");
+    
     System.out.println(errorX + " errorX");
     System.out.println(m_shooter.isWheelAtSpeed() + "at speed");
-    System.out.println(m_rotation + " m_rotation");
   }
 
 
