@@ -28,7 +28,11 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
+import frc.robot.Constants.GlobalConstants;
+import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.RobotConstants;
+import frc.robot.Util.FieldRelativeAccel;
+import frc.robot.Util.FieldRelativeSpeed;
 
 import static frc.robot.Constants.DriveConstants;
 
@@ -104,6 +108,11 @@ public class DriveSubsystem extends SubsystemBase {
         //initializes chasisisSpeeds
         private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
+        private FieldRelativeSpeed m_fieldRelVel = new FieldRelativeSpeed();  
+        private FieldRelativeSpeed m_lastFieldRelVel = new FieldRelativeSpeed();
+        private FieldRelativeAccel m_fieldRelAccel = new FieldRelativeAccel();
+
+      
         public DriveSubsystem() {
                 //Creates a tab for the drive train
                 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
@@ -188,7 +197,9 @@ public class DriveSubsystem extends SubsystemBase {
 
         @Override
         public void periodic() {
-
+                m_fieldRelVel = new FieldRelativeSpeed(m_chassisSpeeds, getGyroscopeRotation());
+                m_fieldRelAccel = new FieldRelativeAccel(m_fieldRelVel, m_lastFieldRelVel, GlobalConstants.kLoopTime);
+            
                 //updates odometry network table
                 odometryEntry.setString(getCurrentPose().toString());
 
@@ -208,17 +219,21 @@ public class DriveSubsystem extends SubsystemBase {
                 m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[3].angle.getRadians());
 
+                
                 //Updates the odometry
                 m_odometry.update(getGyroscopeRotation(), states);
+                
                 //Updates Field2d
                 m_field.setRobotPose(m_odometry.getPoseMeters());
                 //Puts feild on dashboard
                 SmartDashboard.putData(m_field);
+
         }
 
         //Sets the front of the robot to the direction that the robot is facing when command is called
+        //Limelight is front of robot
         public void zeroGyroscope() {
-                m_pigeon.setYaw(0.0);
+                m_pigeon.setYaw(180.0);
         }
 
         /**
@@ -308,7 +323,7 @@ public class DriveSubsystem extends SubsystemBase {
         public void actuateModulesAuto(SwerveModuleState[] states){
                 drive(m_kinematics.toChassisSpeeds(states));
         }   
-           
+        
         /**
          * @param value The value of the joystick that will be modified
          * @param exponent The power to which the joystick will be raised to 
@@ -318,6 +333,32 @@ public class DriveSubsystem extends SubsystemBase {
                 double deadValue = MathUtil.applyDeadband(value, DriveConstants.kDeadBand);
                 double quarticValue = Math.copySign(Math.pow(deadValue, exponent), deadValue);
                 return quarticValue;
+        }
+
+        public FieldRelativeSpeed getFieldRelativeSpeed() {
+                return m_fieldRelVel;
+        }
+            
+        public FieldRelativeAccel getFieldRelativeAccel() {
+                return m_fieldRelAccel;
+        }
+        
+        public Pose2d updatePoseFromVision(double distance){
+                Translation2d goal = GoalConstants.kGoalLocation;
+                double rX = goal.getX() - distance * Math.cos(getGyroscopeRotation().getRadians());
+                double rY = goal.getY() - distance * Math.sin(getGyroscopeRotation().getRadians());
+                m_field.setRobotPose(new Pose2d(rX, rY, new Rotation2d(-getGyroscopeRotation().getRadians())));
+                return new Pose2d(rX, rY, new Rotation2d(-getGyroscopeRotation().getRadians()));
+        }
+
+        public void setPose(Pose2d pose) {
+                m_odometry.resetPosition(pose, getGyroscopeRotation());
+        }
+            
+        public void updatePoseAgainstHub(){
+                Rotation2d rot = new Rotation2d(-Math.toRadians(110.56)-(110.56));
+                Pose2d pose = new Pose2d(7.78, 2.87, rot);
+                m_odometry.resetPosition(pose, rot);
         }
 }
 

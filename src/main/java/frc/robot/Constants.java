@@ -134,6 +134,8 @@ public final class Constants {
         //kF is 1023/20660
         public static final Gains kShooterGains = new Gains(0.1, 0.0001, 5, 0.0495, 300, 1.0);
 
+        public static final double kAccelCompFactor = 0.100; // in units of seconds
+
         // public static final Gains kLowerHubGains = new Gains(0.01, 0.0, 1.05, 1023/20660, 0, 1.0);
 
         // public static final Gains kUpperHubFenderGains = new Gains(0.035, 0.0, 0.9, 1023/20660, 0, 1.0);
@@ -184,4 +186,15 @@ public final class Constants {
         public static final double kFixedArmsFree = 70000.0;
         public static final double kFullExtendedPosition = 205000.0;
     }
+    
+    public static final class GoalConstants {
+        public static final Translation2d kGoalLocation = new Translation2d(8.23, 4.115);
+        public static final Translation2d kWrongBallGoal = new Translation2d(5.50, 4.115);
+        public static final Translation2d kHangerLocation = new Translation2d(2.00, 6.00);
+    }
+    public static final class GlobalConstants {
+        public static final double kVoltCompensation = 12.6; // Sets a voltage compensation value ideally 12.6V
+        public static final double kLoopTime = 0.020;
+    }
+
 }

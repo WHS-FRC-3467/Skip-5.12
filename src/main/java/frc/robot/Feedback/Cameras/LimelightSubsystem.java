@@ -128,7 +128,12 @@ public class LimelightSubsystem extends SubsystemBase {
 	private static NetworkTableEntry getValue(String key){
 		return table.getTable("limelight").getEntry(key);
 	}
-	public double getYOffset(){
+	public static double getYOffset(){
 		return getValue("ty").getDouble(0.0);
 	};
+
+	// returns meters from center of hub to gyro
+	public static double getMeters(){
+		return (-0.102*getYOffset()) + 3.96;
+	}
 }

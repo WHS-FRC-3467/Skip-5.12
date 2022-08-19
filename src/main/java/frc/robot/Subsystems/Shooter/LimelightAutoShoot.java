@@ -106,16 +106,16 @@ public class LimelightAutoShoot extends CommandBase {
       m_rotation = -0.5;
     }
     
+    double X = (-0.102*deltaY) + 3.96;
+    m_velocity = -7309 + (7987)*X + (-2271* Math.pow(X, 2.0)) + (218* Math.pow(X, 3.0));
+
     
-    double X = deltaY;
-    m_velocity = 2234 + (-25.5)*X + (3.3* Math.pow(X, 2.0)) + (-0.231* Math.pow(X, 3.0));
+    // double X = deltaY;
+    // m_velocity = 2234 + (-25.5)*X + (3.3* Math.pow(X, 2.0)) + (-0.231* Math.pow(X, 3.0));
     m_closeVelocity = X;
     //Runs shooter at detemined velocity
-    if(deltaY<11){
-      m_shooter.shoot(m_velocity, Value.kForward);  
-    } else{
-      m_shooter.shoot(m_closeVelocity, Value.kReverse);
-    }
+    m_shooter.shoot(m_velocity, Value.kForward);  
+    
    
 
     //tightened tolerances to +/- 1 degree now that we are 

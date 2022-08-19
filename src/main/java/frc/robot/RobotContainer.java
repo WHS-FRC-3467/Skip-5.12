@@ -36,7 +36,7 @@ import frc.robot.Subsystems.Intake.IntakeSubsystem;
 import frc.robot.Subsystems.Shooter.AutoShoot;
 import frc.robot.Subsystems.Shooter.LimelightAutoShoot;
 import frc.robot.Subsystems.Shooter.LimelightAutoShootTarmac;
-import frc.robot.Subsystems.Shooter.LimelightShoot;
+import frc.robot.Subsystems.Shooter.ShootWhileMove;
 import frc.robot.Subsystems.Shooter.Shoot;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
 import frc.robot.Subsystems.Shooter.TestShoot;
@@ -143,8 +143,11 @@ public class RobotContainer {
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kBack)
         .whenPressed(m_driveSubsystem::zeroGyroscope, m_driveSubsystem);
 
+    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kStart)
+        .whenPressed(m_driveSubsystem::updatePoseAgainstHub, m_driveSubsystem);
+
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kA)
-        .whileHeld(new LimelightShoot(m_shooterSubystem, m_towerSubsystem));
+        .whileHeld(new ShootWhileMove(m_shooterSubystem, m_towerSubsystem, m_driveSubsystem));
   
     // Auto Aim Limelight
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kB)
