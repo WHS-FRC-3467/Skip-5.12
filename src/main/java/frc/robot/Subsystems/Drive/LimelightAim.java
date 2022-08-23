@@ -45,7 +45,7 @@ public class LimelightAim extends CommandBase {
     
     //Puts limelight into threshold mode where it can see the goal
     //Turns on LEDs
-    LimelightSubsystem.setVisionMode();
+    //LimelightSubsystem.setVisionMode();
 
     //gets limelight network table entries
     tx = table.getEntry("tx");
@@ -115,7 +115,7 @@ public class LimelightAim extends CommandBase {
     m_drive.drive(new ChassisSpeeds(0, 0, 0));
 
     System.out.println("end LimelightAim");
-    LimelightSubsystem.setDriverMode();
+    //LimelightSubsystem.setDriverMode();
   }
 
   @Override

@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -31,6 +32,7 @@ import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.RobotConstants;
+import frc.robot.Feedback.Cameras.LimelightSubsystem;
 import frc.robot.Util.FieldRelativeAccel;
 import frc.robot.Util.FieldRelativeSpeed;
 
@@ -219,10 +221,15 @@ public class DriveSubsystem extends SubsystemBase {
                 m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[3].angle.getRadians());
 
-                
-                //Updates the odometry
-                m_odometry.update(getGyroscopeRotation(), states);
-                
+
+                if(LimelightSubsystem.hasTarget()|| LimelightSubsystem.linedUp()){
+                        double distance = LimelightSubsystem.getMeters();
+                        setPose(updatePoseFromVision(distance));
+                }
+                else{
+                        m_odometry.update(getGyroscopeRotation(), states);
+                }
+
                 //Updates Field2d
                 m_field.setRobotPose(m_odometry.getPoseMeters());
                 //Puts feild on dashboard
@@ -295,6 +302,7 @@ public class DriveSubsystem extends SubsystemBase {
         public Rotation2d getGyroscopeRotation() {
                 return Rotation2d.fromDegrees(m_pigeon.getYaw());
         }
+
         /** 
          * @return pitch of robot
          */

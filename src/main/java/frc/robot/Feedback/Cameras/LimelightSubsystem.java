@@ -136,4 +136,20 @@ public class LimelightSubsystem extends SubsystemBase {
 	public static double getMeters(){
 		return (-0.102*getYOffset()) + 3.96;
 	}
+
+
+	public static boolean hasTarget() {
+		return getValue("tv").getDouble(0.0) == 1.0;
+	}
+
+
+	public static boolean linedUp() {
+		if(getValue("tx").getDouble(0.0) > 1.0)
+		{
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }

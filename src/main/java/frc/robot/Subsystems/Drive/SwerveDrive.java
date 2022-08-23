@@ -6,7 +6,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Control.XBoxControllerEE;
-import frc.robot.Feedback.Cameras.LimelightSubsystem;
 import frc.robot.Util.ModifyAxis;
 
 import java.util.function.DoubleSupplier;
@@ -79,7 +78,7 @@ public class SwerveDrive extends CommandBase{
             table = NetworkTableInstance.getDefault().getTable("limelight");
 
             //Turns on 
-            LimelightSubsystem.setVisionMode();
+            //LimelightSubsystem.setVisionMode();
                     
             //Updates network table variables
             tx = table.getEntry("tx");

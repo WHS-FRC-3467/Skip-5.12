@@ -89,12 +89,8 @@ public class RobotContainer {
     SmartDashboard.putData(new A0_CalibrateClimber(m_climberSubsystem));
 
     LimelightSubsystem.initialize();
-    if(Constants.tuningMode){
-      LimelightSubsystem.setVisionMode();
-    }
-    else{
-      LimelightSubsystem.setDriverMode();
-    }
+    LimelightSubsystem.setVisionMode();
+    
 
     // Configure the button bindings
     configureButtonBindings();

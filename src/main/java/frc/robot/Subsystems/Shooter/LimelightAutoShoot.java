@@ -52,7 +52,7 @@ public class LimelightAutoShoot extends CommandBase {
     table = NetworkTableInstance.getDefault().getTable("limelight");
 
     //Turns on 
-    LimelightSubsystem.setVisionMode();
+    //LimelightSubsystem.setVisionMode();
 
     //Initializes network table member variables
     tx = table.getEntry("tx");
@@ -153,7 +153,7 @@ public class LimelightAutoShoot extends CommandBase {
     //stops tower and shooter 
     m_shooter.stopShooter();
     m_tower.driveWholeTower(0.0);
-    LimelightSubsystem.setDriverMode();
+    //LimelightSubsystem.setDriverMode();
   }
 
   // Returns true when the command should end.
