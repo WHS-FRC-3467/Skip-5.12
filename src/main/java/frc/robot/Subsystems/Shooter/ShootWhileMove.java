@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystems.Shooter;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TowerConstants;
+import frc.robot.Feedback.Cameras.LimelightSubsystem;
 import frc.robot.Subsystems.Drive.DriveSubsystem;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
 import frc.robot.Util.FieldRelativeAccel;
@@ -52,7 +54,7 @@ public class ShootWhileMove extends CommandBase {
     table = NetworkTableInstance.getDefault().getTable("limelight");
 
     //Turns on 
-    //LimelightSubsystem.setVisionMode();
+    LimelightSubsystem.setVisionMode();
 
     //Initializes network table member variables
     tx = table.getEntry("tx");
@@ -92,8 +94,8 @@ public class ShootWhileMove extends CommandBase {
 
     double newDist = toMovingGoal.getDistance(new Translation2d()) * 39.37;
 
-    // Pose2d newPose = m_drive.updatePoseFromVision(LimelightSubsystem.getMeters());
-    // m_drive.setPose(newPose);  
+    Pose2d newPose = m_drive.updatePoseFromVision(LimelightSubsystem.getMeters());
+    m_drive.setPose(newPose);  
 
     
     double X = newDist;
@@ -140,7 +142,7 @@ public class ShootWhileMove extends CommandBase {
     //stops tower and shooter 
     m_shooter.stopShooter();
     m_tower.driveWholeTower(0.0);
-    //LimelightSubsystem.setDriverMode();
+    LimelightSubsystem.setDriverMode();
   }
 
   // Returns true when the command should end.

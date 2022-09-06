@@ -40,7 +40,7 @@ public class BasicLimelightAim extends CommandBase {
 
     //Puts limelight into threshold mode where it can see the goal
     //Turns on LEDs
-    // LimelightSubsystem.setVisionMode();
+    LimelightSubsystem.setVisionMode();
 
     //gets limelight network table entries
     tx = table.getEntry("tx");
@@ -99,7 +99,7 @@ public class BasicLimelightAim extends CommandBase {
 
     System.out.println("end BasicLimelightAim");
     //Puts limelight back into color vision and turns of LEDS
-    //LimelightSubsystem.setDriverMode();
+    LimelightSubsystem.setDriverMode();
   }
 
   @Override

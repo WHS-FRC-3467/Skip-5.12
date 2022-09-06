@@ -89,7 +89,7 @@ public class RobotContainer {
     SmartDashboard.putData(new A0_CalibrateClimber(m_climberSubsystem));
 
     LimelightSubsystem.initialize();
-    LimelightSubsystem.setVisionMode();
+    LimelightSubsystem.setDriverMode();
     
 
     // Configure the button bindings
@@ -155,9 +155,6 @@ public class RobotContainer {
 
     new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kX)
       .whileHeld(new LimelightAutoShootTarmac(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_limelightSubsystem));
-
-
-
 
 
     //Operator controller    

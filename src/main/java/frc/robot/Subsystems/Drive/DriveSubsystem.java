@@ -21,7 +21,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -32,7 +31,6 @@ import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.RobotConstants;
-import frc.robot.Feedback.Cameras.LimelightSubsystem;
 import frc.robot.Util.FieldRelativeAccel;
 import frc.robot.Util.FieldRelativeSpeed;
 
@@ -222,13 +220,8 @@ public class DriveSubsystem extends SubsystemBase {
                                 states[3].angle.getRadians());
 
 
-                if(LimelightSubsystem.hasTarget()|| LimelightSubsystem.linedUp()){
-                        double distance = LimelightSubsystem.getMeters();
-                        setPose(updatePoseFromVision(distance));
-                }
-                else{
-                        m_odometry.update(getGyroscopeRotation(), states);
-                }
+                
+                m_odometry.update(getGyroscopeRotation(), states);
 
                 //Updates Field2d
                 m_field.setRobotPose(m_odometry.getPoseMeters());

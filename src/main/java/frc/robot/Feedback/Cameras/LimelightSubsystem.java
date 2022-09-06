@@ -4,8 +4,6 @@
 
 package frc.robot.Feedback.Cameras;
 
-import java.util.Map;
-
 import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -27,14 +25,15 @@ public class LimelightSubsystem extends SubsystemBase {
   	public static void initialize(){
 		ShuffleboardTab dashboardTab = Shuffleboard.getTab("Driver Dash");
 		limelightFeed = new HttpCamera("limelight", "http://limelight.local:5809/stream.mjpg");
-		dashboardTab.add("LL", limelightFeed).withPosition(1,0).withSize(12, 6).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
-		setDriverMode();
+		dashboardTab.add("LL", limelightFeed);
+
 		setStreamMode(StreamMode.ePIPMain);
   	}
 	@Override
 	public void periodic() {
 		SmartDashboard.putNumber("Limelight Y offset", getYOffset());
 	}
+	
  	 public static enum CameraMode {
 		eVision, eDriver
 	}
