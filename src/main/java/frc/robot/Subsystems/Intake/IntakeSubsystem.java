@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.Intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
@@ -22,6 +23,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
+    m_intakeMotor.configFactoryDefault();
+    m_intakeMotor.setNeutralMode(NeutralMode.Coast);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 255);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 255);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 255);
@@ -42,7 +45,7 @@ public class IntakeSubsystem extends SubsystemBase {
    * @param speed speed to set intake motor at 
    */
   public void driveIntake(double speed){
-    m_intakeMotor.set(ControlMode.PercentOutput, speed);
+    m_intakeMotor.set(ControlMode.PercentOutput, speed*0.75);
   }
   //Runs intake at full speed
   public void fullRunIntake (){

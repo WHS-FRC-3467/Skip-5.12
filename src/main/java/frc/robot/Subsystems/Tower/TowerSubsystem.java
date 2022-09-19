@@ -8,13 +8,15 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DIOConstants;
-import frc.robot.Constants.TowerConstants;
 
 public class TowerSubsystem extends SubsystemBase {
 
@@ -24,6 +26,7 @@ public class TowerSubsystem extends SubsystemBase {
   DigitalInput m_entryBeamBreak = new DigitalInput(DIOConstants.EntryBeamBreak);
   DigitalInput m_midBeamBreak = new DigitalInput(DIOConstants.MidTowerBeamBreak);
   DigitalInput m_upperBeamBreak = new DigitalInput(DIOConstants.UpperTowerBeamBreak);
+  ColorSensorV3 m_colorSensor = new ColorSensorV3(Port.kOnboard);
 
   public TowerSubsystem(){
     m_lowerTower.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 255);
@@ -48,6 +51,7 @@ public class TowerSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Entry Beam Break", m_entryBeamBreak.get());
     SmartDashboard.putBoolean("Mid Beam Break", m_midBeamBreak.get());
     SmartDashboard.putBoolean("Upper Beam Break", m_upperBeamBreak.get());
+    SmartDashboard.putNumber("Intake CS Prox", m_colorSensor.getProximity());
   }
 
   /**
@@ -82,40 +86,121 @@ public class TowerSubsystem extends SubsystemBase {
   public void fullUpperTower(){
     m_upperTower.set(ControlMode.PercentOutput, 0.75);
   }
+  public boolean intakeBall(){
+    return m_colorSensor.getProximity() > 150.0;
+  }
+  public Color getIntakeBallColor(){
+    return m_colorSensor.getColor();
+  }
+  public boolean upperBall(){
+    if(m_upperBeamBreak.get() == false){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  public boolean midBall(){
+    if(m_midBeamBreak.get() == false){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  public boolean lowerBall(){
+    if(m_entryBeamBreak.get() == false){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
   public void sendToTop(){
-    if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){
+    //5
+    if(intakeBall() == false && lowerBall() == false && midBall() == false && midBall() == false){
       //no balls
       driveWholeTower(0.0);
     }
-    else if(m_entryBeamBreak.get()==false && m_midBeamBreak.get()==true && m_upperBeamBreak.get()==true){
-      //Ball entry
-      driveWholeTower(TowerConstants.STANDARD_TOWER_SPEED);
-    }
-    else if(m_entryBeamBreak.get()==true && m_midBeamBreak.get()== false && m_upperBeamBreak.get() == true){
-      //Ball middle
-      driveWholeTower(TowerConstants.STANDARD_TOWER_SPEED);
-    }
-    else if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == false){
-      //ball upper
-      driveWholeTower(0.0);
-    }
-    else if(m_entryBeamBreak.get()==true && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == false){
-      //ball mid and upper
-      driveWholeTower(0.0);
-
-    }
-    else if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == false){
+    //10
+    else if(intakeBall() == false && lowerBall() == true && midBall() == true && upperBall() == true){
       //ball entry and upper
       driveWholeTower(0.0);
     }
-    
-    else if(m_entryBeamBreak.get() == false && m_midBeamBreak.get() == false && m_upperBeamBreak.get() == true){
-      //ball entry and middle
-      driveLowerTower(TowerConstants.STANDARD_TOWER_SPEED);
+    //2
+    else if(intakeBall() == false && lowerBall() == true && midBall() == false && midBall() == false){
+      //Ball entry
+      driveWholeTower(0.75);
     }
-    else if(m_entryBeamBreak.get() == true && m_midBeamBreak.get() == true && m_upperBeamBreak.get() == true){
-      //no balls
+    //3
+    else if(intakeBall() == false && lowerBall() == false && midBall() == true && upperBall() == false){
+      //Ball middle
+      driveWholeTower(0.75);
+    }
+    //4
+    else if(intakeBall() == false && lowerBall() == false && midBall() == false && upperBall() == true){
+      //ball upper
       driveWholeTower(0.0);
+    }
+    //8
+    else if(intakeBall() == false && lowerBall() == false && midBall() == true && upperBall() == true){
+      //ball mid and upper
+      driveWholeTower(0.0);
+    }
+    //12
+    else if(intakeBall() == false && lowerBall() == true && midBall() == false && upperBall() == true){
+      //ball entry and upper
+      driveWholeTower(0.0);
+    }
+    //7
+    else if(intakeBall() == false && lowerBall() == true && midBall() == true && upperBall() == false){
+      //ball entry and middle
+      driveWholeTower(0.75);
+    }
+
+
+    //intake balls
+    //9
+    else if(intakeBall() == true && lowerBall() == true && midBall() == true && upperBall() == false){
+      //ball entry and middle and intake
+      driveWholeTower(0.0);
+    }
+    //13
+    else if(intakeBall() == true && lowerBall() == false && midBall() == true && upperBall() == true){
+      //ball mid and upper and intake
+      driveWholeTower(0.0);
+    }
+    //14
+    else if(intakeBall() == true && lowerBall() == true && midBall() == false && upperBall() == true){
+      //ball mid and upper and intake
+      driveWholeTower(0.0);
+    }
+    //16
+    else if(intakeBall() == true && lowerBall() == true && midBall() == true && upperBall() == true){
+      //ball entry and mid and upper and intake
+      driveWholeTower(0.0);
+    }
+    //6
+    else if(intakeBall() == true && lowerBall() == true && midBall() == false && upperBall() == false){
+      //ball intake and lower
+      driveWholeTower(0.75);
+    }
+    //11
+    else if(intakeBall() == true && lowerBall() == false && midBall() == true && upperBall() == false){
+      //ball intake and mid
+      driveWholeTower(0.75);
+    }
+    //15
+    else if(intakeBall() == true && lowerBall() == false && midBall() == false && upperBall() == true){
+      //ball intake and upper
+      driveLowerTower(0.75);
+    }
+    //1
+    else if(intakeBall() == true && lowerBall() == false && midBall() == false && upperBall() == false){
+      //ball intake
+      driveLowerTower(0.75);
     }
   }
 

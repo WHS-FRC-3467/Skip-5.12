@@ -35,19 +35,19 @@ public class DriveIntake extends CommandBase {
   public void execute() {
     //if forward speed is greater than 0.2 runs intake at forwardSpeed and deploys intake
     if(m_forwardspeed.getAsDouble() > 0.2){
-       m_intake.driveIntake(m_forwardspeed.getAsDouble());
-       m_intake.deployIntake();
+       m_intake.driveIntake(-m_forwardspeed.getAsDouble());
+      //  m_intake.deployIntake();
     }
     //if forward speed is greater than 0.2 runs intake at backSpeed and deploys intake 
     if(m_backspeed.getAsDouble() > 0.2){
-      m_intake.driveIntake(-m_backspeed.getAsDouble());
-      m_intake.deployIntake();
+      m_intake.driveIntake(m_backspeed.getAsDouble());
+      // m_intake.deployIntake();
     }
     //If both speeds are less that 0.2 then it keeps intake up and doesn't drive intake
     if(m_backspeed.getAsDouble() < 0.2 && m_forwardspeed.getAsDouble() < 0.2){
       m_intake.driveIntake(0.0);
-      m_intake.retractIntake();
-   }
+      // m_intake.retractIntake();
+    }
   }
 
   // Called once the command ends or is interrupted.
