@@ -80,11 +80,11 @@ public class TowerSubsystem extends SubsystemBase {
   }
   
   public void fullLowerTower(){
-    m_lowerTower.set(ControlMode.PercentOutput, 0.75);
+    m_lowerTower.set(ControlMode.PercentOutput, 0.5);
   }
   
   public void fullUpperTower(){
-    m_upperTower.set(ControlMode.PercentOutput, 0.75);
+    m_upperTower.set(ControlMode.PercentOutput, 0.5);
   }
   public boolean intakeBall(){
     return m_colorSensor.getProximity() > 150.0;
@@ -132,7 +132,7 @@ public class TowerSubsystem extends SubsystemBase {
     //2
     else if(intakeBall() == false && lowerBall() == true && midBall() == false && midBall() == false){
       //Ball entry
-      driveWholeTower(0.75);
+      driveLowerTower(0.75);
     }
     //3
     else if(intakeBall() == false && lowerBall() == false && midBall() == true && upperBall() == false){
@@ -157,7 +157,7 @@ public class TowerSubsystem extends SubsystemBase {
     //7
     else if(intakeBall() == false && lowerBall() == true && midBall() == true && upperBall() == false){
       //ball entry and middle
-      driveWholeTower(0.75);
+      driveWholeTower(0.0);
     }
 
 
