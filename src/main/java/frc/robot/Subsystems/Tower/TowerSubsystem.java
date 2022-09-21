@@ -132,7 +132,7 @@ public class TowerSubsystem extends SubsystemBase {
     //2
     else if(intakeBall() == false && lowerBall() == true && midBall() == false && midBall() == false){
       //Ball entry
-      driveLowerTower(0.75);
+      driveLowerTower(1.0);
     }
     //3
     else if(intakeBall() == false && lowerBall() == false && midBall() == true && upperBall() == false){
@@ -195,12 +195,12 @@ public class TowerSubsystem extends SubsystemBase {
     //15
     else if(intakeBall() == true && lowerBall() == false && midBall() == false && upperBall() == true){
       //ball intake and upper
-      driveLowerTower(0.75);
+      driveLowerTower(1.0);
     }
     //1
     else if(intakeBall() == true && lowerBall() == false && midBall() == false && upperBall() == false){
       //ball intake
-      driveLowerTower(0.75);
+      driveLowerTower(1.0);
     }
   }
 

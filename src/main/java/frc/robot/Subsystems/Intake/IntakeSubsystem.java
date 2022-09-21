@@ -49,15 +49,15 @@ public class IntakeSubsystem extends SubsystemBase {
   }
   //Runs intake at full speed
   public void fullRunIntake (){
-    driveIntake(1.0);
+    driveIntake(-1.0);
   }
   //deploys intake
   public void deployIntake(){
-    m_intakePiston.set(Value.kForward);
+    m_intakePiston.set(Value.kReverse);
   } 
   //retracts intake  
   public void retractIntake(){
-    m_intakePiston.set(Value.kReverse);
+    m_intakePiston.set(Value.kForward);
   }
   //gets the position of the intake
   public Value intakeValue(){

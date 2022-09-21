@@ -7,8 +7,6 @@ package frc.robot.Feedback.Cameras;
 import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -23,9 +21,8 @@ public class LimelightSubsystem extends SubsystemBase {
 
 
   	public static void initialize(){
-		ShuffleboardTab dashboardTab = Shuffleboard.getTab("Driver Dash");
+		//ShuffleboardTab dashboardTab = Shuffleboard.getTab("Driver Dash");
 		limelightFeed = new HttpCamera("limelight", "http://limelight.local:5809/stream.mjpg");
-		dashboardTab.add("LL", limelightFeed);
 
 		setStreamMode(StreamMode.ePIPMain);
   	}

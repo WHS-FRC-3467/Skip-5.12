@@ -35,7 +35,7 @@ public class AutoDriveIntake extends CommandBase {
   @Override
   public void execute() {
     //drives intake at given speed
-    m_intake.driveIntake(m_speed);
+    m_intake.driveIntake(-m_speed);
     //runs tower beam brake send to top
     m_tower.sendToTop();
   }

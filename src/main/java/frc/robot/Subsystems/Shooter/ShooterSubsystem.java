@@ -124,9 +124,6 @@ public class ShooterSubsystem extends SubsystemBase
     @Override
     public void periodic() {
         //Puts numbers to smart dashboard
-        SmartDashboard.putNumber("Left Motor Current", getLeftMotorCurrent());
-        SmartDashboard.putNumber("Right Motor Current", getRightMotorCurrent());
-
         SmartDashboard.putNumber("Current Velocity", getShooterVelocity());
     }
      /**

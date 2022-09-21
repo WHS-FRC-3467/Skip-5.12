@@ -12,7 +12,7 @@ import frc.robot.Subsystems.Drive.PathResetOdometry;
 import frc.robot.Subsystems.Drive.TrajectoryFollow;
 import frc.robot.Subsystems.Intake.AutoDriveIntake;
 import frc.robot.Subsystems.Intake.IntakeSubsystem;
-import frc.robot.Subsystems.Shooter.LimelightAutoShootTarmac;
+import frc.robot.Subsystems.Shooter.LimelightAutoShoot;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
 
@@ -45,10 +45,8 @@ public class TwoBallAuto extends SequentialCommandGroup {
       new PathResetOdometry("2Ball", m_drive),
       //Drive back to ball
       new TrajectoryFollow("2Ball", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
-      //Run intake for 0.2 seconds
-      new RunCommand(m_intake::fullRunIntake, m_intake).withTimeout(0.2),
       //Shoot two balls
-      new LimelightAutoShootTarmac(m_drive, m_shooter, m_tower, m_limelight)
-      );
+      new LimelightAutoShoot(m_shooter, m_tower, m_limelight, m_drive).raceWith( new RunCommand(m_intake::fullRunIntake, m_intake)).withTimeout(5.0)
+    );
   }
 }
