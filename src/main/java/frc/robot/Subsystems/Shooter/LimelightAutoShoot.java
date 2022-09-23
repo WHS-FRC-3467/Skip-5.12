@@ -51,7 +51,7 @@ public class LimelightAutoShoot extends CommandBase {
     // Initialize parent NetworkTable
     table = NetworkTableInstance.getDefault().getTable("limelight");
 
-    //Turns on leds
+    //Turns on 
     LimelightSubsystem.setVisionMode();
 
     //Initializes network table member variables
@@ -87,7 +87,7 @@ public class LimelightAutoShoot extends CommandBase {
     //feel free to lower these, or divide by a bigger number if oscillations occur
     //Was 6 now 2 after limelight
     m_rotation = Math.max(-1.5, Math.min(1.5, deltaX/6.0));
-
+    
     if(deltaY>12.0){
       m_translationY = -1.0; 
     }
@@ -98,7 +98,6 @@ public class LimelightAutoShoot extends CommandBase {
       m_translationY = 0.0;
     }
 
-
     if(m_rotation < 0.5 && m_rotation > 0){
       m_rotation = 0.5;
     }
@@ -106,13 +105,10 @@ public class LimelightAutoShoot extends CommandBase {
       m_rotation = -0.5;
     }
     
-    double X = (-0.102*deltaY) + 3.96;
-    m_velocity = -7309 + (7987)*X + (-2271* Math.pow(X, 2.0)) + (218* Math.pow(X, 3.0));
-
     
-    // double X = deltaY;
-    // m_velocity = 2234 + (-25.5)*X + (3.3* Math.pow(X, 2.0)) + (-0.231* Math.pow(X, 3.0));
-    m_closeVelocity = X;
+    double X = deltaY;
+    m_velocity = (2234 + (-25.5)*X + (3.3* Math.pow(X, 2.0)) + (-0.231* Math.pow(X, 3.0))) +50;
+
     //Runs shooter at detemined velocity
     m_shooter.shoot(m_velocity, Value.kForward);  
     
