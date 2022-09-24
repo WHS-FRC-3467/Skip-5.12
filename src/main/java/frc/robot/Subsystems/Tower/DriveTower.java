@@ -7,6 +7,7 @@ package frc.robot.Subsystems.Tower;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Subsystems.Intake.IntakeSubsystem;
 
 public class DriveTower extends CommandBase {
   /** Creates a new DriveTower. */
@@ -35,9 +36,13 @@ public class DriveTower extends CommandBase {
     if(m_speed.getAsDouble() > 0.2 || m_speed.getAsDouble() < -0.2){
       m_tower.driveWholeTower(m_speed.getAsDouble());
     }
-    else{
-      // m_tower.sendToTop();
+    else if(IntakeSubsystem.getRunning()){
+      m_tower.sendToTopWithIntake();
     }
+    else{
+      m_tower.sendToTopNoIntake();
+    }
+
   }
 
   // Called once the command ends or is interrupted.

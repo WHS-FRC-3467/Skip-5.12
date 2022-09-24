@@ -14,7 +14,6 @@ public class DriveIntake extends CommandBase {
   
   DoubleSupplier m_forwardspeed, m_backspeed, m_towerSpeed;
   IntakeSubsystem m_intake;
-  TowerSubsystem m_tower;
 
 
   /**
@@ -23,13 +22,11 @@ public class DriveIntake extends CommandBase {
    * @param forwardspeed The speed the intake will be driven at  forward 0 to 1 
    * @param backspeed The speed the intake will be driven at in reverse 0 to 1
    */
-  public DriveIntake(IntakeSubsystem intake, TowerSubsystem tower, DoubleSupplier forwardspeed, DoubleSupplier backspeed, DoubleSupplier towerSpeed) {
+  public DriveIntake(IntakeSubsystem intake, DoubleSupplier forwardspeed, DoubleSupplier backspeed) {
     m_intake = intake;
-    m_tower = tower;
     m_forwardspeed = forwardspeed;
     m_backspeed = backspeed;
-    m_towerSpeed = towerSpeed;
-    addRequirements(m_intake, m_tower);
+    addRequirements(m_intake);
   }
 
   // Called when the command is initially scheduled.
@@ -56,15 +53,6 @@ public class DriveIntake extends CommandBase {
     }
 
 
-    if(m_towerSpeed.getAsDouble() > 0.2 || m_towerSpeed.getAsDouble() < -0.2){
-      m_tower.driveWholeTower(m_towerSpeed.getAsDouble());
-    }
-    else if(m_intake.getRunning()){
-      m_tower.sendToTopWithIntake();
-    }
-    else{
-      m_tower.sendToTopNoIntake();
-    }
   }
 
   // Called once the command ends or is interrupted.

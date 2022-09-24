@@ -21,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
   //Initializes solenoid and talon
   DoubleSolenoid m_intakePiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, PHConstants.IntakeForwardSolenoid, PHConstants.IntakeReverseSolenoid);
   TalonFX m_intakeMotor = new TalonFX(CanConstants.IntakeMotor);
-  public Boolean m_running;
+  public static Boolean m_running;
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     m_intakeMotor.configFactoryDefault();
@@ -49,7 +49,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
 
-  public boolean getRunning(){
+  public static boolean getRunning(){
     return m_running;
   }
   /**

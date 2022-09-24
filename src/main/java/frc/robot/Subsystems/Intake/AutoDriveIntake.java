@@ -22,7 +22,7 @@ public class AutoDriveIntake extends CommandBase {
     m_intake = intake;
     m_speed = speed;
     m_tower = tower;
-    addRequirements(m_intake, m_tower);
+    addRequirements(m_intake);
   }
   // Called when the command is initially scheduled.
   @Override
