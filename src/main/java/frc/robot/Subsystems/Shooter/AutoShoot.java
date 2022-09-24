@@ -33,7 +33,7 @@ public class AutoShoot extends CommandBase {
     m_hoodPosition = hoodPosition;
     m_velocity = velocity;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_shooter, m_tower);
+    addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.

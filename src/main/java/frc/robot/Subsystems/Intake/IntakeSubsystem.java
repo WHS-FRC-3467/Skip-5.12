@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.PHConstants;
@@ -20,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
   //Initializes solenoid and talon
   DoubleSolenoid m_intakePiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, PHConstants.IntakeForwardSolenoid, PHConstants.IntakeReverseSolenoid);
   TalonFX m_intakeMotor = new TalonFX(CanConstants.IntakeMotor);
-
+  public Boolean m_running;
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     m_intakeMotor.configFactoryDefault();
@@ -32,20 +33,32 @@ public class IntakeSubsystem extends SubsystemBase {
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 255);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 255);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 255);
-
+    m_running = false;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if(m_intakeMotor.getMotorOutputPercent() > 0.1 || m_intakeMotor.getMotorOutputPercent() < -0.1){
+      m_running = true;
+    }
+    else{
+      m_running = false;
+    }
+    SmartDashboard.putBoolean("running", m_running);
   }
 
+
+  public boolean getRunning(){
+    return m_running;
+  }
   /**
    * 
    * @param speed speed to set intake motor at 
    */
   public void driveIntake(double speed){
-    m_intakeMotor.set(ControlMode.PercentOutput, speed*0.75);
+    m_intakeMotor.set(ControlMode.PercentOutput, speed * 0.75);
+ 
   }
   //Runs intake at full speed
   public void fullRunIntake (){

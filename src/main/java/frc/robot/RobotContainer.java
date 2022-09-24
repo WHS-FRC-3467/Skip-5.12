@@ -40,7 +40,6 @@ import frc.robot.Subsystems.Shooter.ShootWhileMove;
 import frc.robot.Subsystems.Shooter.Shoot;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
 import frc.robot.Subsystems.Shooter.TestShoot;
-import frc.robot.Subsystems.Tower.DriveTower;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
 
 
@@ -101,12 +100,15 @@ public class RobotContainer {
                                       () -> -((m_driverController.getLeftY())) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
                                       () -> -((m_driverController.getRightX())) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
 
-    m_intakeSubsystem.setDefaultCommand(new DriveIntake(m_intakeSubsystem,
+    m_intakeSubsystem.setDefaultCommand(new DriveIntake(m_intakeSubsystem, m_towerSubsystem,
                                         () -> (m_driverController.getRightTriggerAxis()),  
-                                        () -> (m_driverController.getLeftTriggerAxis())));
+                                        () -> (m_driverController.getLeftTriggerAxis()),
+                                        () -> -m_operatorController.getLeftY()));
 
-    m_towerSubsystem.setDefaultCommand(new DriveTower(m_towerSubsystem,  
-                                      () -> -m_operatorController.getLeftY()));
+    m_towerSubsystem.setDefaultCommand(new DriveIntake(m_intakeSubsystem, m_towerSubsystem,
+                                        () -> (m_driverController.getRightTriggerAxis()),  
+                                        () -> (m_driverController.getLeftTriggerAxis()),
+                                        () -> -m_operatorController.getLeftY()));
 
     m_ledSubsystem.setDefaultCommand(new LEDDefault(m_ledSubsystem, m_towerSubsystem));
     

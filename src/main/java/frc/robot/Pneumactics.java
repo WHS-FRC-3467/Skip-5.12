@@ -5,10 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import frc.robot.Control.XBoxControllerEE;
@@ -16,9 +13,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Pneumactics extends SubsystemBase{
   /** Creates a new Pneumactics. */
   Compressor phCompressor = new Compressor(PneumaticsModuleType.CTREPCM);
-  PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
+  // PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
 
-  PneumaticHub m_hub = new PneumaticHub();
   
   // private final XBoxControllerEE m_operatorController = new XBoxControllerEE(1);
 
@@ -31,7 +27,7 @@ public class Pneumactics extends SubsystemBase{
   
   @Override
   public void periodic() {
-    pdh.clearStickyFaults();
+    //pdh.clearStickyFaults();
     
     // if(m_operatorController.getDpadDown()){
     //   phCompressor.enableAnalog(35, 40);

@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.I2C.Port;
 import frc.robot.Util.Gains;
 
 /**
@@ -68,7 +67,7 @@ public final class Constants {
         public static final int EntryBeamBreak = 0;
         public static final int MidTowerBeamBreak = 1;
         public static final int UpperTowerBeamBreak = 2;
-        public static final Port ColorSensor = Port.kOnboard;
+        // public static final Port ColorSensor = Port.kOnboard;
     }
 	
     public static final class RobotConstants {

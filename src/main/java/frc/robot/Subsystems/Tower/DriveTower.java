@@ -36,7 +36,7 @@ public class DriveTower extends CommandBase {
       m_tower.driveWholeTower(m_speed.getAsDouble());
     }
     else{
-      m_tower.sendToTop();
+      // m_tower.sendToTop();
     }
   }
 

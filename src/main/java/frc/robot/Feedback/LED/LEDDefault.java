@@ -28,15 +28,15 @@ public class LEDDefault extends CommandBase {
   @Override
   public void execute() {
 
-    if(m_tower.ballCount() == 0){
-      m_led.noBallLight();
-    }
-    if(m_tower.ballCount() == 1){
-      m_led.oneBallLight();
-    }
-    if(m_tower.ballCount() == 2){
-      m_led.twoBallLight();
-    }
+    // if(m_tower.ballCount() == 0){
+    //   m_led.noBallLight();
+    // }
+    // if(m_tower.ballCount() == 1){
+    //   m_led.oneBallLight();
+    // }
+    // if(m_tower.ballCount() == 2){
+    //   m_led.twoBallLight();
+    // }
     
   }
 

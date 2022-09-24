@@ -37,7 +37,7 @@ public class AutoDriveIntake extends CommandBase {
     //drives intake at given speed
     m_intake.driveIntake(-m_speed);
     //runs tower beam brake send to top
-    m_tower.sendToTop();
+    m_tower.sendToTopWithIntake();    
   }
   
   // Called once the command ends or is interrupted.
