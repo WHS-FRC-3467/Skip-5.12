@@ -124,12 +124,12 @@ public class TowerSubsystem extends SubsystemBase {
     //2
     else if(lowerBall() == true && midBall() == false && midBall() == false){
       //Ball entry
-      driveLowerTower(0.75);
+      driveLowerTower(1.0);
     }
     //3
     else if(lowerBall() == false && midBall() == true && upperBall() == false){
       //Ball middle
-      driveWholeTower(0.75);
+      driveWholeTower(1.0);
     }
     //4
     else if(lowerBall() == false && midBall() == false && upperBall() == true){
@@ -149,7 +149,7 @@ public class TowerSubsystem extends SubsystemBase {
     //7
     else if(lowerBall() == true && midBall() == true && upperBall() == false){
       //ball entry and middle
-      driveWholeTower(0.75);
+      driveWholeTower(1.0);
     }
     //8
     else if(lowerBall() == true && midBall() == true && upperBall() == true){
@@ -162,7 +162,7 @@ public class TowerSubsystem extends SubsystemBase {
      //1
      if(lowerBall() == false && midBall() == false && midBall() == false){
       //no balls
-      driveLowerTower(0.75);
+      driveLowerTower(1.0);
     }
     //2
     else if(lowerBall() == true && midBall() == true && upperBall() == true){
@@ -172,13 +172,13 @@ public class TowerSubsystem extends SubsystemBase {
     //3
     else if(lowerBall() == true && midBall() == false && midBall() == false){
       //Ball entry
-      driveLowerTower(0.75);
+      driveLowerTower(1.0);
       
     }
     //4
     else if(lowerBall() == false && midBall() == true && upperBall() == false){
       //Ball middle
-      driveWholeTower(0.75);
+      driveWholeTower(1.0);
     }
     //5
     else if(lowerBall() == false && midBall() == false && upperBall() == true){
@@ -198,7 +198,7 @@ public class TowerSubsystem extends SubsystemBase {
     //8
     else if(lowerBall() == true && midBall() == true && upperBall() == false){
       //ball entry and middle
-      driveWholeTower(0.75);
+      driveWholeTower(1.0);
     }
     
   }

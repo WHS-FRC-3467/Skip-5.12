@@ -107,7 +107,7 @@ public class LimelightAutoShoot extends CommandBase {
     
     
     double X = deltaY;
-    m_velocity = (2234 + (-25.5)*X + (3.3* Math.pow(X, 2.0)) + (-0.231* Math.pow(X, 3.0))) +50;
+    m_velocity = (2234 + (-25.5)*X + (3.3* Math.pow(X, 2.0)) + (-0.231* Math.pow(X, 3.0))) + 25;
 
     //Runs shooter at detemined velocity
     m_shooter.shoot(m_velocity, Value.kForward);  

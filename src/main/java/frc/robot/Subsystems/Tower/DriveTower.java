@@ -34,7 +34,7 @@ public class DriveTower extends CommandBase {
   @Override
   public void execute() {
     if(m_speed.getAsDouble() > 0.2 || m_speed.getAsDouble() < -0.2){
-      m_tower.driveWholeTower(m_speed.getAsDouble());
+      m_tower.driveLowerTower(m_speed.getAsDouble());
     }
     else if(IntakeSubsystem.getRunning()){
       m_tower.sendToTopWithIntake();
