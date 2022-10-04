@@ -57,7 +57,7 @@ public class IntakeSubsystem extends SubsystemBase {
    * @param speed speed to set intake motor at 
    */
   public void driveIntake(double speed){
-    m_intakeMotor.set(ControlMode.PercentOutput, speed * 0.9 );
+    m_intakeMotor.set(ControlMode.PercentOutput, speed * 1.0 );
  
   }
   //Runs intake at full speed
