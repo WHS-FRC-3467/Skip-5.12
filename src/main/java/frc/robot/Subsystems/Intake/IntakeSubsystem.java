@@ -1,3 +1,4 @@
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -7,6 +8,7 @@ package frc.robot.Subsystems.Intake;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -21,6 +23,7 @@ public class IntakeSubsystem extends SubsystemBase {
   //Initializes solenoid and talon
   DoubleSolenoid m_intakePiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, PHConstants.IntakeForwardSolenoid, PHConstants.IntakeReverseSolenoid);
   TalonFX m_intakeMotor = new TalonFX(CanConstants.IntakeMotor);
+  
   public static Boolean m_running;
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
@@ -33,6 +36,9 @@ public class IntakeSubsystem extends SubsystemBase {
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 255);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 255);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 255);
+
+    m_intakeMotor.configOpenloopRamp(1.0);
+    m_intakeMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 25, 30, 0.25));
     m_running = false;
   }
 
@@ -46,6 +52,7 @@ public class IntakeSubsystem extends SubsystemBase {
       m_running = false;
     }
     SmartDashboard.putBoolean("running", m_running);
+    SmartDashboard.putNumber("Intake Current Draw", m_intakeMotor.getSupplyCurrent());
   }
 
 
