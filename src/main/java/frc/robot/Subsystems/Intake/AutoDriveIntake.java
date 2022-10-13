@@ -29,6 +29,7 @@ public class AutoDriveIntake extends CommandBase {
   public void initialize() {
     //deploys intake
     m_intake.deployIntake();
+    m_tower.driveWholeTower(0.0);  
   }
 
   // Called every time the scheduler runs while the command is scheduled.
