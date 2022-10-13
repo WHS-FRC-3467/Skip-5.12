@@ -45,6 +45,7 @@ public class AutoDriveIntake extends CommandBase {
   public void end(boolean interrupted) {
     //stops intake when command ends
     m_intake.driveIntake(0.0);
+    m_tower.driveWholeTower(0.0);
   }
 
   // Returns true when the command should end.
