@@ -74,6 +74,11 @@ public final class Constants {
         //
         // Robot physical dimensions and mass quantities.
         //
+    
+        //Robot is 0.84 meters with bumpers
+        //Robot is o.711 meters without bumpers
+        
+
 
         // The left-to-right distance between the drivetrain wheels
         // * Should be measured from center to center.

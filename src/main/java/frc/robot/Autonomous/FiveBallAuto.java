@@ -46,7 +46,7 @@ public class FiveBallAuto extends SequentialCommandGroup {
       new PathResetOdometry("5BallPart1", m_drive),
       new InstantCommand(m_intake::deployIntake, m_intake),
       new TrajectoryFollow("5BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity, ShooterConstants.kShooterGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
+      new AutoShoot(m_shooter, m_tower, 2150.0, ShooterConstants.kShooterGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
       
       new TrajectoryFollow("5BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
       new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity + 50, ShooterConstants.kShooterGains, Value.kForward).withTimeout(1.2).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
