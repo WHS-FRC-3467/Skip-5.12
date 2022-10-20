@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
@@ -112,10 +113,19 @@ public class DriveSubsystem extends SubsystemBase {
         private FieldRelativeSpeed m_lastFieldRelVel = new FieldRelativeSpeed();
         private FieldRelativeAccel m_fieldRelAccel = new FieldRelativeAccel();
 
-      
+        
+        SendableChooser<Double> m_chooser = new SendableChooser<>();
+
         public DriveSubsystem() {
                 //Creates a tab for the drive train
                 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+
+                m_chooser.addOption("100%", 1.0);
+                m_chooser.addOption("75%", 0.75);
+                m_chooser.addOption("50%", 0.5);
+                
+                m_chooser.setDefaultOption("75%", 0.75);
+
 
                 //initializes modules
                 m_frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -283,6 +293,9 @@ public class DriveSubsystem extends SubsystemBase {
                 return encoderTicks /  (2048/(SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI));
         }
         
+        public double getDriveSpeed(){
+                return m_chooser.getSelected();
+        }
         /**
          * @param pose the Pose2D that the odometry will be set to 
          */
