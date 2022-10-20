@@ -35,7 +35,7 @@ public class X3_ReachToNextBar extends CommandBase {
         m_climber.extendingClimberAngled();
 
         m_timer.start();
-        if (m_timer.hasElapsed(0.25)) {
+        if (m_timer.hasElapsed(0.1)) {
           m_climbPhase = 2;
           m_timer.stop();
           

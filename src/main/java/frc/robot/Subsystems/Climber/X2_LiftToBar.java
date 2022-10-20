@@ -7,6 +7,7 @@ package frc.robot.Subsystems.Climber;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ClimberConstants;
 
 public class X2_LiftToBar extends CommandBase {
@@ -24,6 +25,7 @@ public class X2_LiftToBar extends CommandBase {
   public void initialize() {
     m_climbPhase = 1;
     m_timer.reset();
+    m_climber.setMotionAccel(Constants.ClimberConstants.kSlowMotionAccel);
   }
 
   @Override
@@ -56,6 +58,7 @@ public class X2_LiftToBar extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_climber.adjustArmsManually(0.0);
+    m_climber.setMotionAccel(Constants.ClimberConstants.kMotionAcceleration);
   }
 
   @Override

@@ -14,9 +14,11 @@ public class X4_HookToNextBar extends CommandBase {
   ClimberSubsystem m_climber;
   int m_climbPhase = 1;
   Timer m_timer = new Timer();
+  boolean m_fast;
 
-  public X4_HookToNextBar(ClimberSubsystem climber) {
+  public X4_HookToNextBar(ClimberSubsystem climber, boolean fast) {
     m_climber = climber;
+    m_fast = fast;
     addRequirements(m_climber);
   }
 
@@ -39,7 +41,7 @@ public class X4_HookToNextBar extends CommandBase {
       // Start moving FixArms to Angled position
       m_climber.fixedClimberAngled();
       // As AdjArms near the setpoint, start moving FixArms back to Vertical position
-      if (m_climber.getATposition() < 45000.0) {
+      if ((m_fast && m_climber.getATposition() < 145000) || m_climber.getATposition() < 45000) {
         m_climber.fixedClimberVertical();
       }
       // Once we reach setpoint, stop and reset accelration to normal speed
@@ -54,7 +56,7 @@ public class X4_HookToNextBar extends CommandBase {
     case 2:
       //Wait for fixed arms to return to vertical
       m_timer.start();
-      if (m_timer.hasElapsed(0.25)) {
+      if (m_timer.hasElapsed(0.1)) {
           m_climbPhase = 3;
           m_timer.stop();
           m_timer.reset();
