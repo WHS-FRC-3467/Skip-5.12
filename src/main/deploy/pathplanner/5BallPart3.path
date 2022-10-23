@@ -1,1 +1,56 @@
-{"waypoints":[{"anchorPoint":{"x":5.24,"y":2.04},"prevControl":null,"nextControl":{"x":2.703639113469382,"y":2.0536072202814872},"holonomicAngle":-164.46,"isReversal":false,"velOverride":null,"isLocked":false},{"anchorPoint":{"x":1.6343526535910715,"y":1.533109568855342},"prevControl":{"x":2.0857662146460427,"y":2.0308219566851795},"nextControl":{"x":2.0857662146460427,"y":2.0308219566851795},"holonomicAngle":-138.21548399174827,"isReversal":true,"velOverride":null,"isLocked":false},{"anchorPoint":{"x":2.097178183811552,"y":1.9525452056176524},"prevControl":{"x":2.120327597198987,"y":1.940970498923936},"nextControl":null,"holonomicAngle":-137.48380757046564,"isReversal":false,"velOverride":null,"isLocked":false}]}
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 5.0,
+        "y": 2.18
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.4636391134693816,
+        "y": 2.1936072202814874
+      },
+      "holonomicAngle": -168.46,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false
+    },
+    {
+      "anchorPoint": {
+        "x": 1.6343526535910715,
+        "y": 1.533109568855342
+      },
+      "prevControl": {
+        "x": 2.0857662146460427,
+        "y": 2.0308219566851795
+      },
+      "nextControl": {
+        "x": 2.0857662146460427,
+        "y": 2.0308219566851795
+      },
+      "holonomicAngle": -138.21548399174827,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false
+    },
+    {
+      "anchorPoint": {
+        "x": 2.097178183811552,
+        "y": 1.9525452056176524
+      },
+      "prevControl": {
+        "x": 2.120327597198987,
+        "y": 1.940970498923936
+      },
+      "nextControl": null,
+      "holonomicAngle": -137.48380757046564,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false
+    }
+  ],
+  "markers": []
+}

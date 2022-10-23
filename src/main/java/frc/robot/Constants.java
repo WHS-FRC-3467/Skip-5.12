@@ -179,18 +179,24 @@ public final class Constants {
 	    public final static int kTimeoutMs = 30;
 
         // Motion Magic constants
-        public static final int kMotionCruiseVelocity = 30000;
-        public static final int kMotionAcceleration = 70000;
-        public static final int kSlowMotionAccel = 55000;
+        public static final int kMotionCruiseVelocity = 25000;
+        public static final int kMotionAcceleration = 35000;
+        public static final int kSlowMotionAccel = 19000;
         public final static int kCurveSmoothing = 0;  /* Valid values: 0 -> 8 */
         public static final int kTolerance = 500;
 
+        // Motion Magic constants
+        public static final int kMotionCruiseVelocityFast = 30000;
+        public static final int kMotionAccelerationFast = 70000;
+        public static final int kSlowMotionAccelFast = 55000;
+        
         // Setpoints (in encoder ticks) (not tuned)
         public static final double kClimbingRetractedPostion = 1000.0;
         public static final double kRestingRetractedPostion = 4000.0;
         public static final double kExtendedAboveBar = 50000.0;
         public static final double kFixedArmsFree = 70000.0;
         public static final double kFullExtendedPosition = 205000.0;
+
     }
     
     public static final class GoalConstants {

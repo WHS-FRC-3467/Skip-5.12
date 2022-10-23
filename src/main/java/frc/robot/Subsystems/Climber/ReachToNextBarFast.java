@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ClimberConstants;
 
-public class X3_ReachToNextBar extends CommandBase {
+public class ReachToNextBarFast extends CommandBase {
 
   ClimberSubsystem m_climber;
   int m_climbPhase = 1;
   Timer m_timer = new Timer();
 
-  public X3_ReachToNextBar(ClimberSubsystem climber) {
+  public ReachToNextBarFast(ClimberSubsystem climber) {
     m_climber = climber;
     addRequirements(m_climber);
   }
@@ -24,6 +24,7 @@ public class X3_ReachToNextBar extends CommandBase {
   public void initialize() {
     m_climbPhase = 1;
     m_timer.reset();
+    m_climber.setMotionAccel(ClimberConstants.kSlowMotionAccelFast);
   }
 
   @Override
@@ -35,7 +36,7 @@ public class X3_ReachToNextBar extends CommandBase {
         m_climber.extendingClimberAngled();
 
         m_timer.start();
-        if (m_timer.hasElapsed(0.25)) {
+        if (m_timer.hasElapsed(0.1)) {
           m_climbPhase = 2;
           m_timer.stop();
           

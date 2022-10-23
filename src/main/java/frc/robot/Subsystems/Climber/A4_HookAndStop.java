@@ -15,7 +15,7 @@ public class A4_HookAndStop extends SequentialCommandGroup {
     m_climberSubsystem = climber;
 
     addCommands(
-      new X4_HookToNextBar(m_climberSubsystem, false)
+      new X4_HookToNextBar(m_climberSubsystem)
     );
   }
 }

@@ -17,9 +17,9 @@ public class A9_DoItAll extends SequentialCommandGroup {
     addCommands(
       new X2_LiftToBar(m_climberSubsystem),
       new X3_ReachToNextBar(m_climberSubsystem),
-      new X4_HookToNextBar(m_climberSubsystem, false),
+      new X4_HookToNextBar(m_climberSubsystem),
       new X3_ReachToNextBar(m_climberSubsystem),
-      new X4_HookToNextBar(m_climberSubsystem, true)
+      new X4_HookToNextBar(m_climberSubsystem)
 
     );
   }

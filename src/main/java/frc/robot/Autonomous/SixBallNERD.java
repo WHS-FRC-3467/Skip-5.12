@@ -18,7 +18,7 @@ import frc.robot.Subsystems.Shooter.AutoShoot;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
 
-public class FiveBallAuto extends SequentialCommandGroup {
+public class SixBallNERD extends SequentialCommandGroup {
   /** Creates a new FiveBallAuto. */
   //Import subsystems
   ShooterSubsystem m_shooter;
@@ -34,7 +34,7 @@ public class FiveBallAuto extends SequentialCommandGroup {
    * @param intake Intake Subsystem
    *
    */
-  public FiveBallAuto(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower, IntakeSubsystem intake) {
+  public SixBallNERD(DriveSubsystem drive, ShooterSubsystem shooter, TowerSubsystem tower, IntakeSubsystem intake) {
     //set local variables to member variables
     m_shooter = shooter;
     m_tower = tower;
@@ -43,13 +43,16 @@ public class FiveBallAuto extends SequentialCommandGroup {
 
     addCommands(
       //Set initial pose
-      new PathResetOdometry("5BallPart1", m_drive),
+
+      new PathResetOdometry("6BallPart1", m_drive),
       new InstantCommand(m_intake::deployIntake, m_intake),
-      new TrajectoryFollow("5BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).withTimeout(1.1),
-      new AutoShoot(m_shooter, m_tower, 2175.0, ShooterConstants.kShooterGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
-      
+      new TrajectoryFollow("6BallPart1", m_drive).get(),
+      new AutoShoot(m_shooter, m_tower, 2035.0, ShooterConstants.kShooterGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
+
+      new TrajectoryFollow("6BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).withTimeout(1.1),      
       new TrajectoryFollow("5BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).withTimeout(2.0),
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity + 100, ShooterConstants.kShooterGains, Value.kForward).withTimeout(1.2).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
+
+      new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity + 100, ShooterConstants.kShooterGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
 
       new TrajectoryFollow("5BallPart3", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).withTimeout(3.0),
 

@@ -14,11 +14,15 @@ public class A1_PrepareToClimb extends CommandBase {
   public A1_PrepareToClimb(ClimberSubsystem climber)
   {
     m_climber = climber;
+    
     addRequirements(m_climber);
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_climber.setMotionAccel(ClimberConstants.kSlowMotionAccelFast);
+
+  }
 
   @Override
   public void execute() {

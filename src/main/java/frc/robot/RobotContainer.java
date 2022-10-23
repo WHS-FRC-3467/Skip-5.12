@@ -12,8 +12,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Autonomous.FiveBallAuto;
 import frc.robot.Autonomous.LimelightOneBall;
+import frc.robot.Autonomous.SixBallNERD;
+import frc.robot.Autonomous.No;
 import frc.robot.Autonomous.TwoBallAuto;
 import frc.robot.Autonomous.TwoBallAutoRightFar;
+import frc.robot.Autonomous.ThreeBallLeftNERD;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Control.XBoxControllerButton;
@@ -23,6 +26,7 @@ import frc.robot.Feedback.Cameras.LimelightSubsystem;
 import frc.robot.Feedback.LED.LEDDefault;
 import frc.robot.Feedback.LED.LEDSubsystem;
 import frc.robot.Subsystems.Climber.A0_CalibrateClimber;
+import frc.robot.Subsystems.Climber.A10_DoItAllFast;
 import frc.robot.Subsystems.Climber.A1_PrepareToClimb;
 import frc.robot.Subsystems.Climber.A9_DoItAll;
 import frc.robot.Subsystems.Climber.AX_CancelClimb;
@@ -81,7 +85,9 @@ public class RobotContainer {
     m_chooser.addOption("Two Ball Auto Left ", new TwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_limelightSubsystem));
     m_chooser.addOption("Right Two Ball Far", new TwoBallAutoRightFar(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_limelightSubsystem));
     m_chooser.addOption("Five Ball", new FiveBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
-    
+    m_chooser.addOption("NERD Six Ball", new SixBallNERD(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("NERD Three Ball Auto Left ", new ThreeBallLeftNERD(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_limelightSubsystem));
+
     m_chooser.setDefaultOption("No Auto", null);
 
     SmartDashboard.putData("Auto Chooser", m_chooser);
@@ -187,7 +193,10 @@ public class RobotContainer {
 
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kStart)
       .whenPressed(new A9_DoItAll(m_climberSubsystem));
-    
+
+    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kRightStick)
+      .whenPressed(new A10_DoItAllFast(m_climberSubsystem));
+
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kRightBumper)
       .whenPressed(new AX_CancelClimb(m_climberSubsystem));
 

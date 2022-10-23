@@ -25,7 +25,7 @@ public class X2_LiftToBar extends CommandBase {
   public void initialize() {
     m_climbPhase = 1;
     m_timer.reset();
-    m_climber.setMotionAccel(Constants.ClimberConstants.kSlowMotionAccel);
+    m_climber.setMotionAccel(Constants.ClimberConstants.kMotionAcceleration);
   }
 
   @Override

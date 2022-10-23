@@ -120,10 +120,11 @@ public class DriveSubsystem extends SubsystemBase {
                 //Creates a tab for the drive train
                 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
+                SmartDashboard.putData("Drive Speed", m_chooser);
                 m_chooser.addOption("100%", 1.0);
                 m_chooser.addOption("75%", 0.75);
                 m_chooser.addOption("50%", 0.5);
-                
+
                 m_chooser.setDefaultOption("75%", 0.75);
 
 

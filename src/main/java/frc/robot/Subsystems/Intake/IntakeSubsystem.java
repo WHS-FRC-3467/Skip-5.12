@@ -37,8 +37,8 @@ public class IntakeSubsystem extends SubsystemBase {
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 255);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 255);
 
-    m_intakeMotor.configOpenloopRamp(1.0);
-    m_intakeMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 25, 30, 0.25));
+    m_intakeMotor.configOpenloopRamp(0.75);
+    m_intakeMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 15, 20, 0.10));
     m_running = false;
   }
 
@@ -70,6 +70,11 @@ public class IntakeSubsystem extends SubsystemBase {
   //Runs intake at full speed
   public void fullRunIntake (){
     driveIntake(-1.0);
+  }
+
+  //Runs intake at full speed
+  public void slowRunIntake (){
+    driveIntake(-0.25);
   }
   //deploys intake
   public void deployIntake(){
