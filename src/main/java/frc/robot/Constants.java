@@ -22,7 +22,7 @@ public final class Constants {
 
     public static final class CanConstants{
         //drivebase CAN IDs 
-        public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 22;
+        public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 1;
         public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 2;
         public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 3; 
         public static final int BACK_LEFT_MODULE_STEER_MOTOR = 4;
@@ -30,6 +30,7 @@ public final class Constants {
         public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 6; 
         public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 7;
         public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 8; 
+
         public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 9; 
         public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 10; 
         public static final int BACK_LEFT_MODULE_STEER_ENCODER = 11; 
@@ -44,6 +45,8 @@ public final class Constants {
         public static final int ClimberRight = 18;
         public static final int IntakeMotor = 19;
         public static final int DRIVETRAIN_PIGEON_ID = 20; 
+        public static final int IntakeMotor2 = 21;
+
     }
 
     public static final class PWMConstants{
@@ -100,10 +103,10 @@ public final class Constants {
             new Translation2d(-RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
         );
 
-        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(69.1);
-        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(109.6);
-        public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(110.1); 
-        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(128.1);
+        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(105.0);
+        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(289.2);
+        public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(141.4); 
+        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(98.5);
 
         // Limelight auto aim X-axis target tolerance. This is the number of degrees
         // from perfect center that the robot will consider the BasicLimelightAim

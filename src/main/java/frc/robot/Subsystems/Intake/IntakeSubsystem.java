@@ -23,12 +23,16 @@ public class IntakeSubsystem extends SubsystemBase {
   //Initializes solenoid and talon
   DoubleSolenoid m_intakePiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, PHConstants.IntakeForwardSolenoid, PHConstants.IntakeReverseSolenoid);
   TalonFX m_intakeMotor = new TalonFX(CanConstants.IntakeMotor);
+  TalonFX m_intakeMotor2 = new TalonFX(CanConstants.IntakeMotor2);
   
   public static Boolean m_running;
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     m_intakeMotor.configFactoryDefault();
+    m_intakeMotor.configFactoryDefault();
     m_intakeMotor.setNeutralMode(NeutralMode.Coast);
+    m_intakeMotor2.setNeutralMode(NeutralMode.Coast);
+    m_intakeMotor2.setInverted(true);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 255);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 255);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 255);
@@ -37,8 +41,22 @@ public class IntakeSubsystem extends SubsystemBase {
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 255);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 255);
 
+    m_intakeMotor2.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 255);
+    m_intakeMotor2.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 255);
+    m_intakeMotor2.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 255);
+    m_intakeMotor2.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 255);
+    m_intakeMotor2.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 255);
+    m_intakeMotor2.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 255);
+    m_intakeMotor2.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 255);
+
+
     m_intakeMotor.configOpenloopRamp(0.75);
+    m_intakeMotor2.configOpenloopRamp(0.75);
+
     m_intakeMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 15, 20, 0.10));
+    m_intakeMotor2.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 15, 20, 0.10));
+
+    m_intakeMotor2.follow(m_intakeMotor);
     m_running = false;
   }
 
