@@ -107,7 +107,7 @@ public class LimelightAutoShoot extends CommandBase {
     
     
     double X = deltaY;
-    m_velocity = (2228 + (-24.7)*X + (3.79* Math.pow(X, 2.0)) + (-0.279* Math.pow(X, 3.0))) + 50;
+    m_velocity = (2203 + (-35.4)*X + (4.53* Math.pow(X, 2.0)) + (-0.262* Math.pow(X, 3.0))) + 50;
 
     //Runs shooter at detemined velocity
     m_shooter.shoot(m_velocity, Value.kForward);  
@@ -123,7 +123,7 @@ public class LimelightAutoShoot extends CommandBase {
 
       if(m_shooter.isWheelAtSpeed()){
         if (count > 10){
-          m_tower.driveWholeTower(TowerConstants.STANDARD_TOWER_SPEED);
+          m_tower.driveWholeTower(0.6);
         }
       }
       else{

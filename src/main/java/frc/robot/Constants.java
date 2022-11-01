@@ -18,7 +18,7 @@ import frc.robot.Util.Gains;
  */
 public final class Constants {
 
-    public static final boolean tuningMode = true;
+    public static final boolean tuningMode = false;
 
     public static final class CanConstants{
         //drivebase CAN IDs 
@@ -136,7 +136,7 @@ public final class Constants {
         
         public static final double kLaunchpadVelocity = 2330;
         
-        public static final int kShooterTolerance = 100;
+        public static final int kShooterTolerance = 75;
         
         //double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput
         // public static final Gains kTestGains = new Gains(0.01, 0.0, 1.15, 1023/20660, 0, 1.0);

@@ -6,6 +6,7 @@
 package frc.robot.Subsystems.Intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -33,6 +34,7 @@ public class IntakeSubsystem extends SubsystemBase {
     m_intakeMotor.setNeutralMode(NeutralMode.Coast);
     m_intakeMotor2.setNeutralMode(NeutralMode.Coast);
     m_intakeMotor2.setInverted(true);
+
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 255);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 255);
     m_intakeMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 255);
@@ -56,7 +58,13 @@ public class IntakeSubsystem extends SubsystemBase {
     m_intakeMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 15, 20, 0.10));
     m_intakeMotor2.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 15, 20, 0.10));
 
-    m_intakeMotor2.follow(m_intakeMotor);
+    m_intakeMotor2.follow(m_intakeMotor, FollowerType.PercentOutput);
+
+    m_intakeMotor2.configPeakOutputForward(1.0);
+    m_intakeMotor.configPeakOutputForward(1.0);
+    m_intakeMotor2.configPeakOutputReverse(-1.0);
+    m_intakeMotor.configPeakOutputReverse(-1.0);
+
     m_running = false;
   }
 
@@ -82,7 +90,9 @@ public class IntakeSubsystem extends SubsystemBase {
    * @param speed speed to set intake motor at 
    */
   public void driveIntake(double speed){
-    m_intakeMotor.set(ControlMode.PercentOutput, speed * 1.0 );
+    m_intakeMotor.set(ControlMode.PercentOutput, speed * 1.0);
+    //m_intakeMotor2.set(ControlMode.PercentOutput, speed *1.0);
+    
  
   }
   //Runs intake at full speed
