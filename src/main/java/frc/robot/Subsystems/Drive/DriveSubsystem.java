@@ -122,10 +122,11 @@ public class DriveSubsystem extends SubsystemBase {
 
                 SmartDashboard.putData("Drive Speed", m_chooser);
                 m_chooser.addOption("100%", 1.0);
+                m_chooser.addOption("85%", 0.75);
                 m_chooser.addOption("75%", 0.75);
                 m_chooser.addOption("50%", 0.5);
 
-                m_chooser.setDefaultOption("75%", 0.75);
+                m_chooser.setDefaultOption("85%", 0.85);
 
 
                 //initializes modules

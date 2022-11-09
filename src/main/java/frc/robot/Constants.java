@@ -103,10 +103,10 @@ public final class Constants {
             new Translation2d(-RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
         );
 
-        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(105.0);
+        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(105.7);
         public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(289.2);
-        public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(141.4); 
-        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(98.5);
+        public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(140.1); 
+        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(98.3);
 
         // Limelight auto aim X-axis target tolerance. This is the number of degrees
         // from perfect center that the robot will consider the BasicLimelightAim

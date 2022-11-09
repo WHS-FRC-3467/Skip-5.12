@@ -47,7 +47,7 @@ public class SixBallNERD extends SequentialCommandGroup {
       new PathResetOdometry("6BallPart1", m_drive),
       new InstantCommand(m_intake::deployIntake, m_intake),
       new TrajectoryFollow("6BallPart1", m_drive).get(),
-      new AutoShoot(m_shooter, m_tower, 2060.0, ShooterConstants.kShooterGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
+      new AutoShoot(m_shooter, m_tower, 2080.0, ShooterConstants.kShooterGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
 
       new TrajectoryFollow("6BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).withTimeout(1.1),      
       new TrajectoryFollow("5BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).withTimeout(2.0),
