@@ -26,7 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
   TalonFX m_intakeMotor2 = new TalonFX(CanConstants.IntakeMotor2);
   
   public static Boolean m_running;
-  /** Creates a new IntakeSubsystem. */
+  /** Creates a  new IntakeSubsystem. */
   public IntakeSubsystem() {
     // m_intakeMotor.configFactoryDefault();
     m_intakeMotor2.configFactoryDefault();
@@ -89,7 +89,7 @@ public class IntakeSubsystem extends SubsystemBase {
    * @param speed speed to set intake motor at 
    */
   public void driveIntake(double speed){
-    m_intakeMotor2.set(ControlMode.PercentOutput, speed * 1.0);
+    m_intakeMotor2.set(ControlMode.PercentOutput, speed);
     //m_intakeMotor2.set(ControlMode.PercentOutput, speed *1.0);
     
  
