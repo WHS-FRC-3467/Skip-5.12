@@ -4,10 +4,8 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class TrajectoryFollow {
@@ -57,13 +55,12 @@ public class TrajectoryFollow {
         m_drive.m_field.getObject("traj").setTrajectory(m_trajectory);
 
         // Controller for hollonomic rotation
-        ProfiledPIDController thetaController = new ProfiledPIDController(1, 0, 0,
-                new TrapezoidProfile.Constraints(DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-                        Math.pow(DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 2)));
+        PIDController thetaController = new PIDController(1, 0, 0);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         //the PPSwerveControllerCommand that moves the drive base in auto
-        return new PPSwerveControllerCommand(m_trajectory,
+        return new PPSwerveControllerCommand(
+                m_trajectory,
                 m_drive::getCurrentPose,
                 m_drive.getKinematics(),
                 new PIDController(10, 0, 0),
