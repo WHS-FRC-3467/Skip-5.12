@@ -34,11 +34,11 @@ public class RightSideOneBall extends SequentialCommandGroup {
 
     addCommands(
       //Reset drive encoders to zero distance
-      new InstantCommand(m_drive::resetDriveEncoders),
-      //Shoot one ball
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kShooterGains, Value.kReverse),
-      //Drive away
-      new BasicAutoDrive(drive, 3, 0.5, -0.5, 0.0)
+      // new InstantCommand(m_drive::resetDriveEncoders),
+      // //Shoot one ball
+      // new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kShooterGains, Value.kReverse),
+      // //Drive away
+      // new BasicAutoDrive(drive, 3, 0.5, -0.5, 0.0)
     );
   }
 }

@@ -44,22 +44,22 @@ public class SixBallNERD extends SequentialCommandGroup {
     addCommands(
       //Set initial pose
 
-      new PathResetOdometry("6BallPart1", m_drive),
-      new InstantCommand(m_intake::deployIntake, m_intake),
-      new TrajectoryFollow("6BallPart1", m_drive).get(),
-      new AutoShoot(m_shooter, m_tower, 2080.0, ShooterConstants.kShooterGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
+      // new PathResetOdometry("6BallPart1", m_drive),
+      // new InstantCommand(m_intake::deployIntake, m_intake),
+      // new TrajectoryFollow("6BallPart1", m_drive).get(),
+      // new AutoShoot(m_shooter, m_tower, 2080.0, ShooterConstants.kShooterGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
 
-      new TrajectoryFollow("6BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).withTimeout(1.1),      
-      new TrajectoryFollow("5BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).withTimeout(2.0),
+      // new TrajectoryFollow("6BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).withTimeout(1.1),      
+      // new TrajectoryFollow("5BallPart2", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).withTimeout(2.0),
 
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity + 100, ShooterConstants.kShooterGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
+      // new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity + 100, ShooterConstants.kShooterGains, Value.kForward).withTimeout(2.0).raceWith(new RunCommand(m_intake::fullRunIntake, m_intake)),
 
-      new TrajectoryFollow("5BallPart3", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).withTimeout(3.0),
+      // new TrajectoryFollow("5BallPart3", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)).withTimeout(3.0),
 
-      new AutoDriveIntake(m_intake, m_tower, 1.0).withTimeout(1.0),
+      // new AutoDriveIntake(m_intake, m_tower, 1.0).withTimeout(1.0),
    
-      new TrajectoryFollow("5BallPart4", m_drive).get().withTimeout(2.2), 
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity + 130.0, ShooterConstants.kShooterGains, Value.kForward).withTimeout(2.0)
+      // new TrajectoryFollow("5BallPart4", m_drive).get().withTimeout(2.2), 
+      // new AutoShoot(m_shooter, m_tower, ShooterConstants.kTarmacVelocity + 130.0, ShooterConstants.kShooterGains, Value.kForward).withTimeout(2.0)
     );
   }
 }

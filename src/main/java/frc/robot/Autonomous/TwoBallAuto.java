@@ -41,12 +41,12 @@ public class TwoBallAuto extends SequentialCommandGroup {
     m_limelight = limelight;
 
     addCommands(
-      //Set initial pose
-      new PathResetOdometry("2Ball", m_drive),
-      //Drive back to ball
-      new TrajectoryFollow("2Ball", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
-      //Shoot two balls
-      new LimelightAutoShoot(m_shooter, m_tower, m_limelight, m_drive).raceWith( new RunCommand(m_intake::fullRunIntake, m_intake)).withTimeout(5.0)
+      // //Set initial pose
+      //new PathResetOdometry("2Ball", m_drive),
+      // //Drive back to ball
+      //new TrajectoryFollow("2Ball", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
+      // //Shoot two balls
+      //new LimelightAutoShoot(m_shooter, m_tower, m_limelight, m_drive).raceWith( new RunCommand(m_intake::fullRunIntake, m_intake)).withTimeout(5.0)
     );
   }
 }

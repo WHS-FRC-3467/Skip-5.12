@@ -42,13 +42,13 @@ public class TwoBallAutoRightClose extends SequentialCommandGroup {
 
     addCommands(
       //set initial pose
-      new PathResetOdometry("4BallPart1", m_drive),
+      //new PathResetOdometry("4BallPart1", m_drive),
       //drive to first ball
-      new TrajectoryFollow("4BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
+      //new TrajectoryFollow("4BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 1.0)),
       //Retract intake
-      new InstantCommand(m_intake::retractIntake, m_intake),
+      //new InstantCommand(m_intake::retractIntake, m_intake),
       //Shoot two balls
-      new LimelightAutoShootTarmac(m_drive, m_shooter, m_tower, m_limelight)
+      //new LimelightAutoShootTarmac(m_drive, m_shooter, m_tower, m_limelight)
 
     );
   }

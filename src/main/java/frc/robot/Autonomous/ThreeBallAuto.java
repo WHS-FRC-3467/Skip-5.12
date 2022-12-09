@@ -39,14 +39,14 @@ public class ThreeBallAuto extends SequentialCommandGroup {
     m_intake = intake;
 
     addCommands(
-      //Shoot one ball
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kShooterGains, Value.kReverse),
-      //set initial pose
-      new PathResetOdometry("3Ball", m_drive),
-      //Drive to pick up two balls
-      new TrajectoryFollow("3Ball", m_drive).get().raceWith(new AutoDriveIntake(m_intake,m_tower, 1.0)),
-      //Shoot two balls
-      new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kShooterGains, Value.kReverse)
+      // //Shoot one ball
+      // new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kShooterGains, Value.kReverse),
+      ////set initial pose
+      // new PathResetOdometry("3Ball", m_drive),
+      // //Drive to pick up two balls
+      //new TrajectoryFollow("3Ball", m_drive).get().raceWith(new AutoDriveIntake(m_intake,m_tower, 1.0)),
+      // //Shoot two balls
+      //new AutoShoot(m_shooter, m_tower, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kShooterGains, Value.kReverse)
       );
   }
 }

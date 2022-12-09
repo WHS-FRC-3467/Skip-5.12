@@ -166,13 +166,16 @@ public class RobotContainer {
 
     //Shoot lower hub
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kA)
-      .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kLowerHubVelocity, ShooterConstants.kShooterGains, Value.kForward));
+      .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kLowerHubVelocity + 100, ShooterConstants.kShooterGains, Value.kForward));
 
-    //Shoot Upper Hub
+      new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kB)
+      .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kLowerHubVelocity + 500, ShooterConstants.kShooterGains, Value.kForward));
+
+    // //Shoot Upper Hub
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kB)
       .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kShooterGains, Value.kReverse));
 
-    // Shoot Tarmac
+    // // Shoot Tarmac
     new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
       .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kTarmacVelocity, ShooterConstants.kShooterGains, Value.kForward));
 

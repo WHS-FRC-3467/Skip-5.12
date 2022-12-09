@@ -3,15 +3,15 @@ package frc.robot.Subsystems.Drive;
 // import com.pathplanner.lib.PathPlannerTrajectory;
 // import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
-// import edu.wpi.first.math.controller.PIDController;
-// import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class TrajectoryFollow {
     //Initialize variables
-    // private String m_pathName;
-    // private PathPlannerTrajectory m_trajectory = null;
+    private String m_pathName;
+    //private PathPlannerTrajectory m_trajectory = null;
     DriveSubsystem m_drive;
     /**
      * Executes a trajectory that makes it remain still
@@ -35,7 +35,7 @@ public class TrajectoryFollow {
      * @param drive
      */
     public TrajectoryFollow(Trajectory traj, DriveSubsystem drive) {
-        // m_trajectory = (PathPlannerTrajectory) traj;
+        //m_trajectory = (PathPlannerTrajectory) traj;
         m_drive = drive;
     }
 
@@ -51,16 +51,16 @@ public class TrajectoryFollow {
         //         e.printStackTrace();
         //     }
         // }
-        // //puts trajectory onto feild object
-        // m_drive.m_field.getObject("traj").setTrajectory(m_trajectory);
+        //puts trajectory onto feild object
+        //m_drive.m_field.getObject("traj").setTrajectory(m_trajectory);
 
         // // Controller for hollonomic rotation
-        // PIDController thetaController = new PIDController(1, 0, 0);
-        // thetaController.enableContinuousInput(-Math.PI, Math.PI);
+        PIDController thetaController = new PIDController(1, 0, 0);
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         //the PPSwerveControllerCommand that moves the drive base in auto
          return null;
-        //new PPSwerveControllerCommand(
+        //   new PPSwerveControllerCommand(
         //         PathPlanner.loadPath(m_pathName, 9, 5),
         //         m_drive::getCurrentPose,
         //         m_drive.getKinematics(),

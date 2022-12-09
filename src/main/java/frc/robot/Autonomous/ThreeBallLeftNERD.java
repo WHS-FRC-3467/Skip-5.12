@@ -42,12 +42,12 @@ public class ThreeBallLeftNERD extends SequentialCommandGroup {
 
     addCommands(
       //Set initial pose
-      new PathResetOdometry("2Ball", m_drive),
-      //Drive back to ball
-      new TrajectoryFollow("2Ball", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 0.4)),
-      //Shoot two balls
-      new LimelightAutoShoot(m_shooter, m_tower, m_limelight, m_drive).withTimeout(5.0),
-      new LimelightAutoShoot(m_shooter, m_tower, m_limelight, m_drive).raceWith( new RunCommand(m_intake::slowRunIntake, m_intake)).withTimeout(3.0)
+      // new PathResetOdometry("2Ball", m_drive),
+      // //Drive back to ball
+      // new TrajectoryFollow("2Ball", m_drive).get().raceWith(new AutoDriveIntake(m_intake, m_tower, 0.4)),
+      // //Shoot two balls
+      // new LimelightAutoShoot(m_shooter, m_tower, m_limelight, m_drive).withTimeout(5.0),
+      // new LimelightAutoShoot(m_shooter, m_tower, m_limelight, m_drive).raceWith( new RunCommand(m_intake::slowRunIntake, m_intake)).withTimeout(3.0)
 
     );
   }

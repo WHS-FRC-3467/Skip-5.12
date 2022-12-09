@@ -41,11 +41,11 @@ public class TwoBallAutoRightFar extends SequentialCommandGroup {
 
     addCommands(
       //Set initial pose
-      new PathResetOdometry("5BallPart1", m_drive),
+      //new PathResetOdometry("5BallPart1", m_drive),
       //Drive to first ball
-      new TrajectoryFollow("5BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, tower, 1.0)),
+      //new TrajectoryFollow("5BallPart1", m_drive).get().raceWith(new AutoDriveIntake(m_intake, tower, 1.0)),
       //Shoot two balls
-      new LimelightAutoShootTarmac(m_drive, m_shooter, m_tower, m_limelight)
+      //new LimelightAutoShootTarmac(m_drive, m_shooter, m_tower, m_limelight)
     );
   }
 }
