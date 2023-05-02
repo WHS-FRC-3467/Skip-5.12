@@ -7,42 +7,29 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Autonomous.FiveBallAuto;
-import frc.robot.Autonomous.LimelightOneBall;
-import frc.robot.Autonomous.SixBallNERD;
-import frc.robot.Autonomous.ThreeBallLeftNERD;
-import frc.robot.Autonomous.TwoBallAuto;
-import frc.robot.Autonomous.TwoBallAutoRightFar;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Control.XBoxControllerButton;
 import frc.robot.Control.XBoxControllerDPad;
 import frc.robot.Control.XBoxControllerEE;
-import frc.robot.Feedback.Cameras.LimelightSubsystem;
 import frc.robot.Feedback.LED.LEDDefault;
 import frc.robot.Feedback.LED.LEDSubsystem;
 import frc.robot.Subsystems.Climber.A0_CalibrateClimber;
-import frc.robot.Subsystems.Climber.A10_DoItAllFast;
 import frc.robot.Subsystems.Climber.A1_PrepareToClimb;
 import frc.robot.Subsystems.Climber.A9_DoItAll;
 import frc.robot.Subsystems.Climber.AX_CancelClimb;
 import frc.robot.Subsystems.Climber.ClimberSubsystem;
 import frc.robot.Subsystems.Climber.MatchDefault;
 import frc.robot.Subsystems.Drive.DriveSubsystem;
-import frc.robot.Subsystems.Drive.LimelightAim;
 import frc.robot.Subsystems.Drive.SwerveDrive;
 import frc.robot.Subsystems.Intake.DriveIntake;
 import frc.robot.Subsystems.Intake.IntakeSubsystem;
 import frc.robot.Subsystems.Shooter.AutoShoot;
-import frc.robot.Subsystems.Shooter.LimelightAutoShoot;
-import frc.robot.Subsystems.Shooter.LimelightAutoShootTarmac;
-import frc.robot.Subsystems.Shooter.ShootWhileMove;
 import frc.robot.Subsystems.Shooter.Shoot;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
-import frc.robot.Subsystems.Shooter.TestShoot;
 import frc.robot.Subsystems.Tower.DriveTower;
 import frc.robot.Subsystems.Tower.TowerSubsystem;
 
@@ -62,12 +49,9 @@ public class RobotContainer {
   private final ShooterSubsystem m_shooterSubystem = new ShooterSubsystem();
   private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
-  private final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
 
-  private final XBoxControllerEE m_driverController = new XBoxControllerEE(0);
-  private final XBoxControllerEE m_operatorController = new XBoxControllerEE(1);
+  private final XBoxControllerEE m_controller = new XBoxControllerEE(0);
 
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {  
     
@@ -79,39 +63,24 @@ public class RobotContainer {
 
     // Comment out for simulation
 
-    m_chooser.addOption("No Auto", null);
-    m_chooser.addOption("Limelight One Ball", new LimelightOneBall(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_limelightSubsystem));
-    m_chooser.addOption("Two Ball Auto Left ", new TwoBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_limelightSubsystem));
-    m_chooser.addOption("Right Two Ball Far", new TwoBallAutoRightFar(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_limelightSubsystem));
-    m_chooser.addOption("Five Ball", new FiveBallAuto(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
-    m_chooser.addOption("NERD Six Ball", new SixBallNERD(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem));
-    m_chooser.addOption("NERD Three Ball Auto Left ", new ThreeBallLeftNERD(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_intakeSubsystem, m_limelightSubsystem));
-
-    m_chooser.setDefaultOption("No Auto", null);
-
-    SmartDashboard.putData("Auto Chooser", m_chooser);
-
     SmartDashboard.putData(new A0_CalibrateClimber(m_climberSubsystem));
-
-    LimelightSubsystem.initialize();
-    LimelightSubsystem.setDriverMode();
-    
 
     // Configure the button bindings
     configureButtonBindings();
     
     
     m_driveSubsystem.setDefaultCommand(new SwerveDrive(m_driveSubsystem, 
-                                      () -> -((m_driverController.getLeftX())) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-                                      () -> -((m_driverController.getLeftY())) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-                                      () -> -((m_driverController.getRightX())) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+                                      () -> -((m_controller.getLeftX())) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                                      () -> -((m_controller.getLeftY())) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                                      () -> -((m_controller.getRightX())) * DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
 
     m_intakeSubsystem.setDefaultCommand(new DriveIntake(m_intakeSubsystem,
-                                        () -> (m_driverController.getRightTriggerAxis()),  
-                                        () -> (m_driverController.getLeftTriggerAxis())));
+                                        () -> (m_controller.getRightTriggerAxis()),  
+                                        () -> (m_controller.getLeftTriggerAxis()), 
+                                        m_towerSubsystem));
 
     m_towerSubsystem.setDefaultCommand(new DriveTower(m_towerSubsystem,
-                                        () -> -m_operatorController.getLeftY()));
+                                        () -> -m_controller.getLeftY()));
 
     m_ledSubsystem.setDefaultCommand(new LEDDefault(m_ledSubsystem, m_towerSubsystem));
     
@@ -126,9 +95,9 @@ public class RobotContainer {
     // SmartDashboard.putData(new AX_CancelClimb(m_climberSubsystem));
     // }
 
-    if(Constants.tuningMode){
-      SmartDashboard.putData("Test Shooter", new TestShoot(m_towerSubsystem, m_shooterSubystem));
-    }
+    // if(Constants.tuningMode){
+    //   SmartDashboard.putData("Test Shooter", new TestShoot(m_towerSubsystem, m_shooterSubystem));
+    // }
   } 
 
   /**
@@ -141,69 +110,48 @@ public class RobotContainer {
     //Driver Controller
       
     // Back button zeros the gyroscope
-    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kBack)
-        .whenPressed(m_driveSubsystem::zeroGyroscope, m_driveSubsystem);
-
-    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kStart)
-        .whenPressed(m_driveSubsystem::updatePoseAgainstHub, m_driveSubsystem);
-
-    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kA)
-        .whileHeld(new ShootWhileMove(m_shooterSubystem, m_towerSubsystem, m_driveSubsystem));
-  
-    // Auto Aim Limelight
-    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kB)
-      .whileHeld(new LimelightAim(m_driveSubsystem, m_limelightSubsystem, true, false));
-
-
-    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kY)
-      .whileHeld(new LimelightAutoShoot(m_shooterSubystem, m_towerSubsystem, m_limelightSubsystem, m_driveSubsystem));
-
-    new XBoxControllerButton(m_driverController, XBoxControllerEE.Button.kX)
-      .whileHeld(new LimelightAutoShootTarmac(m_driveSubsystem, m_shooterSubystem, m_towerSubsystem, m_limelightSubsystem));
-
-
-    //Operator controller    
+    new XBoxControllerDPad(m_controller, XBoxControllerEE.DPad.kDPadUp)
+        .whenActive(m_driveSubsystem::zeroGyroscope, m_driveSubsystem);
 
     //Shoot lower hub
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kA)
+    new XBoxControllerButton(m_controller, XBoxControllerEE.Button.kA)
       .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kLowerHubVelocity + 100, ShooterConstants.kShooterGains, Value.kForward));
 
-      new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kB)
-      .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kLowerHubVelocity + 500, ShooterConstants.kShooterGains, Value.kForward));
-
-    // //Shoot Upper Hub
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kB)
+    //Shoot Upper Hub
+    new XBoxControllerButton(m_controller, XBoxControllerEE.Button.kB)
       .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kUpperHubFenderVelocity, ShooterConstants.kShooterGains, Value.kReverse));
 
-    // // Shoot Tarmac
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kY)
+    //Shoot Tarmac
+    new XBoxControllerButton(m_controller, XBoxControllerEE.Button.kY)
       .whenHeld(new AutoShoot(m_shooterSubystem, m_towerSubsystem, ShooterConstants.kTarmacVelocity, ShooterConstants.kShooterGains, Value.kForward));
 
     //Shoot Ranging
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kX)
+    new XBoxControllerButton(m_controller, XBoxControllerEE.Button.kX)
       .whenHeld(new Shoot(m_shooterSubystem, ShooterConstants.kLaunchpadVelocity, Value.kForward));
 
-    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadRight)
-      .whileActiveContinuous(new Shoot(m_shooterSubystem, ShooterConstants.kUpperHubFenderVelocity, Value.kReverse));
-
-    new XBoxControllerDPad(m_operatorController, XBoxControllerEE.DPad.kDPadUp)
-      .whileActiveContinuous(new Shoot(m_shooterSubystem, ShooterConstants.kTarmacVelocity, Value.kForward));
 
 
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kBack)
+    new XBoxControllerButton(m_controller, XBoxControllerEE.Button.kBack)
       .whenPressed(new A1_PrepareToClimb(m_climberSubsystem));
 
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kStart)
+    new XBoxControllerButton(m_controller, XBoxControllerEE.Button.kStart)
       .whenPressed(new A9_DoItAll(m_climberSubsystem));
 
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kRightStick)
-      .whenPressed(new A10_DoItAllFast(m_climberSubsystem));
+    new XBoxControllerButton(m_controller, XBoxControllerEE.Button.kLeftBumper)
+      .whenPressed(new RunCommand(()->m_towerSubsystem.driveWholeTower(1.0)));
 
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kRightBumper)
-      .whenPressed(new AX_CancelClimb(m_climberSubsystem));
+    new XBoxControllerButton(m_controller, XBoxControllerEE.Button.kRightBumper)
+      .whenPressed(new RunCommand(()->m_towerSubsystem.driveWholeTower(-1.0)));
 
-    new XBoxControllerButton(m_operatorController, XBoxControllerEE.Button.kLeftBumper)
-      .whenPressed(new AX_CancelClimb(m_climberSubsystem));
+    new XBoxControllerDPad(m_controller, XBoxControllerEE.DPad.kDPadLeft)
+      .whenActive(new AX_CancelClimb(m_climberSubsystem));
+
+    new XBoxControllerDPad(m_controller, XBoxControllerEE.DPad.kDPadDown)
+      .whenActive(new AX_CancelClimb(m_climberSubsystem));
+
+    new XBoxControllerDPad(m_controller, XBoxControllerEE.DPad.kDPadRight)
+      .whenActive(new AX_CancelClimb(m_climberSubsystem));
+
   }
 
   /**
@@ -213,6 +161,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_chooser.getSelected();
+    return null;
   }
 }

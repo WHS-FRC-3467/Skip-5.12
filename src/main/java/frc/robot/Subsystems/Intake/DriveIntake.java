@@ -7,13 +7,14 @@ package frc.robot.Subsystems.Intake;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Subsystems.Tower.TowerSubsystem;
 
 public class DriveIntake extends CommandBase {
   /** Creates a new DriveIntake. */
   
   DoubleSupplier m_forwardspeed, m_backspeed, m_towerSpeed;
   IntakeSubsystem m_intake;
-
+  TowerSubsystem m_tower;
 
   /**
    * 
@@ -21,10 +22,11 @@ public class DriveIntake extends CommandBase {
    * @param forwardspeed The speed the intake will be driven at  forward 0 to 1 
    * @param backspeed The speed the intake will be driven at in reverse 0 to 1
    */
-  public DriveIntake(IntakeSubsystem intake, DoubleSupplier forwardspeed, DoubleSupplier backspeed) {
+  public DriveIntake(IntakeSubsystem intake, DoubleSupplier forwardspeed, DoubleSupplier backspeed, TowerSubsystem tower) {
     m_intake = intake;
     m_forwardspeed = forwardspeed;
     m_backspeed = backspeed;
+    m_tower = tower;
     addRequirements(m_intake);
   }
 
@@ -44,6 +46,7 @@ public class DriveIntake extends CommandBase {
     if(m_backspeed.getAsDouble() > 0.2){
       m_intake.deployIntake();
       m_intake.driveIntake(m_backspeed.getAsDouble());
+      m_tower.driveWholeTower(-1.0);
     }
     //If both speeds are less that 0.2 then it keeps intake up and doesn't drive intake
     if(m_backspeed.getAsDouble() < 0.2 && m_forwardspeed.getAsDouble() < 0.2){

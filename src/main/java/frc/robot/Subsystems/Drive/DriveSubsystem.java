@@ -130,7 +130,7 @@ public class DriveSubsystem extends SubsystemBase {
                 m_chooser.addOption("15%", 0.15);
                 m_chooser.addOption("10%", 0.1);
 
-                m_chooser.setDefaultOption("85%", 0.85);
+                m_chooser.setDefaultOption("25%", 0.25);
 
 
                 //initializes modules
