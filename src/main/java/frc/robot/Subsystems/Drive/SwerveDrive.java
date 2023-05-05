@@ -48,7 +48,15 @@ public class SwerveDrive extends CommandBase{
         double vx = (m_axisX.m_modifiedValue) * m_driveSubsystem.getDriveSpeed();
         double vy = (m_axisY.m_modifiedValue) * m_driveSubsystem.getDriveSpeed();
         double vrot = (m_axisRot.m_modifiedValue) * m_driveSubsystem.getDriveSpeed();
-
+        if(Math.abs(vx)<0.2){
+            vx = 0.0;
+        }
+        if(Math.abs(vy)<0.2){
+            vy = 0.0;
+        }
+        if(Math.abs(vrot)<0.2){
+            vrot = 0.0;
+        }
 
         //drives robot at 50% speed
         if(m_driverController.getRightBumper()){

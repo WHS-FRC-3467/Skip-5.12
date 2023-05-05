@@ -33,10 +33,8 @@ public class DriveTower extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_speed.getAsDouble() > 0.2 || m_speed.getAsDouble() < -0.2){
-      //m_tower.driveWholeTower(m_speed.getAsDouble());
-    }
-    else if(IntakeSubsystem.getRunning()){
+    
+    if(IntakeSubsystem.getRunning()){
       m_tower.sendToTopWithIntake();
     }
     else{

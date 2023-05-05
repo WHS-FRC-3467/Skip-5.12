@@ -138,10 +138,10 @@ public class RobotContainer {
       .whenPressed(new A9_DoItAll(m_climberSubsystem));
 
     new XBoxControllerButton(m_controller, XBoxControllerEE.Button.kLeftBumper)
-      .whenPressed(new RunCommand(()->m_towerSubsystem.driveWholeTower(1.0)));
+      .whileHeld(new RunCommand(()->m_towerSubsystem.driveWholeTower(1.0)).andThen(new RunCommand(()->m_towerSubsystem.driveWholeTower(0.0))));
 
     new XBoxControllerButton(m_controller, XBoxControllerEE.Button.kRightBumper)
-      .whenPressed(new RunCommand(()->m_towerSubsystem.driveWholeTower(-1.0)));
+      .whileHeld(new RunCommand(()->m_towerSubsystem.driveWholeTower(-1.0)).andThen(new RunCommand(()->m_towerSubsystem.driveWholeTower(0.0))));
 
     new XBoxControllerDPad(m_controller, XBoxControllerEE.DPad.kDPadLeft)
       .whenActive(new AX_CancelClimb(m_climberSubsystem));
